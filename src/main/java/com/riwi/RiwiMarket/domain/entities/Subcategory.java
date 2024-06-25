@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Subcategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(length = 50,nullable = false)
     private String name;
     @Column(nullable = false)
