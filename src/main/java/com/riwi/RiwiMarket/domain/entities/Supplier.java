@@ -10,18 +10,25 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "brand")
+@Entity(name = "supplier")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Brand {
+public class Supplier {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 50, nullable = false)
+    @Column(nullable = false, length = 100)
     private String name;
+    @Column(nullable = false, length = 100)
+    private String contact;
+    @Column(length = 100)
+    private String schedule;
+    @Column(length = 100)
+    private String address;
     @Column(nullable = false)
     private Boolean status;
+    
 }
