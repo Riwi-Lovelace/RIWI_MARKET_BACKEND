@@ -10,17 +10,27 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "subcategory")
+@Entity(name = "customer")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Subcategory {
+public class Customer {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 50,nullable = false)
+    @Column(nullable = false, length = 50)
     private String name;
-    @Column(nullable = false)
-    private Boolean status;
+    @Column(length = 100)
+    private String email;
+    @Column(length = 15)
+    private String phone;
+    @Column(length = 100)
+    private String address;
+    @Column(length = 50)
+    private String password;
+    @Column(length = 20)
+    private String document;
+
 }
