@@ -21,10 +21,10 @@ public class Expense {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Long id;
-    @Column(nullable = false)
+     @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private BigDecimal amount;
     @Column(nullable = false)
     private LocalDateTime date;
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 }
