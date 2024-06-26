@@ -1,5 +1,7 @@
 package com.riwi.RiwiMarket.domain.entities;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,18 +12,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "brand")
+@Entity(name = "discount")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Brand {
+public class Discount {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 50, nullable = false)
-    private String name;
     @Column(nullable = false)
-    private Boolean status;
+    private Double amount;
+    @Column(length = 100)
+    private String description;
+    private LocalDateTime startDiscount;
+    private LocalDateTime endDiscount;
+
 }
