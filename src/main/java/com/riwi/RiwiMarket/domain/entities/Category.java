@@ -10,17 +10,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "brand")
+@Entity(name = "category")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Brand {
-    
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 50, nullable = false)
+    @Column(length = 50,nullable = false)
     private String name;
     @Column(nullable = false)
     private Boolean status;

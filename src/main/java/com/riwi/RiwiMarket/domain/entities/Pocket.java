@@ -1,27 +1,34 @@
 package com.riwi.RiwiMarket.domain.entities;
 
+import java.math.BigDecimal;
+
+import com.riwi.RiwiMarket.util.enums.TypePocket;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "brand")
+@Entity(name = "pocket")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Brand {
+public class Pocket {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 50, nullable = false)
-    private String name;
     @Column(nullable = false)
-    private Boolean status;
+    private BigDecimal amount;
+    @Column(nullable = false)
+    private TypePocket type;
+    @Lob
+    private String description;
 }
