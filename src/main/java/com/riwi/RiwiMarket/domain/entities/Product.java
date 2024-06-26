@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
-@Entity
+@Entity(name = "product")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,7 +29,4 @@ public class Product {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusProduct status;
-    private int brandId;
-    @Column(nullable = false)
-    private int subCategoryId;
 }
