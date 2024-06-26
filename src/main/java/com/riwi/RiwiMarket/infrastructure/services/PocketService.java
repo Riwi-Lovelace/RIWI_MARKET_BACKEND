@@ -7,6 +7,7 @@ import com.riwi.RiwiMarket.domain.repositories.PocketRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.GenericService;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IPocketService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
+import com.riwi.RiwiMarket.infrastructure.helpers.mappers.PocketMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,9 @@ public class PocketService implements IPocketService {
 
     @Autowired
     private final SupportService<Pocket> supportService;
+
+    @Autowired
+    private final PocketMapper pocketMapper;
 
     @Override
     public PocketResponse create(PocketRequest request) {

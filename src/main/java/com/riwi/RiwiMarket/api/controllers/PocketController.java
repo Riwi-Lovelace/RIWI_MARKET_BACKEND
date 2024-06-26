@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/pocket")
+@RequestMapping(path = "/pockets")
 @AllArgsConstructor
 public class PocketController implements IPocketController {
 
@@ -40,7 +40,7 @@ public class PocketController implements IPocketController {
     }
 
     @Override
-    public ResponseEntity<List<PocketResponse>> getAll() {
+    public ResponseEntity<List<PocketResponse>> getAll(){
         return null;
     }
 }
