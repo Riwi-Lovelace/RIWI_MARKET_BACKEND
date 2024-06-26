@@ -29,13 +29,13 @@ public class Employee {
     private String document;
     @Column(length = 100, nullable = false)
     private String email;
-    @Column(length = 15, nullable = false)
+    @Column(length = 15)
     private String phone;
     @Column(length = 100, nullable = false)
     private String address;
     @Column(length = 50, nullable = false)
     private String password;
-    @Column(nullable = false)
+     @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private BigDecimal salary;
     @Column(nullable = false)
     private RoleEmployee role;
