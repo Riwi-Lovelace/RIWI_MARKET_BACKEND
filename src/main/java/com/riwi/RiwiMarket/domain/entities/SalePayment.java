@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "salePayment")
+@Entity(name = "sale_payment")
 @Data
 @Builder
 @AllArgsConstructor
