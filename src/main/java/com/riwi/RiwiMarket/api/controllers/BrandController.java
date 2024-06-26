@@ -60,7 +60,7 @@ public class BrandController implements GenericController<BrandRequest, BrandRes
 
     @Override
     public ResponseEntity<BrandResponse> update(BrandRequest request, Long id) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
