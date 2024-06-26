@@ -25,17 +25,17 @@ public class PocketController implements IPocketController {
     }
 
     @Override
-    public ResponseEntity<PocketResponse> read(Long aLong) {
+    public ResponseEntity<PocketResponse> read(Long id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<PocketResponse> update(PocketRequest request, Long aLong) {
+    public ResponseEntity<PocketResponse> update(PocketRequest request, Long id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Void> delete(Long aLong) {
+    public ResponseEntity<Void> delete(Long id) {
         return null;
     }
 
