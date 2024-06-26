@@ -16,10 +16,12 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long quantity;
+     @Column(nullable = false, columnDefinition = "DECIMAL(5,2)")
     private Double weight;
-    @Column(nullable = false)
+     @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private Double totalPrice;
     @Column(nullable = false)
     private Boolean status;
+     @Column(columnDefinition = "DECIMAL(0,2)")
     private Double discount;
 }
