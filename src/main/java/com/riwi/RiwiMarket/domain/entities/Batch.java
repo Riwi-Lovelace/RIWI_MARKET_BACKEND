@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "batch")
 @Data
 @Builder
 @AllArgsConstructor
@@ -19,9 +19,5 @@ public class Batch {
     private Long id;
     private LocalDateTime expiration;
     @Column(nullable = false)
-    private LocalDateTime entry;
-    @Column(nullable = false, length = 13)
-    private String productId;
-    @Column(nullable = false)
-    private int stockId;
+    private LocalDateTime entryDate;
 }
