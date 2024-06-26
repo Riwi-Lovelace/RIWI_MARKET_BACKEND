@@ -25,4 +25,5 @@ public interface BrandMapper {
     //METDO PARA SER USADO EN LA ACTUALIZACION DE UNA MARCA este lo puede usar la persona encargada de esa tarea
     @Mapping(target = "id", ignore = true)
     void  updateBrand(BrandRequest request,@MappingTarget Brand brand);
+    //pequeño comentario
 }
