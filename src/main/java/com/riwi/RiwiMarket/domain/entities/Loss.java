@@ -26,5 +26,5 @@ public class Loss {
     private BigDecimal weight;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Reason reason;
+    private ReasonLoss reason;
 }
