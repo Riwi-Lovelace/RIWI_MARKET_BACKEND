@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@Entity
+@Entity(name = "stock")
 @Data
 @Builder
 @AllArgsConstructor
@@ -22,8 +22,4 @@ public class Stock {
     private BigDecimal weight;
     @Column(columnDefinition = "DECIMAL(10,2)", nullable = false)
     private BigDecimal purchasePrice;
-    @Column(nullable = false)
-    private int dateId;
-    @Column(length = 100)
-    private String supplierId;
 }
