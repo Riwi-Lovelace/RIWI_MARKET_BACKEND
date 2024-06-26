@@ -27,8 +27,8 @@ public class Store {
     private String addres;
     @Column(length = 15, nullable = false)
     private String phone;
-    @Column(length = 12, nullable = false)
+    @Column(length = 12)
     private String nit;
-    @Column(nullable = false)
+     @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private BigDecimal available;
 }
