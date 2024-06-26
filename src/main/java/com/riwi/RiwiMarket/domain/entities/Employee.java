@@ -1,18 +1,24 @@
 package com.riwi.RiwiMarket.domain.entities;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import com.riwi.RiwiMarket.util.enums.RoleEmployee;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Builder
@@ -41,4 +47,39 @@ public class Employee {
     private RoleEmployee role;
     @Column(nullable = false)
     private Integer schedule;
+
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(
+        fetch = FetchType.EAGER,
+        mappedBy = "employeeId",
+        cascade = CascadeType.ALL,
+        orphanRemoval = false
+    )
+    private List<Expense> expense;
+
+
+    
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(
+        fetch = FetchType.EAGER,
+        mappedBy = "employeeId",
+        cascade = CascadeType.ALL,
+        orphanRemoval = false
+    )
+    private List<Payroll> payroll;
+
+
+    
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(
+        fetch = FetchType.EAGER,
+        mappedBy = "employeeId",
+        cascade = CascadeType.ALL,
+        orphanRemoval = false
+    )
+    private List<Sale> sale;
 }
