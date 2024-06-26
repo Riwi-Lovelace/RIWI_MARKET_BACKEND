@@ -10,18 +10,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "brand")
+@Entity(name = "payment")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Brand {
-    
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(length = 50, nullable = false)
-    private String name;
     @Column(nullable = false)
-    private Boolean status;
+    private Double amount;
+    @Column(nullable = false)
+    private String type;
 }

@@ -23,7 +23,4 @@ public class Subcategory {
     private String name;
     @Column(nullable = false)
     private Boolean status;
-    @Column(nullable = false)
-    private int category_id;
-
 }
