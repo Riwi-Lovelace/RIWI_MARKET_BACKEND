@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "loss")
 @Data
 @Builder
 @AllArgsConstructor
@@ -27,5 +27,4 @@ public class Loss {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Reason reason;
-    private int batchId;
 }
