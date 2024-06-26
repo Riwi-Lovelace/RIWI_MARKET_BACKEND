@@ -23,7 +23,7 @@ public class Sale {
     private String description;
     @Column(nullable = false)
     private Boolean delivery;
-    @Column(nullable = false)
+     @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private Double totalPrice;
     @Column(nullable = false)
     private Boolean status;
