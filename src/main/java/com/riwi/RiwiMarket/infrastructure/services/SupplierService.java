@@ -10,6 +10,7 @@ import com.riwi.RiwiMarket.domain.entities.Supplier;
 import com.riwi.RiwiMarket.domain.repositories.SupplierRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ISupplierService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
+import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 
 import lombok.AllArgsConstructor;
 
@@ -43,10 +44,14 @@ public class SupplierService implements ISupplierService{
     }
 
     @Override
-    public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    public void disableSuplier(Long id) {
+        Supplier existingSupplier = supplierRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("Supplier not found"));
+    
+        existingSupplier.setStatus(!existingSupplier.getStatus());
+        supplierRepository.save(existingSupplier);
     }
+
 
     @Override
     public List<Supplier> findByName(String name) {
@@ -71,5 +76,9 @@ public class SupplierService implements ISupplierService{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findByStatus'");
     }
+
+
+
+
     
 }
