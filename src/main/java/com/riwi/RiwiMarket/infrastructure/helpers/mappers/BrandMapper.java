@@ -1,5 +1,6 @@
 package com.riwi.RiwiMarket.infrastructure.helpers.mappers;
 
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
@@ -11,8 +12,9 @@ import com.riwi.RiwiMarket.domain.entities.Brand;
 public interface BrandMapper extends GenericMapper<BrandRequest, BrandResponse, Brand>
 {
     @Override
-    public Brand toUserEntity(BrandRequest brandRequest);
+    public Brand toEntity(BrandRequest brandRequest);
 
     @Override
-    public BrandResponse toUserResponse(Brand brand);
+    @InheritInverseConfiguration
+    public BrandResponse toResponse(Brand brand);
 }

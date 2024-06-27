@@ -14,11 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(description = "Request DTO for Brand entity")
 public class BrandRequest 
 {
-    @NotNull
-    @Schema(description = "Brand Id", example = "1")
-    private Long id;
 
     @NotBlank
     @Size(max = 50)
@@ -26,7 +24,7 @@ public class BrandRequest
     private String name;
 
     @NotNull
-    @Schema(description = "Brand Status", example = "Active || Inactive")
+    @Schema(description = "Brand Status", example = "True || False")
     private Boolean status;
 
 }
