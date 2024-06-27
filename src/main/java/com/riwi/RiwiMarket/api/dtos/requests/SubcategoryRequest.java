@@ -18,6 +18,7 @@ public class SubcategoryRequest {
     @NotBlank(message= "The subcategory name is required")
     @Size(max=50, message = "The subcategory name lenght is 50")
     private String name;
-    @NotNull(message = "The category id in subcategory is required")
-    private Category categoryId;
+    private Boolean status;
+    // @NotNull(message = "The category id in subcategory is required")
+    // private Category categoryId;
 }
