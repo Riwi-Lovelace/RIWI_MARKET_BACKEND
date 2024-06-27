@@ -1,6 +1,6 @@
 package com.riwi.RiwiMarket.util.enums;
 
-public enum Reason {
+public enum ReasonReturn {
     WRONG,
     EXPIRATION,
     DAMAGED

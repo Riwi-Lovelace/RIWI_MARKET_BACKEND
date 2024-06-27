@@ -2,9 +2,10 @@ package com.riwi.RiwiMarket.domain.entities;
 
 import java.time.LocalDateTime;
 
-import com.riwi.RiwiMarket.util.enums.Method;
-import com.riwi.RiwiMarket.util.enums.Reason;
+import com.riwi.RiwiMarket.util.enums.MethodReturn;
+import com.riwi.RiwiMarket.util.enums.ReasonReturn;
 
+import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,9 +27,10 @@ public class Return {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private Method method;
+    private MethodReturn method;
     @Column(nullable = false)
-    private Reason reason ;
+    private ReasonReturn reason;
+    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime date;
     
