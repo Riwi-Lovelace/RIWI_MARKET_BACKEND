@@ -31,7 +31,7 @@ public class BrandService implements IBrandService
     @Override
     public Page<BrandResponse> search(String name, Pageable pageable)
     {
-        return brandRepository.findByName(name, pageable).map(brandMapper::toUserResponse);
+        return brandRepository.findByNameContaining(name, pageable).map(brandMapper::toResponse);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class BrandService implements IBrandService
 
     @Override
     public BrandResponse read(Long id) {
-        return brandMapper.toUserResponse(supportService.findById(id, "brand"));
+        return brandMapper.toResponse(supportService.findById(id, "brand"));
     }
 
     @Override
