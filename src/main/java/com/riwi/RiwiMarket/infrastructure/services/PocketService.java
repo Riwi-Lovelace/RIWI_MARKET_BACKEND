@@ -46,7 +46,7 @@ public class PocketService implements IPocketService {
     }
 
     @Override
-    public PocketResponse getById(Long id) {
+    public PocketResponse getAll() {
         return null;
     }
 }
