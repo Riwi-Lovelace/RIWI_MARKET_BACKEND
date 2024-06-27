@@ -13,9 +13,6 @@ public interface CustomerMapper extends GenericMapper<CustomerRequest, CustomerR
     
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
-    
-    Customer toUserEntity(CustomerRequest request);
+    Customer toUserEntity(CustomerRequest customerResponse);
 
-    @Mapping(target = "password", ignore = true)
-    Customer entityToResponse(CustomerResponse customer);
 }

@@ -1,15 +1,24 @@
 package com.riwi.RiwiMarket.api.controllers;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Objects;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.riwi.RiwiMarket.api.dtos.requests.CustomerRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.CustomerResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ICustomerService;
+import com.riwi.RiwiMarket.util.enums.SortCustomer;
 
 import lombok.AllArgsConstructor;
 
@@ -18,36 +27,37 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CustomerController implements GenericController<CustomerRequest, CustomerResponse, Long>{
 
-    @Autowired
     private final ICustomerService customerService;
 
     @Override
-    public ResponseEntity<CustomerResponse> create(CustomerRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+    @PostMapping
+    public ResponseEntity<CustomerResponse> create(@RequestBody CustomerRequest request) {
+        return ResponseEntity.ok(this.customerService.create(request));
+    }
+
+    @Override  //This method for me is equals getById
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<CustomerResponse> read(@PathVariable Long id) {
+        return ResponseEntity.ok(this.customerService.read(id));
     }
 
     @Override
-    public ResponseEntity<CustomerResponse> read(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'read'");
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<CustomerResponse> update(@RequestBody CustomerRequest request, @PathVariable Long id) {
+        return ResponseEntity.ok(this.customerService.update(id, request));
     }
 
-    @Override
-    public ResponseEntity<CustomerResponse> update(CustomerRequest request, Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-
-    @Override
+    @Override // Customer cannot be deleted
     public ResponseEntity<Void> delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        return ResponseEntity.noContent().build();
     }
 
-    public ResponseEntity<Page<CustomerResponse>> getAll(/*Paginacion */) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
+    @GetMapping
+    public ResponseEntity<Page<CustomerResponse>> getAll(@RequestParam(defaultValue = "5") int size, 
+                                                        @RequestParam(defaultValue = "1") int page, 
+                                                        @RequestHeader(required = false) SortCustomer sortCustomer) {
+        if (Objects.isNull(sortCustomer)) sortCustomer = SortCustomer.NONE;
+        return ResponseEntity.ok(this.customerService.getAll(size, page - 1, sortCustomer));
     }
     
 }
