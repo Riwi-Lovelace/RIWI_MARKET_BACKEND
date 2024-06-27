@@ -8,6 +8,8 @@ import com.riwi.RiwiMarket.infrastructure.abstract_services.ICategoryService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.CategoryMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -40,4 +42,15 @@ public class CategoryService implements ICategoryService {
     public void delete(Long aLong) {
 
     }
+
+    @Override
+    public Page<CategoryResponse> getAll(int page, int size) {
+        if (page < 0){
+            page = 0;
+        }
+
+        PageRequest pagination = PageRequest.of(page, size);
+        return this.categoryRepository.findAll(pagination).map(this.categoryMapper::toCategoryResponse);
+    }
+
 }
