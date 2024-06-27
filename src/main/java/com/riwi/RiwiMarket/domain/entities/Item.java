@@ -24,4 +24,16 @@ public class Item {
     private Boolean status;
      @Column(columnDefinition = "DECIMAL(0,2)")
     private Double discount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id",referencedColumnName = "id",nullable = false)
+    private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bill_id",referencedColumnName = "id",nullable = false)
+    private Sale sale;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "bill_return_id",referencedColumnName = "id",nullable = false)
+    private Return returnn;
 }
