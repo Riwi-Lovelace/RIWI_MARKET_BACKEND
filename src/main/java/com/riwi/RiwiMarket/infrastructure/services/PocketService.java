@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class PocketService implements IPocketService {
@@ -45,8 +47,9 @@ public class PocketService implements IPocketService {
 
     }
 
+
     @Override
-    public PocketResponse getAll() {
+    public List<PocketResponse> getAll() {
         return null;
     }
 }
