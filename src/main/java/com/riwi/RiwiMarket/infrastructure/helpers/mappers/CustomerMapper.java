@@ -9,10 +9,13 @@ import com.riwi.RiwiMarket.api.dtos.responses.CustomerResponse;
 import com.riwi.RiwiMarket.domain.entities.Customer;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface CustomerMapper extends GenericMapper<Customer, CustomerRequest, CustomerResponse> {
+public interface CustomerMapper extends GenericMapper<CustomerRequest, CustomerResponse, Customer> {
     
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", ignore = true)
     
     Customer toUserEntity(CustomerRequest request);
+
+    @Mapping(target = "password", ignore = true)
+    Customer entityToResponse(CustomerResponse customer);
 }
