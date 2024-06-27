@@ -1,7 +1,8 @@
 package com.riwi.RiwiMarket.infrastructure.services;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.riwi.RiwiMarket.api.dtos.requests.SupplierRequest;
@@ -10,6 +11,7 @@ import com.riwi.RiwiMarket.domain.entities.Supplier;
 import com.riwi.RiwiMarket.domain.repositories.SupplierRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ISupplierService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
+import com.riwi.RiwiMarket.infrastructure.helpers.mappers.SupplierMapper;
 
 import lombok.AllArgsConstructor;
 
@@ -20,6 +22,8 @@ public class SupplierService implements ISupplierService{
 
     @Autowired
     private final SupportService<Supplier> Supportsupplier;
+    @Autowired
+    private final SupplierMapper supplierMapper;
 
     @Autowired
     private final SupplierRepository supplierRepository;
@@ -48,28 +52,32 @@ public class SupplierService implements ISupplierService{
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 
+  // FindByName
     @Override
-    public List<Supplier> findByName(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByName'");
+    public Page<SupplierResponse> findByName(String name, Pageable pageable) {
+
+        return supplierRepository.findByName(name, pageable).map(supplierMapper::toUserResponse);
     }
 
+    // findByContact
     @Override
-    public List<Supplier> findByContact(String contact) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByContact'");
+    public Page<SupplierResponse> findByContact(String contact, Pageable pageable) {
+
+        return supplierRepository.findByContact(contact, pageable).map(supplierMapper::toUserResponse);
     }
 
+    // findByAddress
     @Override
-    public List<Supplier> findByAddress(String address) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByAddress'");
+    public Page<SupplierResponse> findByAddress(String address, Pageable pageable) {
+
+        return supplierRepository.findByAddress(address, pageable).map(supplierMapper::toUserResponse);
     }
 
+    // findByStatus
     @Override
-    public List<Supplier> findByStatus(Boolean status) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByStatus'");
+    public Page<SupplierResponse> findByStatus(Boolean status, Pageable pageable) {
+
+        return supplierRepository.findByStatus(status, pageable).map(supplierMapper::toUserResponse);
     }
     
 }
