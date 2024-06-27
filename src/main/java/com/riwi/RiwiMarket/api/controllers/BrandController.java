@@ -5,10 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import com.riwi.RiwiMarket.api.dtos.requests.BrandRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.BrandResponse;
@@ -39,10 +37,11 @@ public class BrandController implements GenericController<BrandRequest, BrandRes
         return ResponseEntity.ok(this.brandService.search(name, pageable));
     }
 
+    @PostMapping
     @Override
-    public ResponseEntity<BrandResponse> create(BrandRequest request) {
-        // TODO Auto-generated method stub
-        return null;
+    public ResponseEntity<BrandResponse> create(
+            @Validated @RequestBody BrandRequest request) {
+        return ResponseEntity.ok(this.brandService.create(request));
     }
 
     @Override

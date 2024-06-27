@@ -5,7 +5,15 @@ import java.util.List;
 import com.riwi.RiwiMarket.domain.entities.Product;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class BrandResponse
 {
     @Schema(description = "Brand Id", example = "1")
