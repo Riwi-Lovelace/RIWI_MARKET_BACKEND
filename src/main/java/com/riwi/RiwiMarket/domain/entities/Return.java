@@ -30,7 +30,6 @@ public class Return {
     private MethodReturn method;
     @Column(nullable = false)
     private ReasonReturn reason;
-    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime date;
     
