@@ -6,8 +6,11 @@ import com.riwi.RiwiMarket.domain.entities.Category;
 import com.riwi.RiwiMarket.domain.repositories.CategoryRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ICategoryService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.CategoryMapper;
+import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,8 +30,8 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public CategoryResponse read(Long aLong) {
-        return null;
+    public CategoryResponse read(Long id) {
+        return this.categoryMapper.toCategoryResponse(this.findById(id));
     }
 
     @Override
@@ -40,4 +43,9 @@ public class CategoryService implements ICategoryService {
     public void delete(Long aLong) {
 
     }
+
+    private Category findById(Long id){
+        return this.categoryRepository.findById(id).orElseThrow(() -> new BadIdException(("Category")));
+    }
+
 }

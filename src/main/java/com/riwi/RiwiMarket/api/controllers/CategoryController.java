@@ -4,14 +4,13 @@ import com.riwi.RiwiMarket.api.dtos.requests.CategoryRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.CategoryResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ICategoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/category")
@@ -30,10 +29,18 @@ public class CategoryController implements GenericController<CategoryRequest, Ca
         return ResponseEntity.ok(this.categoryService.create(request));
     }
 
+
     @Override
-    public ResponseEntity<CategoryResponse> read(Long aLong) {
-        return null;
+    @Operation(summary = "Get category by ID", description = "Returns a category based on ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Category found"),
+            @ApiResponse(responseCode = "404", description = "Category not found")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryResponse> read(@PathVariable Long id) {
+        return ResponseEntity.ok(this.categoryService.read(id));
     }
+
 
     @Override
     public ResponseEntity<CategoryResponse> update(CategoryRequest request, Long aLong) {
