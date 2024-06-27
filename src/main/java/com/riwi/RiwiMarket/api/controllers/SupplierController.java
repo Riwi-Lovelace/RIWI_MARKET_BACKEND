@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.riwi.RiwiMarket.api.dtos.requests.SupplierRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.SupplierResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ISupplierService;
 
@@ -20,34 +23,40 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping(path = "/supplier")
 @AllArgsConstructor
-public class SupplierController implements GenericController{
+@CrossOrigin(origins = "http://localhost:8080")
+public class SupplierController implements GenericController<SupplierRequest,SupplierResponse,Long>{
 
     @Autowired
     private final ISupplierService supplierService;
 
     @Override
-    public ResponseEntity create(Object request) {
+    @Operation(summary = "getAll user", description = "Retrieve a list of all users")
+    @PostMapping
+    public ResponseEntity<SupplierResponse> create(SupplierRequest request) {
+        return ResponseEntity.ok(this.supplierService.create(request));
+    }
+
+    
+    @Override
+    public ResponseEntity<Void> delete(Long id) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 
     @Override
-    public ResponseEntity read(Object id) {
+    public ResponseEntity<SupplierResponse> read(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'read'");
     }
 
     @Override
-    public ResponseEntity update(Object request, Object id) {
+    public ResponseEntity<SupplierResponse> update(SupplierRequest request, Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
-
-    @Override
-    public ResponseEntity delete(Object id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
+  
+    
+    
         // FindByName
     @GetMapping(path = "/byName")
     @Operation(summary = "Find suppliers by name",
@@ -123,5 +132,7 @@ public class SupplierController implements GenericController{
         Page<SupplierResponse> suppliers = supplierService.findByStatus(status, pageable);
         return ResponseEntity.ok(suppliers);
     }
-    
+
+
+
 }

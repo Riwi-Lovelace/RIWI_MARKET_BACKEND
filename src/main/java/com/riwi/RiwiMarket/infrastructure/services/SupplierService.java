@@ -30,8 +30,9 @@ public class SupplierService implements ISupplierService{
 
     @Override
     public SupplierResponse create(SupplierRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        Supplier supplier = supplierMapper.toUserEntity(request);
+        supplier.setStatus(true);
+        return supplierMapper.toUserResponse((this.supplierRepository.save(supplier)));
     }
 
     @Override
