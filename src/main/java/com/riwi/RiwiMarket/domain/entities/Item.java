@@ -22,6 +22,6 @@ public class Item {
     private Double totalPrice;
     @Column(nullable = false)
     private Boolean status;
-     @Column(columnDefinition = "DECIMAL(0,2)")
+     @Column(columnDefinition = "DECIMAL(2,2)")
     private Double discount;
 }

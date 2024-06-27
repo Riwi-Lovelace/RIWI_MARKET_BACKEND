@@ -2,8 +2,8 @@ package com.riwi.RiwiMarket.domain.entities;
 
 import java.time.LocalDateTime;
 
-import com.riwi.RiwiMarket.util.enums.MethodReturn;
-import com.riwi.RiwiMarket.util.enums.ReasonReturn;
+import com.riwi.RiwiMarket.util.enums.MethodRefund;
+import com.riwi.RiwiMarket.util.enums.ReasonRefund;
 
 import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.Column;
@@ -16,20 +16,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "return")
+@Entity(name = "refund")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Return {
+public class Refund {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private MethodReturn method;
+    private MethodRefund method;
     @Column(nullable = false)
-    private ReasonReturn reason;
+    private ReasonRefund reason;
+    @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime date;
     
