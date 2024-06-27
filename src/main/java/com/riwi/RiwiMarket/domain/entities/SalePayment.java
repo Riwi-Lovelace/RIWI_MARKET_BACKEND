@@ -28,6 +28,6 @@ public class SalePayment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id",referencedColumnName = "id",nullable = false)
-    private Payment Payment;
+    private Payment payment;
 
 }
