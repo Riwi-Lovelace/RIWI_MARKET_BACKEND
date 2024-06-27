@@ -19,4 +19,5 @@ public interface SupplierMapper extends GenericMapper<SupplierRequest, SupplierR
     })
     Supplier toUserEntity(SupplierRequest userRequest);
 
+
 }

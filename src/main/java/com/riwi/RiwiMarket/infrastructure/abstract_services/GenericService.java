@@ -8,6 +8,6 @@ public interface GenericService<RequestDTO, ResponseDTO, ID> {
 
     ResponseDTO update(ID id, RequestDTO request);
 
-    void disableSuplier(ID id);
+    void delete(ID id);
 
 }

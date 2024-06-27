@@ -1,16 +1,16 @@
 package com.riwi.RiwiMarket.domain.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.riwi.RiwiMarket.domain.entities.Supplier;
-import java.util.List;
-
 
 @Repository
 public interface SupplierRepository extends JpaRepository<Supplier, Long> {
-    List<Supplier> findByName(String name);
-    List<Supplier> findByContact(String contact);
-    List<Supplier> findByAddress(String address);
-    List<Supplier> findByStatus(Boolean status);
+    Page<Supplier> findByName(String name, Pageable pageable);
+    Page<Supplier> findByContact(String contact, Pageable pageable);
+    Page<Supplier> findByAddress(String address, Pageable pageable);
+    Page<Supplier> findByStatus(Boolean status, Pageable pageable);
 }
