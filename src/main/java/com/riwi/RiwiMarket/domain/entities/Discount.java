@@ -22,7 +22,7 @@ public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, columnDefinition = "DECIMAL(0,2)")
+    @Column(nullable = false, columnDefinition = "DECIMAL(2,2)")
     private Double amount;
     @Column(length = 100)
     private String description;

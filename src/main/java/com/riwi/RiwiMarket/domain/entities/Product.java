@@ -15,14 +15,13 @@ import java.math.BigDecimal;
 @Builder
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false, length = 13)
+    @Column(unique = true, length = 13)
     private String id;
     @Column(nullable = false, length = 50)
     private String name;
     @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private BigDecimal price;
-    @Column(nullable = false, columnDefinition = "DECIMAL(0,2)")
+    @Column(nullable = false, columnDefinition = "DECIMAL(2,2)")
     private BigDecimal iva;
     @Column(columnDefinition = "TEXT")
     private String description;

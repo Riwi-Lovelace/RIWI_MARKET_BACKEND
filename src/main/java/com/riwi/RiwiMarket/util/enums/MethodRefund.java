@@ -1,6 +1,6 @@
 package com.riwi.RiwiMarket.util.enums;
 
-public enum MethodReturn {
+public enum MethodRefund {
     PRODUCT,
     MONEY,
     VOUCHER
