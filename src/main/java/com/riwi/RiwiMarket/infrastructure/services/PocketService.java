@@ -29,7 +29,8 @@ public class PocketService implements IPocketService {
 
     @Override
     public PocketResponse create(PocketRequest request) {
-        return null;
+        Pocket pocket = this.pocketMapper.toUserEntity(request);
+        return this.pocketMapper.toUserResponse(this.pocketRepository.save(pocket));
     }
 
     @Override
