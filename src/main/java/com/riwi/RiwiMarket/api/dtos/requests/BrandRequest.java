@@ -18,7 +18,12 @@ import lombok.NoArgsConstructor;
 public class BrandRequest 
 {
 
-    @NotBlank
+    //en el request no se pide el id porque es generado de manera automatica en la entidad
+    /*@NotNull
+    @Schema(description = "Brand Id", example = "1")
+    private Long id;*/
+
+    @NotBlank(message = "category name is required")
     @Size(max = 50)
     @Schema(description = "Brand Name", example = "Nike")
     private String name;
