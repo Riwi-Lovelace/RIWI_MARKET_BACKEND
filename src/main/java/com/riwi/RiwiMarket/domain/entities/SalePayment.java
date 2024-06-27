@@ -23,7 +23,7 @@ public class SalePayment {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sale_payment_id",referencedColumnName = "id",nullable = false)
+    @JoinColumn(name = "sale_id",referencedColumnName = "id",nullable = false)
     private Sale sale;
 
     @ManyToOne(fetch = FetchType.LAZY)
