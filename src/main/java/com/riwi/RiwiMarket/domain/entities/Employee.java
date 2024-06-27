@@ -85,6 +85,17 @@ public class Employee {
     )
     private List<Sale> sale;
 
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(
+        fetch = FetchType.EAGER,
+        mappedBy = "employeeId",
+        cascade = CascadeType.ALL,
+        orphanRemoval = false
+    )
+    private List<CashMachine> cash_machine;
+
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id", referencedColumnName = "id")
     private Store storeId;
