@@ -20,4 +20,8 @@ public class Batch {
     private LocalDateTime expiration;
     @Column(nullable = false)
     private LocalDateTime entryDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
 }
