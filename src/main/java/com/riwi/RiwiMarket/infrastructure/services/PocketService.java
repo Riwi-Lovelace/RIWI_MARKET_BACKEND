@@ -59,7 +59,7 @@ public class PocketService implements IPocketService {
 
     @Override
     public List<PocketResponse> getAll() {
-        return null;
+        return this.pocketMapper.listEntitiesToPocketResp(this.pocketRepository.findAll());
     }
 
 

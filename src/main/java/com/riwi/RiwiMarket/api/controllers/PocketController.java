@@ -67,8 +67,10 @@ public class PocketController implements IPocketController {
     }
 
 
+
     @Override
     public ResponseEntity<List<PocketResponse>> getAll(){
-        return null;
+
+        return ResponseEntity.ok(this.pocketService.getAll());
     }
 }
