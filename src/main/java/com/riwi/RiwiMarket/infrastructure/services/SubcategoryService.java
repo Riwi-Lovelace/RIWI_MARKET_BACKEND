@@ -1,6 +1,8 @@
 package com.riwi.RiwiMarket.infrastructure.services;
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class SubcategoryService implements ISubcategory  {
+    @SuppressWarnings("rawtypes")
     @Autowired
     private final SupportService supportService;
     @Autowired
@@ -41,15 +44,28 @@ public class SubcategoryService implements ISubcategory  {
         SubcategoryMapper.mapper.updateSubcategoryFromDto(request, subcategory);
         return SubcategoryMapper.mapper.toUserResponse(this.subcategoryRepository.save(subcategory));
     }
-       
-    public SubcategoryResponse patch(Long id, SubCategoryPatchRequest request){
+    @Override   
+    public SubcategoryResponse patchName(Long id, SubCategoryPatchRequest request){
         Object subcategoryObj = this.supportService.findById(id, "The subcategory id not found");
-        System.out.println(subcategoryObj);
-        Subcategory subcategory = (Subcategory) subcategoryObj;
-        SubcategoryMapper.mapper.patchSubcategoryFromDto(request, subcategory);
+        Optional<Subcategory> subcategoryOpt = Optional.ofNullable((Subcategory) subcategoryObj);
+        Subcategory subcategory = subcategoryOpt.get();
+        if (subcategoryOpt.isPresent()) {
+            subcategory.setName(request.getName());
+        }
         return SubcategoryMapper.mapper.toUserResponse(this.subcategoryRepository.save(subcategory));
     }
     
+    @Override
+    public SubcategoryResponse patchStatus(SubCategoryPatchRequest request, Long id) {
+        Object subcategoryObj = this.supportService.findById(id, "The subcategory id not found");
+        Optional<Subcategory> subcategoryOpt = Optional.ofNullable((Subcategory) subcategoryObj);
+        Subcategory subcategory = subcategoryOpt.get();
+        if (subcategoryOpt.isPresent()) {
+            subcategory.setStatus(request.getStatus());
+        }
+        return SubcategoryMapper.mapper.toUserResponse(this.subcategoryRepository.save(subcategory));
+    }
+
     @Override
     public void delete(Long id) {
         // TODO Auto-generated method stub

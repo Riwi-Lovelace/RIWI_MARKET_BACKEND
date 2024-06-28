@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SubCategoryPatchRequest {
-    private String name;
-    private Boolean status;
-    // private Long categoryId;
+   private String name;
+   private Boolean status; 
 }
