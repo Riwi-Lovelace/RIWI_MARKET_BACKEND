@@ -48,4 +48,15 @@ public class CategoryService implements ICategoryService {
 
     }
 
+    @Override
+    public Page<CategoryResponse> getAll(int page, int size) {
+        if (page < 0){
+            page = 0;
+        }
+
+        PageRequest pagination = PageRequest.of(page, size);
+        return this.categoryRepository.findAll(pagination).map(this.categoryMapper::toCategoryResponse);
+    }
+
+
 }

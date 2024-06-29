@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,21 @@ public class CategoryController implements GenericController<CategoryRequest, Ca
     )
     public ResponseEntity<CategoryResponse> create(@Validated @RequestBody CategoryRequest request) {
         return ResponseEntity.ok(this.categoryService.create(request));
+    }
+
+
+    @Operation(summary = "Get all categories", description = "Returns a paginated list of categories")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Categories retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+
+    @GetMapping
+    public ResponseEntity<Page<CategoryResponse>> getAll(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(this.categoryService.getAll(page - 1, size));
     }
 
 
