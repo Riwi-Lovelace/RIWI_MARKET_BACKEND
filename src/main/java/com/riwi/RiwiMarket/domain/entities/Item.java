@@ -36,6 +36,6 @@ public class Item {
     private Double discount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bill_id" , referencedColumnName = "id")
-    private Sale billId;
+    @JoinColumn(name = "sale_id" , referencedColumnName = "id")
+    private Sale saleId;
 }

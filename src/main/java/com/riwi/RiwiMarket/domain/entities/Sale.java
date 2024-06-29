@@ -66,7 +66,7 @@ public class Sale {
     @EqualsAndHashCode.Exclude
     @OneToMany(
         fetch = FetchType.EAGER,
-        mappedBy = "billId",
+        mappedBy = "saleId",
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
