@@ -12,6 +12,7 @@ import com.riwi.RiwiMarket.domain.repositories.SupplierRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ISupplierService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.SupplierMapper;
+import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 
 import lombok.AllArgsConstructor;
 
@@ -35,10 +36,14 @@ public class SupplierService implements ISupplierService{
         return supplierMapper.toUserResponse((this.supplierRepository.save(supplier)));
     }
 
+    // Search by id
     @Override
     public SupplierResponse read(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'read'");
+
+        Supplier supplier = supplierRepository.findById(id)
+                    .orElseThrow(()  -> new BadIdException("Supplier not found with ID: " + id));
+
+        return supplierMapper.toUserResponse(supplier);
     }
 
     @Override
@@ -80,5 +85,11 @@ public class SupplierService implements ISupplierService{
 
         return supplierRepository.findByStatus(status, pageable).map(supplierMapper::toUserResponse);
     }
-    
+
+    // findAll
+    @Override
+    public Page<SupplierResponse> findAll(Pageable pageable) {
+
+        return supplierRepository.findAll(pageable).map(supplierMapper::toUserResponse);
+    }
 }
