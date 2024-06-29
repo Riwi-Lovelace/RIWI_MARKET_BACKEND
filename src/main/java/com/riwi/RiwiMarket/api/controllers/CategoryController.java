@@ -30,6 +30,7 @@ public class CategoryController implements GenericController<CategoryRequest, Ca
         return ResponseEntity.ok(this.categoryService.create(request));
     }
 
+
     @Operation(summary = "Get all categories", description = "Returns a paginated list of categories")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Categories retrieved successfully"),
@@ -46,9 +47,16 @@ public class CategoryController implements GenericController<CategoryRequest, Ca
 
 
     @Override
-    public ResponseEntity<CategoryResponse> read(Long aLong) {
-        return null;
+    @Operation(summary = "Get category by ID", description = "Returns a category based on ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Category found"),
+            @ApiResponse(responseCode = "404", description = "Category not found")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryResponse> read(@PathVariable Long id) {
+        return ResponseEntity.ok(this.categoryService.read(id));
     }
+
 
     @Override
     public ResponseEntity<CategoryResponse> update(CategoryRequest request, Long aLong) {

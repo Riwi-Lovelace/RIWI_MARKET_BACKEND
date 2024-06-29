@@ -9,7 +9,5 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CategoryMapper extends  GenericMapper<CategoryRequest, CategoryResponse, Category> {
     Category toCategoryEntity(CategoryRequest userRequest);
-
     CategoryResponse toCategoryResponse(Category userEntity);
-
 }

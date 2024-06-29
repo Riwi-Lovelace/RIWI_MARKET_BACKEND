@@ -5,7 +5,9 @@ import com.riwi.RiwiMarket.api.dtos.responses.CategoryResponse;
 import com.riwi.RiwiMarket.domain.entities.Category;
 import com.riwi.RiwiMarket.domain.repositories.CategoryRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ICategoryService;
+import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.CategoryMapper;
+import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,17 +22,20 @@ public class CategoryService implements ICategoryService {
     private final CategoryRepository  categoryRepository;
     @Autowired
     private final CategoryMapper categoryMapper;
+    @Autowired
+    private final SupportService supportService;
+
+
 
     @Override
     public CategoryResponse create(CategoryRequest request) {
         Category category=this.categoryMapper.toCategoryEntity(request);
-
         return this.categoryMapper.toCategoryResponse(this.categoryRepository.save(category));
     }
 
     @Override
-    public CategoryResponse read(Long aLong) {
-        return null;
+    public CategoryResponse read(Long id) {
+        return this.categoryMapper.toCategoryResponse((Category) this.supportService.findById(id, "Category"));
     }
 
     @Override
@@ -52,5 +57,6 @@ public class CategoryService implements ICategoryService {
         PageRequest pagination = PageRequest.of(page, size);
         return this.categoryRepository.findAll(pagination).map(this.categoryMapper::toCategoryResponse);
     }
+
 
 }
