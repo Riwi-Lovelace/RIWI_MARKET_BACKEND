@@ -1,14 +1,12 @@
 package com.riwi.RiwiMarket.api.dtos.responses;
 
 import com.riwi.RiwiMarket.util.enums.TypePocket;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

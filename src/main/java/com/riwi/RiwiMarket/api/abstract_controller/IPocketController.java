@@ -1,4 +1,4 @@
-package com.riwi.RiwiMarket.api.controllers;
+package com.riwi.RiwiMarket.api.abstract_controller;
 
 import com.riwi.RiwiMarket.api.dtos.requests.PocketRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.PocketResponse;
