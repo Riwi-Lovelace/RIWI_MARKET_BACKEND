@@ -9,6 +9,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
+import com.riwi.RiwiMarket.api.abstract_controller.GenericController;
 import com.riwi.RiwiMarket.api.dtos.requests.BrandRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.BrandResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IBrandService;
