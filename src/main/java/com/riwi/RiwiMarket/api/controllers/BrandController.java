@@ -57,7 +57,24 @@ public class BrandController implements GenericController<BrandRequest, BrandRes
         return ResponseEntity.ok(this.brandService.search(name, pageable));
     }
 
+    @ApiResponse(
+            responseCode = "200",
+            description = "Successfully created the brand",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BrandResponse.class))
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "incorrect request format in invalid request",
+            content = {
+                    @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            }
+    )
+
     @PostMapping
+    @Operation(summary = "Create a new Brand", description = "Create a new brand with the specified name and status. Returns the created brand's details.")
     @Override
     public ResponseEntity<BrandResponse> create(
             @Validated @RequestBody BrandRequest request) {
