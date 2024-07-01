@@ -7,6 +7,7 @@ import com.riwi.RiwiMarket.domain.repositories.PocketRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IPocketService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.PocketMapper;
+import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +34,7 @@ public class PocketService implements IPocketService {
 
     @Override
     public PocketResponse read(Long id) {
-        return null;
+        return this.pocketMapper.toUserResponse(this.pocketRepository.findById(id).orElseThrow(() -> new BadIdException("Pocket")));
     }
 
     @Override
