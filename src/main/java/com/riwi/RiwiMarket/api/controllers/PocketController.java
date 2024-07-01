@@ -13,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -70,7 +69,8 @@ public class PocketController implements IPocketController {
     }
 
 
-
+    @Operation(summary = "Get all pockets" , description = "Get all pockets a store has")
+    @GetMapping
     @Override
     public ResponseEntity<List<PocketResponse>> getAll(){
 
