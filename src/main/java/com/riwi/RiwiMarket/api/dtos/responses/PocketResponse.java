@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PocketResponse {
+    private Long id;
     private BigDecimal amount;
     private TypePocket type;
     private String description;
