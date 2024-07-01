@@ -40,30 +40,38 @@ public class SupplierController implements GenericController<SupplierRequest, Su
     }
     //Method pach for active o disable this service
         @PatchMapping("/{id}/status")
+        @Operation(summary = "Find suppliers by name",
+                description = "Returns a paginated list of suppliers whose name matchs the provided value.")
+    
+        @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation. Returns the paginated list of suppliers."),
+            @ApiResponse(responseCode = "400", description = "Bad request. This may occur if the parameters are invalid."),
+            @ApiResponse(responseCode = "404", description = "Suppliers with the provided name were not found.")
+        })
         public ResponseEntity<Supplier> suplierUpdateStatus(@PathVariable Long id){
             supplierService.disableSuplier(id);
             return ResponseEntity.noContent().build();
         }
 
+        @PutMapping(path = "/{id}")
+        @Operation(summary = "Find suppliers by name",
+        description = "Returns a paginated list of suppliers whose name matchs the provided value.")
 
-
-    @PutMapping(path = "/{id}")
-    public ResponseEntity<SupplierResponse> update(@PathVariable Long id , @Validated @RequestBody SupplierRequest request) {
-        return ResponseEntity.ok(this.supplierService.update(id,request));
-    }
+        @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successful operation. Returns the paginated list of suppliers."),
+        @ApiResponse(responseCode = "400", description = "Bad request. This may occur if the parameters are invalid."),
+        @ApiResponse(responseCode = "404", description = "Suppliers with the provided name were not found.")
+        })
+        @Override
+        public ResponseEntity<SupplierResponse> update(@Validated @RequestBody SupplierRequest request,@PathVariable  Long id) {
+            return ResponseEntity.ok(this.supplierService.update(id,request));
+        }
+    
 
     @Override
     public ResponseEntity<SupplierResponse> read(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'read'");
-    }
-
-
-
-    @Override
-    public ResponseEntity<SupplierResponse> update(SupplierRequest request, Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
 
