@@ -67,7 +67,8 @@ public class PocketController implements IPocketController {
     }
 
 
-
+    @Operation(summary = "Get all pockets" , description = "Get all pockets a store has")
+    @GetMapping
     @Override
     public ResponseEntity<List<PocketResponse>> getAll(){
 
