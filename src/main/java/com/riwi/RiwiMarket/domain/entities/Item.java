@@ -34,4 +34,11 @@ public class Item {
 
     @Column(columnDefinition = "DECIMAL(2,2)")
     private Double discount;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    private Product product;
+
+    @OneToOne(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Refund refund;
 }
