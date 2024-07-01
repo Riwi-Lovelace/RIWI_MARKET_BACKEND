@@ -28,11 +28,16 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping(path = "/supplier")
 @AllArgsConstructor
-public class SupplierController implements GenericController{
+public class SupplierController implements GenericController<SupplierRequest, SupplierResponse, Long>{
 
     @Autowired
     private final ISupplierService supplierService;
 
+    @Override
+    public ResponseEntity<SupplierResponse> create(SupplierRequest request) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'create'");
+    }
     //Method pach for active o disable this service
         @PatchMapping("/{id}/status")
         public ResponseEntity<Supplier> suplierUpdateStatus(@PathVariable Long id){
@@ -40,31 +45,36 @@ public class SupplierController implements GenericController{
             return ResponseEntity.noContent().build();
         }
 
-    @Override
-    public ResponseEntity create(Object request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<SupplierResponse> update(@PathVariable Long id , @Validated @RequestBody SupplierRequest request) {
+        return ResponseEntity.ok(this.supplierService.update(id,request));
     }
 
     @Override
-    public ResponseEntity read(Object id) {
+    public ResponseEntity<SupplierResponse> read(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'read'");
     }
 
 
-    @PutMapping(path = "/{id}")
-    public ResponseEntity update(@PathVariable Long id , @Validated @RequestBody SupplierRequest request) {
-        return ResponseEntity.ok(this.supplierService.update(id,request));
-    }
-
-    
 
     @Override
-    public ResponseEntity delete(Object id) {
+    public ResponseEntity<SupplierResponse> update(SupplierRequest request, Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
+
+
+
+    @Override
+    public ResponseEntity<Void> delete(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
+
+
         // FindByName
     @GetMapping(path = "/byName")
     @Operation(summary = "Find suppliers by name",
@@ -141,10 +151,4 @@ public class SupplierController implements GenericController{
         return ResponseEntity.ok(suppliers);
     }
 
-    @Override
-    public ResponseEntity update(Object request, Object id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
-    
 }
