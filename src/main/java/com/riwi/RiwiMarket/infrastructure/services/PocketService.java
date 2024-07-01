@@ -35,7 +35,7 @@ public class PocketService implements IPocketService {
 
     @Override
     public PocketResponse read(Long id) {
-        return null;
+        return this.pocketMapper.toUserResponse(this.pocketRepository.findById(id).orElseThrow(() -> new BadIdException("Pocket")));
     }
 
     @Override
@@ -48,7 +48,6 @@ public class PocketService implements IPocketService {
         pocket.setDescription(request.getDescription());
 
         return this.pocketMapper.toUserResponse(this.pocketRepository.save(pocket));
-
     }
 
     @Override
@@ -61,6 +60,4 @@ public class PocketService implements IPocketService {
     public List<PocketResponse> getAll() {
         return this.pocketMapper.listEntitiesToPocketResp(this.pocketRepository.findAll());
     }
-
-
 }

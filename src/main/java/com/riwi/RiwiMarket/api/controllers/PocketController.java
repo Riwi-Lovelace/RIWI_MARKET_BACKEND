@@ -13,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,9 +36,11 @@ public class PocketController implements IPocketController {
         return ResponseEntity.ok(this.pocketService.create(request));
     }
 
+    @Operation(summary = "Read a pocket by Id", description = "Read a pocket with its specific Id")
+    @GetMapping(path = "/{id}")
     @Override
     public ResponseEntity<PocketResponse> read(Long id) {
-        return null;
+        return ResponseEntity.ok(this.pocketService.read(id));
     }
 
 
