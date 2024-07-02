@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.riwi.RiwiMarket.api.abstract_controller.GenericController;
 import com.riwi.RiwiMarket.api.dtos.requests.CustomerRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.CustomerResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ICustomerService;
