@@ -1,14 +1,12 @@
 package com.riwi.RiwiMarket.infrastructure.services;
 
 import com.riwi.RiwiMarket.api.dtos.requests.CategoryRequest;
-import com.riwi.RiwiMarket.api.dtos.requests.CategoryUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.CategoryResponse;
 import com.riwi.RiwiMarket.domain.entities.Category;
 import com.riwi.RiwiMarket.domain.repositories.CategoryRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ICategoryService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.CategoryMapper;
-import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,7 +25,6 @@ public class CategoryService implements ICategoryService {
     private final SupportService<Category> supportService;
 
     private final String nameEntity = "Category";
-
 
 
     @Override
