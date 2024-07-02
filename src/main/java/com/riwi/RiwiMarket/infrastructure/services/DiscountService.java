@@ -1,11 +1,15 @@
 package com.riwi.RiwiMarket.infrastructure.services;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
 import org.springframework.stereotype.Service;
 
 import com.riwi.RiwiMarket.api.dtos.requests.DiscountRequest;
@@ -14,7 +18,11 @@ import com.riwi.RiwiMarket.domain.entities.Discount;
 import com.riwi.RiwiMarket.domain.repositories.DiscountRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IDiscountService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.DiscountMapper;
+
+
+
 import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
+
 
 import lombok.AllArgsConstructor;
 
@@ -24,12 +32,21 @@ public class DiscountService implements IDiscountService {
 
     @Autowired
     private final DiscountRepository discountRepository;
+    private final DiscountMapper mapper;
+
+
+
+    @Autowired
+    private final DiscountRepository discountRepository;
     private final DiscountMapper discountMapper;
+
 
     @Override
     public DiscountResponse create(DiscountRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+             Discount discount = this.mapper.toUserEntity(request);
+            return this.mapper.toUserResponse(this.discountRepository.save(discount));
+
+
     }
 
     @Override

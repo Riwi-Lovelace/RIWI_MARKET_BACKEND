@@ -5,13 +5,18 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import com.riwi.RiwiMarket.api.dtos.requests.DiscountRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.DiscountResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IDiscountService;
 
@@ -24,31 +29,35 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/discount")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "Endpoints Discount")
-public class DiscountController implements GenericController {
+public class DiscountController implements GenericController<DiscountRequest,DiscountResponse,Long> {
 
     @Autowired
     private final IDiscountService service;
 
+
+
+
+
+    @PostMapping
     @Override
-    public ResponseEntity create(Object request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+    public ResponseEntity<DiscountResponse> create(@Validated @RequestBody DiscountRequest request) {
+       return  ResponseEntity.ok(this.service.create(request));
     }
 
     @Override
-    public ResponseEntity read(Object id) {
+    public ResponseEntity read(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'read'");
     }
 
     @Override
-    public ResponseEntity update(Object request, Object id) {
+    public ResponseEntity update(DiscountRequest request, Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
     @Override
-    public ResponseEntity delete(Object id) {
+    public ResponseEntity delete(Long id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
