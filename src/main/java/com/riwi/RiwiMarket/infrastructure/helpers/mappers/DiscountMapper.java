@@ -1,20 +1,31 @@
 package com.riwi.RiwiMarket.infrastructure.helpers.mappers;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.factory.Mappers;
 
-@Mapper
-public class DiscountMapper implements GenericMapper {
+import com.riwi.RiwiMarket.api.dtos.requests.DiscountRequest;
+import com.riwi.RiwiMarket.api.dtos.responses.DiscountResponse;
+import com.riwi.RiwiMarket.domain.entities.Discount;
 
-    @Override
-    public Object toUserEntity(Object userRequest) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toUserEntity'");
-    }
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+public interface DiscountMapper extends GenericMapper<DiscountResponse, DiscountRequest, Discount> {
 
-    @Override
-    public Object toUserResponse(Object userEntity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'toUserResponse'");
-    }
+    DiscountMapper mapper = Mappers.getMapper(DiscountMapper.class);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "endDiscount", ignore = true)
+    Discount requestToEntity(DiscountRequest request);
+
+    @Mapping(source = "endDiscount", target = "end")
+    @Mapping(source = "startDiscount", target = "start")
+    DiscountResponse entityToResponse(Discount discount);
+
+    @Mapping(source = "endDiscount", target = "end")
+    @Mapping(source = "startDiscount", target = "start")
+    List<DiscountResponse> listEntityToListResponse(List<Discount> discounts);
 
 }
