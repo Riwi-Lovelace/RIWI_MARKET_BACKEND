@@ -32,22 +32,27 @@ public class PocketService implements IPocketService {
     public PocketResponse create(PocketRequest request) {
         Pocket pocket = this.pocketMapper.toUserEntity(request);
 
+        if (this.checkingDescriptionExistence(request.getDescription())){
+            System.out.println("You can not create a pocket with a same description");
+            return null;
+        }else {
 
-        if(request.getType().equals(TypePocket.CASH)){
+            if(request.getType().equals(TypePocket.CASH)){
 
-            if (chekingCashExistence()){
-                System.out.println("You already have a Cash pocket, you are only allowed to have one of this type");
-                return null;
-            }else {
-                System.out.println("You created a cash pocket");
+                if (chekingCashExistence()){
+                    System.out.println("You already have a Cash pocket, you are only allowed to have one of this type");
+                    return null;
+                }else {
+                    System.out.println("You created a cash pocket");
+                    return this.pocketMapper.toUserResponse(this.pocketRepository.save(pocket));
+                }
+
+            }else{
+                System.out.println("You created a bank pocket");
                 return this.pocketMapper.toUserResponse(this.pocketRepository.save(pocket));
             }
 
-        }else{
-            System.out.println("You are creating a bank pocket type");
-            return this.pocketMapper.toUserResponse(this.pocketRepository.save(pocket));
         }
-
     }
 
     @Override
@@ -76,6 +81,19 @@ public class PocketService implements IPocketService {
     @Override
     public List<PocketResponse> getAll() {
         return this.pocketMapper.listEntitiesToPocketResp(this.pocketRepository.findAll());
+    }
+
+
+    //Checking if description is unique.
+    private boolean checkingDescriptionExistence(String description){
+
+        if (this.pocketRepository.findByDescription(description) != null){
+            return true;
+        }else{
+            return false;
+        }
+
+
     }
 
     //Checking if cash pocket already exist.

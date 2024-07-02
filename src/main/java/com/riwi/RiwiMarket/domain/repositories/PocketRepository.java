@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface PocketRepository extends JpaRepository<Pocket,Long> {
     List<Pocket> findByType(TypePocket type);
+
+    Pocket findByDescription(String description);
 }
