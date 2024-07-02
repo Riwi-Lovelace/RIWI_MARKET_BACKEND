@@ -34,4 +34,8 @@ public class Item {
 
     @Column(columnDefinition = "DECIMAL(2,2)")
     private Double discount;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sale_id" , referencedColumnName = "id")
+    private Sale saleId;
 }
