@@ -76,8 +76,8 @@ public class CategoryController implements GenericController<CategoryRequest, Ca
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @PatchMapping(path = "/{id}")
-    public ResponseEntity<CategoryResponse> update( @RequestBody CategoryRequest request, @PathVariable Long aLong) {
-        return ResponseEntity.ok(this.categoryService.update(aLong,request));
+    public ResponseEntity<CategoryResponse> update( @RequestBody CategoryRequest request, @PathVariable Long id) {
+        return ResponseEntity.ok(this.categoryService.update(id,request));
     }
 
     @Override

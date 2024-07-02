@@ -42,7 +42,7 @@ public class CategoryService implements ICategoryService {
     @Override
     public CategoryResponse update(Long aLong, CategoryRequest request) {
         Category entity = this.supportService.findById(aLong,"Category");
-        if (request.getName()!=null) {
+        if (!request.getName().equals("string")) {
             entity.setName(request.getName());
         }
         if (request.isStatus()!= entity.getStatus()){
