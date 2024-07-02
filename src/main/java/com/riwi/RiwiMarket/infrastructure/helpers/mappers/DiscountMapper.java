@@ -23,5 +23,4 @@ public interface DiscountMapper extends GenericMapper<DiscountRequest, DiscountR
 
     @InheritInverseConfiguration
     DiscountResponse entityToResponse(Discount discount);
-
 }

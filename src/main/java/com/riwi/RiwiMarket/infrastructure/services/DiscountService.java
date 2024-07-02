@@ -79,13 +79,19 @@ public class DiscountService implements IDiscountService {
     @Override
     public List<DiscountResponse> findByDescriptionContaining(String description) {
 
-        return this.discountRepository.findByDescriptionContaining(description);
+        return this.discountRepository.findByDescriptionContaining(description)
+        .stream()
+        .map(this.mapper::entityToResponse)
+        .collect(Collectors.toList());
 
     }
 
     @Override
     public List<DiscountResponse> findByAmount(double amount) {
-        return this.discountRepository.findByAmount(amount);
+        return this.discountRepository.findByAmount(amount)
+        .stream()
+        .map(this.mapper::entityToResponse)
+        .collect(Collectors.toList());
     }
 
     private Discount find(Long id) {

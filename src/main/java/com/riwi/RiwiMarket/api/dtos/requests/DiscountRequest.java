@@ -1,6 +1,7 @@
 package com.riwi.RiwiMarket.api.dtos.requests;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -23,9 +24,9 @@ public class DiscountRequest {
     @NotNull(message = "Discount percentage is required")
     @Min(value = 0, message = "Discount percentage must be between 0 and 100")
     @Max(value = 100, message = "Discount percentage must be between 0 and 100")
-    private Double amount;
+    private Integer amount;
     @NotNull(message = "Start date for discount is required")
-    private LocalDate startDiscount;
-    private LocalDate endDiscount;
+    private LocalDateTime startDiscount;
+    private LocalDateTime endDiscount;
     private Boolean status;
 }

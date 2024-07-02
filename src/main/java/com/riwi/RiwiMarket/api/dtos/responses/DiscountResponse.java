@@ -1,6 +1,7 @@
 package com.riwi.RiwiMarket.api.dtos.responses;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,8 +15,8 @@ import lombok.NoArgsConstructor;
 public class DiscountResponse {
     private Long id;
     private String description;
-    private Double amount;
-    private LocalDate startDiscount;
-    private LocalDate endDiscount;
+    private Integer amount;
+    private LocalDateTime startDiscount;
+    private LocalDateTime endDiscount;
     private Boolean status;
 }

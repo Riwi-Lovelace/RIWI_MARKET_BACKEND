@@ -11,8 +11,8 @@ import com.riwi.RiwiMarket.domain.entities.Discount;
 @Repository
 public interface DiscountRepository extends JpaRepository<Discount, Long> {
     //Method to search for discount by description 
-    List<DiscountResponse>findByDescriptionContaining(String description);
+    List<Discount>findByDescriptionContaining(String description);
     
     //Method to search for amount discount
-    List<DiscountResponse>findByAmount(double amount);
+    List<Discount>findByAmount(double amount);
 }
