@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity(name = "stock")
 @Getter
@@ -28,4 +29,14 @@ public class Stock {
 
     @Column(columnDefinition = "DECIMAL(10,2)", nullable = false)
     private BigDecimal purchasePrice;
+
+    @OneToMany(fetch = FetchType.EAGER,
+    mappedBy = "stock",
+    cascade = CascadeType.ALL)
+    private List<Batch> batch;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "supplier_id", referencedColumnName = "id")
+    private Stock stock;
+
 }

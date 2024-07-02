@@ -34,4 +34,10 @@ public class Loss {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Reason reason;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    private Batch batch;
+
+    
 }

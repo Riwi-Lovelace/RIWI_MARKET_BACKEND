@@ -41,4 +41,8 @@ public class Item {
 
     @OneToOne(mappedBy = "item", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Refund refund;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sale_id" , referencedColumnName = "id")
+    private Sale saleId;
 }
