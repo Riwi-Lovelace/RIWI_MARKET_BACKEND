@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -28,4 +29,19 @@ public class Batch {
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime entryDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", 
+    referencedColumnName = "id")
+    private Product product;
+
+    @OneToMany(fetch = FetchType.EAGER,
+    mappedBy = "batch",
+    cascade = CascadeType.ALL)
+    private List<Loss> loss;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stock_id",
+     referencedColumnName = "id")
+    private Stock stock;
 }
