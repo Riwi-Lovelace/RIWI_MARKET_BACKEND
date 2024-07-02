@@ -2,6 +2,7 @@ package com.riwi.RiwiMarket.infrastructure.helpers.mappers;
 
 import java.util.List;
 
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -12,18 +13,15 @@ import com.riwi.RiwiMarket.api.dtos.responses.DiscountResponse;
 import com.riwi.RiwiMarket.domain.entities.Discount;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface DiscountMapper extends GenericMapper<DiscountResponse, DiscountRequest, Discount> {
+public interface DiscountMapper extends GenericMapper<DiscountRequest, DiscountResponse, Discount> {
 
     DiscountMapper mapper = Mappers.getMapper(DiscountMapper.class);
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "endDiscount", ignore = true)
     Discount requestToEntity(DiscountRequest request);
 
-    @Mapping(source = "endDiscount", target = "end")
-    @Mapping(source = "startDiscount", target = "start")
+    @InheritInverseConfiguration
     DiscountResponse entityToResponse(Discount discount);
 
-    @Mapping(source = "endDiscount", target = "end")
-    @Mapping(source = "startDiscount", target = "start")
-    List<DiscountResponse> listEntityToListResponse(List<Discount> discounts);
 }

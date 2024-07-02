@@ -1,6 +1,5 @@
 package com.riwi.RiwiMarket.infrastructure.services;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,6 @@ import com.riwi.RiwiMarket.infrastructure.helpers.mappers.DiscountMapper;
 
 import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 
-
 import lombok.AllArgsConstructor;
 
 @Service
@@ -37,19 +35,17 @@ public class DiscountService implements IDiscountService {
     @Autowired
     private DiscountRepository discountRepository;
 
-
     @Override
     public DiscountResponse create(DiscountRequest request) {
-             Discount discount = this.mapper.toUserEntity(request);
-            return this.mapper.toUserResponse(this.discountRepository.save(discount));
-
+        Discount discount = this.mapper.requestToEntity(request);
+        return this.mapper.entityToResponse(this.discountRepository.save(discount));
 
     }
 
     @Override
     public DiscountResponse read(Long id) {
-       // TODO Auto-generated method stub
-       throw new UnsupportedOperationException("Unimplemented method 'create'");
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'create'");
     }
 
     @Override
@@ -66,40 +62,35 @@ public class DiscountService implements IDiscountService {
 
     @Override
     public DiscountResponse getById(Long id) {
-        return this.discountMapper.toUserResponse(this.find(id));
+        return this.mapper.entityToResponse(this.find(id));
     }
 
     @Override
     public Page<DiscountResponse> getAll(int page, int size) {
-        if (page < 0) page = 0;
+        if (page < 0)
+            page = 0;
 
-        PageRequest pagination= PageRequest.of(page, size);
+        PageRequest pagination = PageRequest.of(page, size);
 
         return this.discountRepository.findAll(pagination)
-                            .map(this.discountMapper::toUserResponse);
+                .map(this.mapper::entityToResponse);
     }
 
     @Override
     public List<DiscountResponse> findByDescriptionContaining(String description) {
-        
-        return this.discountRepository.findByDescriptionContaining(description)
-        .stream()
-        .map(this.discountMapper::toUserResponse)
-        .collect(Collectors.toList());
+
+        return this.discountRepository.findByDescriptionContaining(description);
+
     }
 
     @Override
     public List<DiscountResponse> findByAmount(double amount) {
-        return this.discountRepository.findByAmount(amount)
-        .stream()
-        .map(this.discountMapper::toUserResponse)
-        .collect(Collectors.toList());
+        return this.discountRepository.findByAmount(amount);
     }
 
-    /*********/
-    private Discount find(Long id){
+    private Discount find(Long id) {
         return this.discountRepository.findById(id)
-            .orElseThrow(()-> new BadRequestException("There is no discount with the provided id"));
+                .orElseThrow(() -> new BadRequestException("There is no discount with the provided id"));
     }
 
     public List<Discount> findAll() {

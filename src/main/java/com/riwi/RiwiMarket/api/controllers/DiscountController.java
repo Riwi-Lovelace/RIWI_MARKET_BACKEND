@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.riwi.RiwiMarket.api.dtos.requests.DiscountRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.DiscountResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IDiscountService;
@@ -29,19 +28,15 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/discount")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "Endpoints Discount")
-public class DiscountController implements GenericController<DiscountRequest,DiscountResponse,Long> {
+public class DiscountController implements GenericController<DiscountRequest, DiscountResponse, Long> {
 
     @Autowired
     private final IDiscountService service;
 
-
-
-
-
     @PostMapping
     @Override
     public ResponseEntity<DiscountResponse> create(@Validated @RequestBody DiscountRequest request) {
-       return  ResponseEntity.ok(this.service.create(request));
+        return ResponseEntity.ok(this.service.create(request));
     }
 
     @Override
@@ -65,28 +60,26 @@ public class DiscountController implements GenericController<DiscountRequest,Dis
     /****************************/
     @GetMapping
     public ResponseEntity<Page<DiscountResponse>> getAll(
-        @RequestParam(defaultValue = "1") int page,
-        @RequestParam(defaultValue = "5") int size){
-            return ResponseEntity.ok(this.service.getAll(page -1, size));
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        return ResponseEntity.ok(this.service.getAll(page - 1, size));
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<DiscountResponse> getById(@PathVariable Long id){
+    public ResponseEntity<DiscountResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(this.service.getById(id));
     }
 
     @GetMapping(path = "/description/{description}")
     public ResponseEntity<List<DiscountResponse>> findByDescriptionContaining(
-        @PathVariable String description){
+            @PathVariable String description) {
         return ResponseEntity.ok(this.service.findByDescriptionContaining(description));
     }
-    
-    @GetMapping(path = "/amount/{amount}")
-    public ResponseEntity<List<DiscountResponse>> findByAmount (
-        @PathVariable double amount){
-            return ResponseEntity.ok(this.service.findByAmount(amount));
-    }
-    
 
+    @GetMapping(path = "/amount/{amount}")
+    public ResponseEntity<List<DiscountResponse>> findByAmount(
+            @PathVariable double amount) {
+        return ResponseEntity.ok(this.service.findByAmount(amount));
+    }
 
 }
