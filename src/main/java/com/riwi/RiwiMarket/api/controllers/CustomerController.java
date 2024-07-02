@@ -3,8 +3,10 @@ package com.riwi.RiwiMarket.api.controllers;
 
 import java.util.Objects;
 
+import com.riwi.RiwiMarket.api.abstract_controller.ICustomerController;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,13 +28,13 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping(path = "/customers")
 @AllArgsConstructor
-public class CustomerController implements GenericController<CustomerRequest, CustomerResponse, Long>{
+public class CustomerController implements ICustomerController{
 
     private final ICustomerService customerService;
 
     @Override
     @PostMapping
-    public ResponseEntity<CustomerResponse> create(@RequestBody CustomerRequest request) {
+    public ResponseEntity<CustomerResponse> create(@Validated @RequestBody CustomerRequest request) {
         return ResponseEntity.ok(this.customerService.create(request));
     }
 
@@ -44,7 +46,7 @@ public class CustomerController implements GenericController<CustomerRequest, Cu
 
     @Override
     @PutMapping(path = "/{id}")
-    public ResponseEntity<CustomerResponse> update(@RequestBody CustomerRequest request, @PathVariable Long id) {
+    public ResponseEntity<CustomerResponse> update(@Validated @RequestBody CustomerRequest request, @PathVariable Long id) {
         return ResponseEntity.ok(this.customerService.update(id, request));
     }
 
