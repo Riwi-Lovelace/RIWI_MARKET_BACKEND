@@ -48,7 +48,7 @@ public class Expense {
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
-    private List<PaymentExpense> paymentExpense;
+    private List<PaymentExpense> paymentExpenses;
 
 
     @ManyToOne(fetch = FetchType.LAZY)

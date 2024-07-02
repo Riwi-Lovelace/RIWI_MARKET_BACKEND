@@ -46,5 +46,5 @@ public class Payment {
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
-    private List<SalePayment> salePayment;
+    private List<SalePayment> salePayments;
 }

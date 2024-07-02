@@ -49,5 +49,5 @@ public class Store {
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
-    private List<Employee> employee;
+    private List<Employee> employees;
 }

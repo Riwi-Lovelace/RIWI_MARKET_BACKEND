@@ -67,7 +67,7 @@ public class Employee {
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
-    private List<Expense> expense;
+    private List<Expense> expenses;
 
     @OneToMany(
         fetch = FetchType.EAGER,
@@ -75,7 +75,7 @@ public class Employee {
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
-    private List<Payroll> payroll;
+    private List<Payroll> payrolls;
 
 
     @OneToMany(
@@ -84,7 +84,7 @@ public class Employee {
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
-    private List<Sale> sale;
+    private List<Sale> sales;
 
     @OneToMany(
         fetch = FetchType.EAGER,
@@ -92,7 +92,7 @@ public class Employee {
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
-    private List<CashMachine> cash_machine;
+    private List<CashMachine> cashMachines;
 
 
     @ManyToOne(fetch = FetchType.LAZY)

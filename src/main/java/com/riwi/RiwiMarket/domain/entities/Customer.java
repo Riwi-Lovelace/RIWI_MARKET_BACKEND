@@ -49,5 +49,5 @@ public class Customer {
    @OneToMany(fetch = FetchType.EAGER,
     mappedBy = "customerId",
     cascade = CascadeType.ALL)
-    private List<Sale> sale;
+    private List<Sale> sales;
 }

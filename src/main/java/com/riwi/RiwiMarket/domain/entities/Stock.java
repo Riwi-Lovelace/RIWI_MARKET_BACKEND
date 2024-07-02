@@ -33,7 +33,7 @@ public class Stock {
     @OneToMany(fetch = FetchType.EAGER,
     mappedBy = "stock",
     cascade = CascadeType.ALL)
-    private List<Batch> batch;
+    private List<Batch> batches;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")

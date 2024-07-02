@@ -38,7 +38,7 @@ public class Batch {
     @OneToMany(fetch = FetchType.EAGER,
     mappedBy = "batch",
     cascade = CascadeType.ALL)
-    private List<Loss> loss;
+    private List<Loss> losses;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stock_id",

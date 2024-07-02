@@ -16,9 +16,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,20 +42,13 @@ public class CashMachine {
     @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private BigDecimal balance;
 
-
-
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     @OneToMany(
         fetch = FetchType.EAGER,
         mappedBy = "cashMachineId",
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
-    private List<Sale> sale;
-
-
-
+    private List<Sale> sales;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id", referencedColumnName = "id")

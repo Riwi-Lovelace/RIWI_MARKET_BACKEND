@@ -48,5 +48,5 @@ public class Discount {
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
-    private List<SaleDiscount> saleDiscount;
+    private List<SaleDiscount> saleDiscounts;
 }

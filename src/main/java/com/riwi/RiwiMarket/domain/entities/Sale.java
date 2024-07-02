@@ -53,7 +53,7 @@ public class Sale {
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
-    private List<SaleDiscount> saleDiscount;
+    private List<SaleDiscount> saleDiscounts;
 
     @OneToMany(
         fetch = FetchType.EAGER,
@@ -61,7 +61,7 @@ public class Sale {
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
-    private List<SalePayment> salePayment;
+    private List<SalePayment> salePayments;
 
     @OneToMany(
         fetch = FetchType.EAGER,
@@ -69,7 +69,7 @@ public class Sale {
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
-    private List<Item> item;
+    private List<Item> items;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cash_machine_id", 
