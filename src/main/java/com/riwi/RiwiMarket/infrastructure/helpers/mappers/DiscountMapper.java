@@ -1,11 +1,18 @@
 package com.riwi.RiwiMarket.infrastructure.helpers.mappers;
 
 import org.mapstruct.Mapper;
+
 import org.mapstruct.Mapping;
+
+
 import org.mapstruct.MappingConstants;
 
 import com.riwi.RiwiMarket.api.dtos.responses.DiscountResponse;
 import com.riwi.RiwiMarket.domain.entities.Discount;
+
+
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+public class DiscountMapper implements GenericMapper {
 
 @SuppressWarnings("rawtypes")
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)

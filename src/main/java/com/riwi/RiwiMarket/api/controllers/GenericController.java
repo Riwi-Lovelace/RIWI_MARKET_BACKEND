@@ -12,4 +12,6 @@ public interface GenericController<RequestDTO, ResponseDTO, ID> {
 
     ResponseEntity<Void> delete(ID id);
 
+    
+
 }
