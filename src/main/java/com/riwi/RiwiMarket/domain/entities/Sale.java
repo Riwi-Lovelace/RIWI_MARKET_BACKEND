@@ -42,8 +42,6 @@ public class Sale {
     @Column(nullable = false)
     private Boolean status;
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     @OneToMany(
         fetch = FetchType.EAGER,
         mappedBy = "saleId",
@@ -52,8 +50,6 @@ public class Sale {
     )
     private List<SaleDiscount> saleDiscount;
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     @OneToMany(
         fetch = FetchType.EAGER,
         mappedBy = "saleId",
@@ -62,8 +58,6 @@ public class Sale {
     )
     private List<SalePayment> salePayment;
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     @OneToMany(
         fetch = FetchType.EAGER,
         mappedBy = "saleId",

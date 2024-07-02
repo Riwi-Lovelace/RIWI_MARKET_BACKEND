@@ -42,8 +42,6 @@ public class Payment {
     @Enumerated(EnumType.STRING)
     private TypePayment type;
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     @OneToMany(
         fetch = FetchType.EAGER,
         mappedBy = "paymentId",

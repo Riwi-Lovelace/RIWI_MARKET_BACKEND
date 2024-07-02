@@ -13,11 +13,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity(name = "discount")
 @Getter
@@ -44,8 +42,6 @@ public class Discount {
     @Column(nullable = false)
     private Boolean status;
 
-    @ToString.Exclude
-    @EqualsAndHashCode.Exclude
     @OneToMany(
         fetch = FetchType.EAGER,
         mappedBy = "discountId",
