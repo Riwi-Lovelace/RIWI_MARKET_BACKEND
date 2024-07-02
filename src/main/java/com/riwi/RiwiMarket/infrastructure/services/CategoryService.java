@@ -26,6 +26,8 @@ public class CategoryService implements ICategoryService {
     @Autowired
     private final SupportService<Category> supportService;
 
+    private final String nameEntity = "Category";
+
 
 
     @Override
@@ -36,12 +38,12 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public CategoryResponse read(Long id) {
-        return this.categoryMapper.toCategoryResponse((Category) this.supportService.findById(id, "Category"));
+        return this.categoryMapper.toCategoryResponse((Category)  this.supportService.findById(categoryRepository, id, this.nameEntity));
     }
 
     @Override
     public CategoryResponse update(Long aLong, CategoryRequest request) {
-        Category entity = this.supportService.findById(aLong,"Category");
+        Category entity =  this.supportService.findById(categoryRepository, aLong, this.nameEntity);
         if (!request.getName().equals("string")) {
             entity.setName(request.getName());
         }

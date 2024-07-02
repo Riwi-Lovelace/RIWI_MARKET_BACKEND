@@ -20,8 +20,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class SubcategoryService implements ISubcategory  {
     @SuppressWarnings("rawtypes")
-    @Autowired
-    private final SupportService supportService;
+    // @Autowired
+    // private final SupportService supportService;
     @Autowired
     private final SubcategoryRepository subcategoryRepository;
     @Autowired
@@ -41,14 +41,14 @@ public class SubcategoryService implements ISubcategory  {
 
     @Override
     public SubcategoryResponse update(Long id, SubcategoryRequest request) {
-        Object subcategoryObj = this.supportService.findById(id, "The subcategory id not found");
+        Object subcategoryObj = this.subcategoryRepository.findById(id).orElseThrow();
         Subcategory subcategory = (Subcategory) subcategoryObj;
         SubcategoryMapper.mapper.updateSubcategoryFromDto(request, subcategory);
         return SubcategoryMapper.mapper.toUserResponse(this.subcategoryRepository.save(subcategory));
     }
     @Override   
     public SubcategoryResponse patchName(Long id, SubCategoryPatchRequest request){
-        Object subcategoryObj = this.supportService.findById(id, "The subcategory id not found");
+        Object subcategoryObj = this.subcategoryRepository.findById(id).orElseThrow();
         Optional<Subcategory> subcategoryOpt = Optional.ofNullable((Subcategory) subcategoryObj);
         Subcategory subcategory = subcategoryOpt.get();
         if (subcategoryOpt.isPresent()) {
@@ -59,7 +59,7 @@ public class SubcategoryService implements ISubcategory  {
     
     @Override
     public SubcategoryResponse patchStatus(SubCategoryPatchRequest request, Long id) {
-        Object subcategoryObj = this.supportService.findById(id, "The subcategory id not found");
+        Object subcategoryObj = this.subcategoryRepository.findById(id).orElseThrow();
         Optional<Subcategory> subcategoryOpt = Optional.ofNullable((Subcategory) subcategoryObj);
         Subcategory subcategory = subcategoryOpt.get();
         if (subcategoryOpt.isPresent()) {

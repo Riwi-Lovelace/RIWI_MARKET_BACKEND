@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.riwi.RiwiMarket.domain.entities.Subcategory;
+import com.riwi.RiwiMarket.api.abstract_controller.GenericController;
 import com.riwi.RiwiMarket.api.dtos.requests.SubCategoryPatchRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.SubcategoryRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.SubcategoryResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ISubcategory;
-import com.riwi.RiwiMarket.infrastructure.helpers.mappers.SubcategoryMapper;
 
 import lombok.AllArgsConstructor;
 
