@@ -56,8 +56,8 @@ public class DiscountService implements IDiscountService {
 
     @Override
     public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        
+        this.discountRepository.delete(this.find(id));
     }
 
     @Override
