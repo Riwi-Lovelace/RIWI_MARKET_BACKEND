@@ -65,11 +65,32 @@ public class PocketService implements IPocketService {
         // buscar el bolsillo a editar
         Pocket pocket = this.supportService.findById(id,"pocket");
 
-        pocket.setAmount(request.getAmount());
-        pocket.setType(request.getType());
-        pocket.setDescription(request.getDescription());
+        //Check that a bank pocket can be updated to cash pocket
+        if((pocket.getType() == TypePocket.BANK) && (request.getType() == TypePocket.CASH) && (chekingCashExistence() == true)){
+            System.out.println("you can not update this pocket to be cash cause already exits one");
+            return null;
+        }else{
+            //Check if the description is unique
+            if(checkingDescriptionExistence(request.getDescription(),id) == false){
+                pocket.setAmount(request.getAmount());
+                pocket.setType(request.getType());
+                pocket.setDescription(request.getDescription());
 
-        return this.pocketMapper.toUserResponse(this.pocketRepository.save(pocket));
+                return this.pocketMapper.toUserResponse(this.pocketRepository.save(pocket));
+            }else{
+                System.out.println("Can not update with this description cause already exist in other pocket");
+                return null;
+            }
+
+
+        }
+
+
+
+
+
+
+
     }
 
     @Override
@@ -94,6 +115,19 @@ public class PocketService implements IPocketService {
         }
 
 
+    }
+
+    private boolean checkingDescriptionExistence(String description, Long id){
+        List<Pocket> pockets = this.pocketRepository.findAll();
+        for(Pocket pocket: pockets){
+            if((pocket.getDescription().equals(description)) && (pocket.getId() != id)){
+                //return true when a description is in other register different from the id register is going to update
+                //this mean that the description exist in other place
+                return true;
+            }
+        }
+        //can update with this description
+        return false;
     }
 
     //Checking if cash pocket already exist.
