@@ -24,11 +24,13 @@ public class SubcategoryService implements ISubcategory  {
     private final SupportService supportService;
     @Autowired
     private final SubcategoryRepository subcategoryRepository;
-
+    @Autowired
+    private final SubcategoryMapper mapper;
     @Override
     public SubcategoryResponse create(SubcategoryRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        Subcategory subcategory = mapper.toUserEntity(request);
+        subcategory.setStatus(true);
+        return SubcategoryMapper.mapper.toUserResponse(this.subcategoryRepository.save(subcategory));
     }
 
     @Override
