@@ -16,7 +16,6 @@ import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 
 import lombok.AllArgsConstructor;
 
-
 @Service
 @AllArgsConstructor
 public class SupplierService implements ISupplierService{
