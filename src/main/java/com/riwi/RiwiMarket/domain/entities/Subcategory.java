@@ -12,17 +12,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity(name = "subcategory")
-@Setter
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Subcategory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(length = 50,nullable = false)
     private String name;
+    
     @Column(nullable = false)
     private Boolean status;
 }
