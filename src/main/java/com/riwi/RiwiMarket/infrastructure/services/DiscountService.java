@@ -1,6 +1,11 @@
 package com.riwi.RiwiMarket.infrastructure.services;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -9,7 +14,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-
 import org.springframework.stereotype.Service;
 
 import com.riwi.RiwiMarket.api.dtos.requests.DiscountRequest;
@@ -18,8 +22,6 @@ import com.riwi.RiwiMarket.domain.entities.Discount;
 import com.riwi.RiwiMarket.domain.repositories.DiscountRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IDiscountService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.DiscountMapper;
-
-
 
 import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 
@@ -31,14 +33,9 @@ import lombok.AllArgsConstructor;
 public class DiscountService implements IDiscountService {
 
     @Autowired
-    private final DiscountRepository discountRepository;
-    private final DiscountMapper mapper;
-
-
-
+    private DiscountMapper mapper;
     @Autowired
-    private final DiscountRepository discountRepository;
-    private final DiscountMapper discountMapper;
+    private DiscountRepository discountRepository;
 
 
     @Override
@@ -105,7 +102,9 @@ public class DiscountService implements IDiscountService {
             .orElseThrow(()-> new BadRequestException("There is no discount with the provided id"));
     }
 
-    
+    public List<Discount> findAll() {
+        List<Discount> discounts = discountRepository.findAll();
+        return discounts;
+    }
 
-    
 }
