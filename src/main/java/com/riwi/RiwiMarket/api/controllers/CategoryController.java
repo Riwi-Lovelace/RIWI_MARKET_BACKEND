@@ -1,5 +1,6 @@
 package com.riwi.RiwiMarket.api.controllers;
 
+import com.riwi.RiwiMarket.api.abstract_controller.GenericController;
 import com.riwi.RiwiMarket.api.dtos.requests.CategoryRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.CategoryUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.CategoryResponse;
