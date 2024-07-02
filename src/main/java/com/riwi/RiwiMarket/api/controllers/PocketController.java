@@ -3,8 +3,12 @@ package com.riwi.RiwiMarket.api.controllers;
 import com.riwi.RiwiMarket.api.abstract_controller.IPocketController;
 import com.riwi.RiwiMarket.api.dtos.requests.PocketRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.PocketResponse;
+import com.riwi.RiwiMarket.api.error_handler.ErrorController;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IPocketService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +39,16 @@ public class PocketController implements IPocketController {
         return ResponseEntity.ok(this.pocketService.create(request));
     }
 
+    @ApiResponse(
+            responseCode = "404",
+            description = "The id is not valid",
+            content = {
+                    @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorController.class)
+                    )
+            }
+    )
     @Operation(summary = "Read a pocket by Id", description = "Read a pocket with its specific Id")
     @GetMapping(path = "/{id}")
     @Override
@@ -42,7 +56,16 @@ public class PocketController implements IPocketController {
         return ResponseEntity.ok(this.pocketService.read(id));
     }
 
-
+    @ApiResponse(
+            responseCode = "404",
+            description = "The id is not valid",
+            content = {
+                    @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorController.class)
+                    )
+            }
+    )
     @PutMapping(path = "update/{id}")
     @Override
     @Operation(summary = "Update a pocket",description = "update any pocket selected by id")
@@ -59,6 +82,16 @@ public class PocketController implements IPocketController {
         return ResponseEntity.ok(this.pocketService.update(id,pocketRequest));
     }
 
+    @ApiResponse(
+            responseCode = "404",
+            description = "The id is not valid",
+            content = {
+                    @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorController.class)
+                    )
+            }
+    )
     @Override
     @DeleteMapping(path = "delete/{id}")
     @Operation(summary = "delete a pocket",description = "delete any pocket selected by id")
