@@ -9,8 +9,11 @@ import com.riwi.RiwiMarket.domain.entities.Supplier;
 
 @Repository
 public interface SupplierRepository extends JpaRepository<Supplier, Long> {
+
     Page<Supplier> findByName(String name, Pageable pageable);
     Page<Supplier> findByContact(String contact, Pageable pageable);
     Page<Supplier> findByAddress(String address, Pageable pageable);
     Page<Supplier> findByStatus(Boolean status, Pageable pageable);
+    
+    Page<Supplier> findAll(Pageable pageable);
 }
