@@ -1,6 +1,7 @@
 package com.riwi.RiwiMarket.infrastructure.services;
 
 import com.riwi.RiwiMarket.api.dtos.requests.CategoryRequest;
+import com.riwi.RiwiMarket.api.dtos.requests.CategoryUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.CategoryResponse;
 import com.riwi.RiwiMarket.domain.entities.Category;
 import com.riwi.RiwiMarket.domain.repositories.CategoryRepository;
@@ -23,7 +24,7 @@ public class CategoryService implements ICategoryService {
     @Autowired
     private final CategoryMapper categoryMapper;
     @Autowired
-    private final SupportService supportService;
+    private final SupportService<Category> supportService;
 
 
 
@@ -40,8 +41,17 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public CategoryResponse update(Long aLong, CategoryRequest request) {
-        return null;
+        Category entity = this.supportService.findById(aLong,"Category");
+        if (request.getName()!=null) {
+            entity.setName(request.getName());
+        }
+        if (request.isStatus()!= entity.getStatus()){
+            entity.setStatus(request.isStatus());
+        }
+        return this.categoryMapper.toCategoryResponse(this.categoryRepository.save(entity));
+
     }
+
 
     @Override
     public void delete(Long aLong) {

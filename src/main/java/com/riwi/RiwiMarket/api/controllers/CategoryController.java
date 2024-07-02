@@ -1,6 +1,7 @@
 package com.riwi.RiwiMarket.api.controllers;
 
 import com.riwi.RiwiMarket.api.dtos.requests.CategoryRequest;
+import com.riwi.RiwiMarket.api.dtos.requests.CategoryUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.CategoryResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ICategoryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,6 +27,11 @@ public class CategoryController implements GenericController<CategoryRequest, Ca
             summary = "Create Category",
             description = "Fill in the required fields to create a new category."
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Categories retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     public ResponseEntity<CategoryResponse> create(@Validated @RequestBody CategoryRequest request) {
         return ResponseEntity.ok(this.categoryService.create(request));
     }
@@ -34,7 +40,7 @@ public class CategoryController implements GenericController<CategoryRequest, Ca
     @Operation(summary = "Get all categories", description = "Returns a paginated list of categories")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Categories retrieved successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "400", description = "Invalid IsActive parameters"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
 
@@ -57,10 +63,20 @@ public class CategoryController implements GenericController<CategoryRequest, Ca
         return ResponseEntity.ok(this.categoryService.read(id));
     }
 
+    public ResponseEntity<CategoryResponse> updateCategory(CategoryUpdateRequest request, Long aLong) {
+        return null;
+    }
 
     @Override
-    public ResponseEntity<CategoryResponse> update(CategoryRequest request, Long aLong) {
-        return null;
+    @Operation(summary = "Update Category", description = "Allows you to update the name or isActive of a category")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Categories retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid IsActive parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    @PatchMapping(path = "/{id}")
+    public ResponseEntity<CategoryResponse> update( @RequestBody CategoryRequest request, @PathVariable Long aLong) {
+        return ResponseEntity.ok(this.categoryService.update(aLong,request));
     }
 
     @Override
