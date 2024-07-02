@@ -1,6 +1,5 @@
 package com.riwi.RiwiMarket.infrastructure.services;
 
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +18,19 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class SubcategoryService implements ISubcategory  {
-    @SuppressWarnings("rawtypes")
-    // @Autowired
-    // private final SupportService supportService;
+    @Autowired
+    private final SubcategoryMapper subcategoryMapper;
+    
     @Autowired
     private final SubcategoryRepository subcategoryRepository;
     @Autowired
-    private final SubcategoryMapper mapper;
+    private final SupportService<Subcategory> supportService;
+    
     @Override
     public SubcategoryResponse create(SubcategoryRequest request) {
-        Subcategory subcategory = mapper.toUserEntity(request);
+        Subcategory subcategory = this.subcategoryMapper.toEntity(request);
         subcategory.setStatus(true);
-        return SubcategoryMapper.mapper.toUserResponse(this.subcategoryRepository.save(subcategory));
+        return subcategoryMapper.toResponse(this.subcategoryRepository.save(subcategory));
     }
 
     @Override
@@ -41,20 +41,20 @@ public class SubcategoryService implements ISubcategory  {
 
     @Override
     public SubcategoryResponse update(Long id, SubcategoryRequest request) {
-        Object subcategoryObj = this.subcategoryRepository.findById(id).orElseThrow();
+        Subcategory subcategoryObj = this.supportService.findById(subcategoryRepository,id,"SubCategory");
         Subcategory subcategory = (Subcategory) subcategoryObj;
-        SubcategoryMapper.mapper.updateSubcategoryFromDto(request, subcategory);
-        return SubcategoryMapper.mapper.toUserResponse(this.subcategoryRepository.save(subcategory));
+        subcategoryMapper.toEntity(request);
+        return subcategoryMapper.toResponse(this.subcategoryRepository.save(subcategory));
     }
     @Override   
     public SubcategoryResponse patchName(Long id, SubCategoryPatchRequest request){
-        Object subcategoryObj = this.subcategoryRepository.findById(id).orElseThrow();
+        Subcategory subcategoryObj = this.supportService.findById(subcategoryRepository,id,"SubCategory");
         Optional<Subcategory> subcategoryOpt = Optional.ofNullable((Subcategory) subcategoryObj);
         Subcategory subcategory = subcategoryOpt.get();
         if (subcategoryOpt.isPresent()) {
             subcategory.setName(request.getName());
         }
-        return SubcategoryMapper.mapper.toUserResponse(this.subcategoryRepository.save(subcategory));
+        return subcategoryMapper.toResponse(this.subcategoryRepository.save(subcategory));
     }
     
     @Override
@@ -65,7 +65,7 @@ public class SubcategoryService implements ISubcategory  {
         if (subcategoryOpt.isPresent()) {
             subcategory.setStatus(request.getStatus());
         }
-        return SubcategoryMapper.mapper.toUserResponse(this.subcategoryRepository.save(subcategory));
+        return subcategoryMapper.toResponse(this.subcategoryRepository.save(subcategory));
     }
 
     @Override

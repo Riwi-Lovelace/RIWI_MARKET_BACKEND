@@ -29,13 +29,13 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public CategoryResponse create(CategoryRequest request) {
-        Category category=this.categoryMapper.toCategoryEntity(request);
-        return this.categoryMapper.toCategoryResponse(this.categoryRepository.save(category));
+        Category category=this.categoryMapper.toEntity(request);
+        return this.categoryMapper.toResponse(this.categoryRepository.save(category));
     }
 
     @Override
     public CategoryResponse read(Long id) {
-        return this.categoryMapper.toCategoryResponse((Category)  this.supportService.findById(categoryRepository, id, this.nameEntity));
+        return this.categoryMapper.toResponse((Category)  this.supportService.findById(categoryRepository, id, this.nameEntity));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class CategoryService implements ICategoryService {
         if (request.isStatus()!= entity.getStatus()){
             entity.setStatus(request.isStatus());
         }
-        return this.categoryMapper.toCategoryResponse(this.categoryRepository.save(entity));
+        return this.categoryMapper.toResponse(this.categoryRepository.save(entity));
 
     }
 
@@ -64,7 +64,7 @@ public class CategoryService implements ICategoryService {
         }
 
         PageRequest pagination = PageRequest.of(page, size);
-        return this.categoryRepository.findAll(pagination).map(this.categoryMapper::toCategoryResponse);
+        return this.categoryRepository.findAll(pagination).map(this.categoryMapper::toResponse);
     }
 
 
