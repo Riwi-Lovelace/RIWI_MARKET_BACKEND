@@ -1,6 +1,5 @@
 package com.riwi.RiwiMarket.infrastructure.helpers.mappers;
 
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
@@ -19,11 +18,6 @@ public interface SupplierMapper extends GenericMapper<SupplierRequest, SupplierR
         @Mapping(target = "status", ignore= true)
     })
     Supplier toUserEntity(SupplierRequest userRequest);
-
-    @InheritInverseConfiguration
-    SupplierRequest toSupplierRequest(Supplier user);
-
-    SupplierResponse entityToResponse(Supplier supplier);
 
 
 }

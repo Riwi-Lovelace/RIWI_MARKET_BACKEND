@@ -12,7 +12,7 @@ import com.riwi.RiwiMarket.domain.repositories.SupplierRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ISupplierService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.SupplierMapper;
-import com.riwi.RiwiMarket.util.exceptions.BadIdException;
+import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 
 import lombok.AllArgsConstructor;
 
@@ -31,31 +31,33 @@ public class SupplierService implements ISupplierService{
 
     @Override
     public SupplierResponse create(SupplierRequest request) {
-        Supplier supplier = supplierMapper.toUserEntity(request);
-        supplier.setStatus(true);
-        return supplierMapper.toUserResponse((this.supplierRepository.save(supplier)));
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'create'");
     }
 
-    // Search by id
     @Override
     public SupplierResponse read(Long id) {
-
-        Supplier supplier = supplierRepository.findById(id)
-                    .orElseThrow(()  -> new BadIdException("Supplier not found with ID: " + id));
-
-        return supplierMapper.toUserResponse(supplier);
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'read'");
     }
 
     @Override
     public SupplierResponse update(Long id, SupplierRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        Supplier supplier = this.find(id);
+        supplier = supplierMapper.toUserEntity(request);
+        supplier.setId(id);
+
+        return supplierMapper.toUserResponse(this.supplierRepository.save(supplier));
     }
 
+
     @Override
-    public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    public void disableSuplier(Long id) {
+        Supplier existingSupplier = supplierRepository.findById(id)
+        .orElseThrow(() -> new BadRequestException("Supplier not found"));
+
+        existingSupplier.setStatus(!existingSupplier.getStatus());
+        supplierRepository.save(existingSupplier);
     }
 
   // FindByName
@@ -71,25 +73,27 @@ public class SupplierService implements ISupplierService{
 
         return supplierRepository.findByContact(contact, pageable).map(supplierMapper::toUserResponse);
     }
-
     // findByAddress
     @Override
     public Page<SupplierResponse> findByAddress(String address, Pageable pageable) {
-
         return supplierRepository.findByAddress(address, pageable).map(supplierMapper::toUserResponse);
     }
-
     // findByStatus
     @Override
     public Page<SupplierResponse> findByStatus(Boolean status, Pageable pageable) {
-
         return supplierRepository.findByStatus(status, pageable).map(supplierMapper::toUserResponse);
     }
 
-    // findAll
-    @Override
-    public Page<SupplierResponse> findAll(Pageable pageable) {
-
-        return supplierRepository.findAll(pageable).map(supplierMapper::toUserResponse);
+    // find obj supplier
+    private Supplier find(Long id){
+        return this.supplierRepository.findById(id)
+        .orElseThrow();
     }
+
+    @Override
+    public void delete(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+    }
+
 }
