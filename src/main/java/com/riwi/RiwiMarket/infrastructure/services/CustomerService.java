@@ -24,6 +24,13 @@ public class CustomerService implements ICustomerService{
     private final CustomerMapper customerMapper;
     private final SupportService<Customer> supportService;
 
+    public static String userDefault = "End Customer";
+
+    // Call the setUserDefault method in the main method in case you want to change the default username
+    public static void setUserDefault(String name) {
+        CustomerService.userDefault = name;
+    }
+
     @Override
     public CustomerResponse create(CustomerRequest request) {
         Customer customer = this.customerMapper.toUserEntity(request);
@@ -67,5 +74,11 @@ public class CustomerService implements ICustomerService{
     private Customer findIdCustomer(Long id){
         Customer customer = (Customer) this.supportService.findById(id, "Customer");
         return customer;
+    }
+
+    @Override
+    public String createUserDefault(String userDefault) {
+        //return userDefault;
+        return CustomerService.userDefault;
     }
 }

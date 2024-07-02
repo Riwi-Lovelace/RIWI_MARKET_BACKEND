@@ -60,5 +60,9 @@ public class CustomerController implements GenericController<CustomerRequest, Cu
         if (Objects.isNull(sortCustomer)) sortCustomer = SortCustomer.NONE;
         return ResponseEntity.ok(this.customerService.getAll(size, page - 1, sortCustomer));
     }
-    
+
+    @PostMapping(path = "/{userDefault}")
+    public ResponseEntity<String> createUserDefault(@PathVariable String userDefault){
+        return ResponseEntity.ok(this.customerService.createUserDefault(userDefault));
+    }
 }
