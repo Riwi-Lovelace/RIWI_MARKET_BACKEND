@@ -5,8 +5,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
+@Component
 public class SupportService<Entity> {
 
     @Autowired
