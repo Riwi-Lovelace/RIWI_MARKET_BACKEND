@@ -1,5 +1,6 @@
 package com.riwi.RiwiMarket.infrastructure.abstract_services;
 
+
 public interface GenericService<RequestDTO, ResponseDTO, ID> {
 
     ResponseDTO create(RequestDTO request);
