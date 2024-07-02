@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,24 +35,45 @@ public class PocketController implements IPocketController {
         return ResponseEntity.ok(this.pocketService.create(request));
     }
 
+    @Operation(summary = "Read a pocket by Id", description = "Read a pocket with its specific Id")
+    @GetMapping(path = "/{id}")
     @Override
     public ResponseEntity<PocketResponse> read(Long id) {
-        return null;
+        return ResponseEntity.ok(this.pocketService.read(id));
+    }
+
+
+    @PutMapping(path = "update/{id}")
+    @Override
+    @Operation(summary = "Update a pocket",description = "update any pocket selected by id")
+    public ResponseEntity<PocketResponse> update(
+            @Validated
+            @RequestBody PocketRequest request,
+            @PathVariable Long id) {
+
+        PocketRequest pocketRequest = new PocketRequest();
+        pocketRequest.setAmount(request.getAmount());
+        pocketRequest.setDescription(request.getDescription());
+        pocketRequest.setType(request.getType());
+
+        return ResponseEntity.ok(this.pocketService.update(id,pocketRequest));
     }
 
     @Override
-    public ResponseEntity<PocketResponse> update(PocketRequest request, Long id) {
-        return null;
+    @DeleteMapping(path = "delete/{id}")
+    @Operation(summary = "delete a pocket",description = "delete any pocket selected by id")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        this.pocketService.delete(id);
+
+        return ResponseEntity.noContent().build();
     }
 
-    @Override
-    public ResponseEntity<Void> delete(Long id) {
-        return null;
-    }
 
-
+    @Operation(summary = "Get all pockets" , description = "Get all pockets a store has")
+    @GetMapping
     @Override
     public ResponseEntity<List<PocketResponse>> getAll(){
-        return null;
+
+        return ResponseEntity.ok(this.pocketService.getAll());
     }
 }
