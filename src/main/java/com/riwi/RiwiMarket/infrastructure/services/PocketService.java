@@ -30,7 +30,7 @@ public class PocketService implements IPocketService {
 
     @Override
     public PocketResponse create(PocketRequest request) {
-        Pocket pocket = this.pocketMapper.toUserEntity(request);
+        Pocket pocket = this.pocketMapper.toEntity(request);
 
         if (this.checkingDescriptionExistence(request.getDescription())){
             System.out.println("You can not create a pocket with a same description");
@@ -44,12 +44,12 @@ public class PocketService implements IPocketService {
                     return null;
                 }else {
                     System.out.println("You created a cash pocket");
-                    return this.pocketMapper.toUserResponse(this.pocketRepository.save(pocket));
+                    return this.pocketMapper.toResponse(this.pocketRepository.save(pocket));
                 }
 
             }else{
                 System.out.println("You created a bank pocket");
-                return this.pocketMapper.toUserResponse(this.pocketRepository.save(pocket));
+                return this.pocketMapper.toResponse(this.pocketRepository.save(pocket));
             }
 
         }
@@ -57,13 +57,13 @@ public class PocketService implements IPocketService {
 
     @Override
     public PocketResponse read(Long id) {
-        return this.pocketMapper.toUserResponse(this.pocketRepository.findById(id).orElseThrow(() -> new BadIdException("Pocket")));
+        return this.pocketMapper.toResponse(this.pocketRepository.findById(id).orElseThrow(() -> new BadIdException("Pocket")));
     }
 
     @Override
     public PocketResponse update(Long id, PocketRequest request) {
         // buscar el bolsillo a editar
-        Pocket pocket = this.supportService.findById(id,"pocket");
+        Pocket pocket = this.supportService.findById(pocketRepository, id,"pocket");
 
         //Check that a bank pocket can be updated to cash pocket
         if((pocket.getType() == TypePocket.BANK) && (request.getType() == TypePocket.CASH) && (chekingCashExistence() == true)){
@@ -76,7 +76,7 @@ public class PocketService implements IPocketService {
                 pocket.setType(request.getType());
                 pocket.setDescription(request.getDescription());
 
-                return this.pocketMapper.toUserResponse(this.pocketRepository.save(pocket));
+                return this.pocketMapper.toResponse(this.pocketRepository.save(pocket));
             }else{
                 System.out.println("Can not update with this description cause already exist in other pocket");
                 return null;
@@ -95,7 +95,7 @@ public class PocketService implements IPocketService {
 
     @Override
     public void delete(Long id) {
-        this.pocketRepository.delete(this.supportService.findById(id,"pocket"));
+        this.pocketRepository.delete(this.supportService.findById(pocketRepository, id,"pocket"));
     }
 
 

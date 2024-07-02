@@ -1,10 +1,12 @@
 package com.riwi.RiwiMarket.domain.entities;
 
+import java.util.List;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
 @Entity(name = "product")
@@ -23,13 +25,24 @@ public class Product {
 
     @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private BigDecimal price;
-
-    @Column(nullable = false, columnDefinition = "DECIMAL(2,2)")
-    private Double iva;
-
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,2)")
+    private BigDecimal iva;
     @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(nullable = false)
     private Boolean status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subcategory_id", referencedColumnName = "id")
+    private Subcategory subcategory;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id", referencedColumnName = "id")
+    private Brand brand;
+
+    @OneToMany(fetch = FetchType.EAGER,
+    mappedBy = "product",
+    cascade = CascadeType.ALL)
+    private List<Batch> batches;
 }
