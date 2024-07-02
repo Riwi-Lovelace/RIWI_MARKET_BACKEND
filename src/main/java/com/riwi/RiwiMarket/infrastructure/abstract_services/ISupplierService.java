@@ -16,4 +16,5 @@ public interface ISupplierService extends GenericService<SupplierRequest, Suppli
     public Page<SupplierResponse> findByStatus(Boolean status, Pageable pageable);
 
     public Page<SupplierResponse> findAll(Pageable pageable);
+    void disableSuplier(Long id);
 }

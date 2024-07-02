@@ -13,6 +13,7 @@ import com.riwi.RiwiMarket.infrastructure.abstract_services.ISupplierService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.SupplierMapper;
 import com.riwi.RiwiMarket.util.exceptions.BadIdException;
+import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 
 import lombok.AllArgsConstructor;
 
@@ -30,9 +31,9 @@ public class SupplierService implements ISupplierService{
 
     @Override
     public SupplierResponse create(SupplierRequest request) {
-        Supplier supplier = supplierMapper.toUserEntity(request);
+        Supplier supplier = supplierMapper.toEntity(request);
         supplier.setStatus(true);
-        return supplierMapper.toUserResponse((this.supplierRepository.save(supplier)));
+        return supplierMapper.toResponse((this.supplierRepository.save(supplier)));
     }
 
     // Search by id
@@ -42,13 +43,61 @@ public class SupplierService implements ISupplierService{
         Supplier supplier = supplierRepository.findById(id)
                     .orElseThrow(()  -> new BadIdException("Supplier not found with ID: " + id));
 
-        return supplierMapper.toUserResponse(supplier);
+        return supplierMapper.toResponse(supplier);
     }
 
     @Override
     public SupplierResponse update(Long id, SupplierRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        Supplier supplier = this.find(id);
+        supplier = supplierMapper.toEntity(request);
+        supplier.setId(id);
+
+        return supplierMapper.toResponse(this.supplierRepository.save(supplier));
+    }
+
+    public void disableSuplier(Long id) {
+        Supplier existingSupplier = supplierRepository.findById(id)
+        .orElseThrow(() -> new BadRequestException("Supplier not found"));
+
+        existingSupplier.setStatus(!existingSupplier.getStatus());
+        supplierRepository.save(existingSupplier);
+    }
+
+
+
+  // FindByName
+    @Override
+    public Page<SupplierResponse> findByName(String name, Pageable pageable) {
+
+        return supplierRepository.findByName(name, pageable).map(supplierMapper::toResponse);
+    }
+
+    // findByContact
+    @Override
+    public Page<SupplierResponse> findByContact(String contact, Pageable pageable) {
+
+        return supplierRepository.findByContact(contact, pageable).map(supplierMapper::toResponse);
+    }
+
+    // findByAddress
+    @Override
+    public Page<SupplierResponse> findByAddress(String address, Pageable pageable) {
+
+        return supplierRepository.findByAddress(address, pageable).map(supplierMapper::toResponse);
+    }
+
+    // findByStatus
+    @Override
+    public Page<SupplierResponse> findByStatus(Boolean status, Pageable pageable) {
+
+        return supplierRepository.findByStatus(status, pageable).map(supplierMapper::toResponse);
+    }
+
+    // findAll
+    @Override
+    public Page<SupplierResponse> findAll(Pageable pageable) {
+
+        return supplierRepository.findAll(pageable).map(supplierMapper::toResponse);
     }
 
     @Override
@@ -57,38 +106,8 @@ public class SupplierService implements ISupplierService{
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 
-  // FindByName
-    @Override
-    public Page<SupplierResponse> findByName(String name, Pageable pageable) {
-
-        return supplierRepository.findByName(name, pageable).map(supplierMapper::toUserResponse);
-    }
-
-    // findByContact
-    @Override
-    public Page<SupplierResponse> findByContact(String contact, Pageable pageable) {
-
-        return supplierRepository.findByContact(contact, pageable).map(supplierMapper::toUserResponse);
-    }
-
-    // findByAddress
-    @Override
-    public Page<SupplierResponse> findByAddress(String address, Pageable pageable) {
-
-        return supplierRepository.findByAddress(address, pageable).map(supplierMapper::toUserResponse);
-    }
-
-    // findByStatus
-    @Override
-    public Page<SupplierResponse> findByStatus(Boolean status, Pageable pageable) {
-
-        return supplierRepository.findByStatus(status, pageable).map(supplierMapper::toUserResponse);
-    }
-
-    // findAll
-    @Override
-    public Page<SupplierResponse> findAll(Pageable pageable) {
-
-        return supplierRepository.findAll(pageable).map(supplierMapper::toUserResponse);
+    private Supplier find(Long id) {
+        return this.supplierRepository.findById(id)
+        .orElseThrow(()-> new BadRequestException("supplier"));
     }
 }
