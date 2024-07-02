@@ -36,8 +36,9 @@ public class BrandService implements IBrandService
 
     @Override
     public BrandResponse create(BrandRequest request) {
-        // TODO Auto-generated method stub
-        return null;
+        Brand brand=brandMapper.toEntity(request);
+        Brand savedBrand=brandRepository.save(brand);
+        return brandMapper.toResponse(savedBrand);
     }
 
     @Override

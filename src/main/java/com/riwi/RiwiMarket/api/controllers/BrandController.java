@@ -5,12 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.ErrorResponse;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.riwi.RiwiMarket.api.abstract_controller.GenericController;
 import com.riwi.RiwiMarket.api.dtos.requests.BrandRequest;
@@ -60,10 +57,28 @@ public class BrandController implements GenericController<BrandRequest, BrandRes
         return ResponseEntity.ok(this.brandService.search(name, pageable));
     }
 
+    @ApiResponse(
+            responseCode = "200",
+            description = "Successfully created the brand",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = BrandResponse.class))
+    )
+    @ApiResponse(
+            responseCode = "400",
+            description = "incorrect request format in invalid request",
+            content = {
+                    @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)
+                    )
+            }
+    )
+
+    @PostMapping
+    @Operation(summary = "Create a new Brand", description = "Create a new brand with the specified name and status. Returns the created brand's details.")
     @Override
-    public ResponseEntity<BrandResponse> create(BrandRequest request) {
-        // TODO Auto-generated method stub
-        return null;
+    public ResponseEntity<BrandResponse> create(
+            @Validated @RequestBody BrandRequest request) {
+        return ResponseEntity.ok(this.brandService.create(request));
     }
 
     @Override

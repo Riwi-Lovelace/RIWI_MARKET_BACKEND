@@ -17,7 +17,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Schema(description = "Request DTO for Brand entity")
-public class BrandRequest 
+public class BrandRequest
 {
 
     @NotBlank
