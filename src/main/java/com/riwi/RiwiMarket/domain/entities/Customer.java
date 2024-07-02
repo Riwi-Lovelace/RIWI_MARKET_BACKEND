@@ -47,7 +47,7 @@ public class Customer {
     private String document;
 
    @OneToMany(fetch = FetchType.EAGER,
-    mappedBy = "customer",
+    mappedBy = "customerId",
     cascade = CascadeType.ALL)
-    private List<Sale> loss;
+    private List<Sale> sale;
 }

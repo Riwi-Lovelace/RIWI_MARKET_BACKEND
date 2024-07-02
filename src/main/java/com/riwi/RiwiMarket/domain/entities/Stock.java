@@ -37,6 +37,6 @@ public class Stock {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id", referencedColumnName = "id")
-    private Stock stock;
+    private Supplier supplier;
 
 }
