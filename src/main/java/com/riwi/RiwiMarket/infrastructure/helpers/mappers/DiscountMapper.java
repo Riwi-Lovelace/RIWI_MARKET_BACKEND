@@ -15,7 +15,6 @@ import com.riwi.RiwiMarket.domain.entities.Discount;
 public interface DiscountMapper extends GenericMapper<DiscountResponse, DiscountRequest, Discount> {
 
     DiscountMapper mapper = Mappers.getMapper(DiscountMapper.class);
-
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "endDiscount", ignore = true)
     Discount requestToEntity(DiscountRequest request);
@@ -27,5 +26,4 @@ public interface DiscountMapper extends GenericMapper<DiscountResponse, Discount
     @Mapping(source = "endDiscount", target = "end")
     @Mapping(source = "startDiscount", target = "start")
     List<DiscountResponse> listEntityToListResponse(List<Discount> discounts);
-
 }
