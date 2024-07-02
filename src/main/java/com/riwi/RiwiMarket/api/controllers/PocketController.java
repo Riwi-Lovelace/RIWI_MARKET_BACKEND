@@ -1,6 +1,6 @@
 package com.riwi.RiwiMarket.api.controllers;
 
-import com.riwi.RiwiMarket.api.abstract_controller.IPocketController;
+import com.riwi.RiwiMarket.api.abstract_controller.GenericController;
 import com.riwi.RiwiMarket.api.dtos.requests.PocketRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.PocketResponse;
 import com.riwi.RiwiMarket.api.error_handler.ErrorController;
@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping(path = "/pockets")
 @AllArgsConstructor
 @Tag(name= "Pockets")
-public class PocketController implements IPocketController {
+public class PocketController implements GenericController.IPocketController {
 
     @Autowired
     private final IPocketService pocketService;
