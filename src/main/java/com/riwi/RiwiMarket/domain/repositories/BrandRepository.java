@@ -11,4 +11,8 @@ import com.riwi.RiwiMarket.domain.entities.Brand;
 public interface BrandRepository extends JpaRepository<Brand, Long>
 {
     Page<Brand> findByNameContaining(String name, Pageable pageable);
+
+    Boolean existsByName(String name);
+
+    Brand findByName(String name);
 }

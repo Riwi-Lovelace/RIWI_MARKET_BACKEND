@@ -109,10 +109,30 @@ public class BrandController implements GenericController<BrandRequest, BrandRes
         return ResponseEntity.ok(this.brandService.read(brand_id));
     }
 
-    @Override
-    public ResponseEntity<BrandResponse> update(BrandRequest request, Long id) {
-        
-        return null;
+    @PatchMapping("/{brand_id}")
+    @ApiResponse(
+        responseCode = "200",
+        description = "Successfully updated the brand",
+        content = @Content(mediaType = "application/json", schema = @Schema(implementation = BrandResponse.class))
+    )
+    @ApiResponse(
+        responseCode = "400",
+        description = "When incorrect request format in invalid request",
+        content = {
+            @Content(
+                mediaType = "application/json",
+                schema = @Schema(implementation = ErrorResponse.class)
+            )
+        }
+    )
+    @Operation(summary = "Update a brand by brand_id", description = "Update the name and/or status of a brand by brand_id")
+    public ResponseEntity<BrandResponse> update(@PathVariable Long brand_id, @Validated @RequestBody BrandRequest request) {
+        return ResponseEntity.ok(this.brandService.update(brand_id, request));
     }
 
+    @Override
+    public ResponseEntity<BrandResponse> update(BrandRequest request, Long id) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
