@@ -37,8 +37,12 @@ public class BrandService implements IBrandService
 
     @Override
     public BrandResponse create(BrandRequest request) {
-        Brand brand=brandMapper.toEntity(request);
-        Brand savedBrand=brandRepository.save(brand);
+        // Verificar si ya existe una marca con el mismo nombre
+        if (brandRepository.existsByName(request.getName())) {
+            throw new BadRequestException("Brand with the same name already exists");
+        }
+
+        Brand savedBrand = brandRepository.save(brandMapper.toEntity(request));
         return brandMapper.toResponse(savedBrand);
     }
 
