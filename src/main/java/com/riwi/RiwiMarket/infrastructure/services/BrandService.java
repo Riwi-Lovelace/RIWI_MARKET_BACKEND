@@ -12,6 +12,7 @@ import com.riwi.RiwiMarket.domain.repositories.BrandRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IBrandService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.BrandMapper;
+import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 
 import lombok.AllArgsConstructor;
 
@@ -54,8 +55,28 @@ public class BrandService implements IBrandService
 
     @Override
     public BrandResponse update(Long id, BrandRequest request) {
-        // TODO Auto-generated method stub
-        return null;
+        Brand existingBrand = supportService.findById(brandRepository, id, "brand");
+
+        // Eliminar marca si el nombre ha cambiado y ya existe una marca con el nuevo nombre
+        if (request.getName() != null && !request.getName().isEmpty() && !request.getName().equals(existingBrand.getName())) {
+            if (brandRepository.existsByName(request.getName())) {
+                deleteByName(request.getName());
+            }
+            existingBrand.setName(request.getName());
+        }
+
+        if (request.getStatus() != null) {
+            existingBrand.setStatus(request.getStatus());
+        }
+
+        Brand updatedBrand = brandRepository.save(existingBrand);
+        return brandMapper.toResponse(updatedBrand);
+    }
+
+    @Override
+    public void deleteByName(String name) {
+        Brand brand = brandRepository.findByName(name);
+        brandRepository.delete(brand);
     }
 
 }

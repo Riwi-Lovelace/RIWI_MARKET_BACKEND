@@ -10,4 +10,6 @@ import com.riwi.RiwiMarket.api.dtos.responses.BrandResponse;
 public interface IBrandService extends GenericService<BrandRequest, BrandResponse, Long>
 {
     Page<BrandResponse> search(String name, Pageable pageable);
+
+    void deleteByName(String name);
 }
