@@ -1,5 +1,6 @@
 package com.riwi.RiwiMarket.infrastructure.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -20,8 +21,13 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CustomerService implements ICustomerService{
 
+    @Autowired
     private final CustomerRepository customerRepository;
-    private final CustomerMapper customerMapper;
+
+    @Autowired
+    private final CustomerMapper customerMapper; 
+
+    @Autowired
     private final SupportService<Customer> supportService;
 
     public static String userDefault = "End Customer";
@@ -33,22 +39,22 @@ public class CustomerService implements ICustomerService{
 
     @Override
     public CustomerResponse create(CustomerRequest request) {
-        Customer customer = this.customerMapper.toUserEntity(request);
-        return this.customerMapper.toUserResponse(this.customerRepository.save(customer));
+        Customer customer = this.customerMapper.toEntity(request);
+        return this.customerMapper.toResponse(this.customerRepository.save(customer));
     }
 
     @Override
     public CustomerResponse read(Long id) {
-        Customer customer = (Customer) this.supportService.findById(id, "Customer");
-        return this.customerMapper.toUserResponse(customer);
+        Customer customer = this.supportService.findById(customerRepository, id, "Customer");
+        return this.customerMapper.toResponse(customer);
     }
 
     @Override
     public CustomerResponse update(Long id, CustomerRequest request) {
         Customer customer = this.findIdCustomer(id);
-        customer = this.customerMapper.toUserEntity(request);
+        customer = this.customerMapper.toEntity(request);
         customer.setId(id);
-        return this.customerMapper.toUserResponse(this.customerRepository.save(customer));
+        return this.customerMapper.toResponse(this.customerRepository.save(customer));
     }
 
     @Override // Customer cannot be deleted
@@ -68,11 +74,11 @@ public class CustomerService implements ICustomerService{
             case DESC -> pagination = PageRequest.of(page, size, Sort.by(FIELD_SORT).descending());
         }
 
-        return this.customerRepository.findAll(pagination).map(this.customerMapper::toUserResponse);
+        return this.customerRepository.findAll(pagination).map(this.customerMapper::toResponse);
     }
 
     private Customer findIdCustomer(Long id){
-        Customer customer = (Customer) this.supportService.findById(id, "Customer");
+        Customer customer = this.supportService.findById(customerRepository, id, "Customer");
         return customer;
     }
 
