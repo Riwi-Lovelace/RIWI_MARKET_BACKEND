@@ -3,6 +3,8 @@ package com.riwi.RiwiMarket.infrastructure.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.riwi.RiwiMarket.api.dtos.requests.SubCategoryPatchRequest;
@@ -33,6 +35,15 @@ public class SubcategoryService implements ISubcategory  {
         return subcategoryMapper.toResponse(this.subcategoryRepository.save(subcategory));
     }
 
+    @Override
+    public Page<SubcategoryResponse> getAll(int page, int size){
+        if (page < 0) page = 0;
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Subcategory> subCategoryPage = this.subcategoryRepository.findAll(pageRequest);
+        Page<SubcategoryResponse> SubCategoryResponsePage =  subcategoryMapper.subCategoryResponsePage(subCategoryPage, page, size);
+        return SubCategoryResponsePage;
+    }
+    
     @Override
     public SubcategoryResponse read(Long id) {
         // TODO Auto-generated method stub
