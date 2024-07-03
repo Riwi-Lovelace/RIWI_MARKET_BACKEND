@@ -43,11 +43,10 @@ public class SubcategoryService implements ISubcategory  {
         Page<SubcategoryResponse> SubCategoryResponsePage =  subcategoryMapper.subCategoryResponsePage(subCategoryPage, page, size);
         return SubCategoryResponsePage;
     }
-    
+
     @Override
     public SubcategoryResponse read(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'read'");
+        return subcategoryMapper.toSubcategoryResponse(this.supportService.findById(subcategoryRepository, id, "SubCategory"));
     }
 
     @Override

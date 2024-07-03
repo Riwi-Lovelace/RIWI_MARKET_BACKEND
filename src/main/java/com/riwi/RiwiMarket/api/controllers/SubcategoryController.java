@@ -41,9 +41,9 @@ public class SubcategoryController implements GenericController<SubcategoryReque
     }
 
     @Override
-    public ResponseEntity<SubcategoryResponse> read(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'read'");
+    @GetMapping(path = "/{id}/getById")
+    public ResponseEntity<SubcategoryResponse> read(@PathVariable Long id) {
+        return ResponseEntity.ok(this.subcategoryService.read(id));
     }
 
     @Override
