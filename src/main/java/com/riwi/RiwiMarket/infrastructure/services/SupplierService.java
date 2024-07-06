@@ -2,6 +2,7 @@ package com.riwi.RiwiMarket.infrastructure.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import com.riwi.RiwiMarket.infrastructure.helpers.mappers.SupplierMapper;
 import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -62,44 +64,8 @@ public class SupplierService implements ISupplierService{
         existingSupplier.setStatus(!existingSupplier.getStatus());
         supplierRepository.save(existingSupplier);
     }
-
-
-
-  // FindByName
-    @Override
-    public Page<SupplierResponse> findByName(String name, Pageable pageable) {
-
-        return supplierRepository.findByName(name, pageable).map(supplierMapper::toResponse);
-    }
-
-    // findByContact
-    @Override
-    public Page<SupplierResponse> findByContact(String contact, Pageable pageable) {
-
-        return supplierRepository.findByContact(contact, pageable).map(supplierMapper::toResponse);
-    }
-
-    // findByAddress
-    @Override
-    public Page<SupplierResponse> findByAddress(String address, Pageable pageable) {
-
-        return supplierRepository.findByAddress(address, pageable).map(supplierMapper::toResponse);
-    }
-
-    // findByStatus
-    @Override
-    public Page<SupplierResponse> findByStatus(Boolean status, Pageable pageable) {
-
-        return supplierRepository.findByStatus(status, pageable).map(supplierMapper::toResponse);
-    }
-
-    // findAll
-    @Override
-    public Page<SupplierResponse> findAll(Pageable pageable) {
-
-        return supplierRepository.findAll(pageable).map(supplierMapper::toResponse);
-    }
-
+    
+    
     @Override
     public void delete(Long id) {
         // TODO Auto-generated method stub
@@ -110,4 +76,24 @@ public class SupplierService implements ISupplierService{
         return this.supplierRepository.findById(id)
         .orElseThrow(()-> new BadRequestException("supplier"));
     }
+
+    @Override
+    public Page<SupplierResponse> findByNameContainingOrContactContainingOrAddressContainingOrStatus(
+            int page, int size, String name, String contact, String address, Boolean status) {
+        
+        PageRequest pageRequest = PageRequest.of(page, size);
+        
+        Page<SupplierResponse> pageEntity =  this.supplierRepository.findByNameContainingOrContactContainingOrAddressContainingOrStatus(pageRequest, name, contact, address, status).map(this::convertir);
+        System.out.println("---------------------------------------------------------------------------------");
+        System.out.println(name+ contact+  address+  status );
+        return pageEntity;
+
+    }
+    public SupplierResponse convertir (Supplier supplier) {
+    return this.supplierMapper.toResponse(supplier);
+        
+}
+
+    
+
 }
