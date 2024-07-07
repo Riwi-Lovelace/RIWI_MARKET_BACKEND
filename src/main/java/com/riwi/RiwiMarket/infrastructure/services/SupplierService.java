@@ -3,7 +3,7 @@ package com.riwi.RiwiMarket.infrastructure.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 
 import com.riwi.RiwiMarket.api.dtos.requests.SupplierRequest;
@@ -16,7 +16,6 @@ import com.riwi.RiwiMarket.infrastructure.helpers.mappers.SupplierMapper;
 import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 
-import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -60,8 +59,11 @@ public class SupplierService implements ISupplierService{
     public void disableSuplier(Long id) {
         Supplier existingSupplier = supplierRepository.findById(id)
         .orElseThrow(() -> new BadRequestException("Supplier not found"));
-
-        existingSupplier.setStatus(!existingSupplier.getStatus());
+        if(existingSupplier.getStatus() == true){
+            existingSupplier.setStatus(false);
+        }else {
+            existingSupplier.setStatus(true);
+        }
         supplierRepository.save(existingSupplier);
     }
     
@@ -77,22 +79,45 @@ public class SupplierService implements ISupplierService{
         .orElseThrow(()-> new BadRequestException("supplier"));
     }
 
+  
     @Override
     public Page<SupplierResponse> findByNameContainingOrContactContainingOrAddressContainingOrStatus(
-            int page, int size, String name, String contact, String address, Boolean status) {
-        
-        PageRequest pageRequest = PageRequest.of(page, size);
-        
-        Page<SupplierResponse> pageEntity =  this.supplierRepository.findByNameContainingOrContactContainingOrAddressContainingOrStatus(pageRequest, name, contact, address, status).map(this::convertir);
-        System.out.println("---------------------------------------------------------------------------------");
-        System.out.println(name+ contact+  address+  status );
-        return pageEntity;
+        int page, int size, String name, String contact, String address, Boolean status) {
+    
+    PageRequest pageRequest = PageRequest.of(page, size);
 
+    if (name.equals("") && address.equals("") && contact.equals("")){
+        address="";
+        name="";
+        contact="";
+        if (!status){
+            address=" ";
+            name=" ";
+            contact=" ";
+        }
+    }else {
+        if (contact.equals("")){
+            contact=" ";
+
+        }
+        if (address.equals("")){
+            address=" ";
+        }
+        if (name.equals("")){
+            name=" ";
+        }
     }
-    public SupplierResponse convertir (Supplier supplier) {
-    return this.supplierMapper.toResponse(supplier);
-        
+    Page<SupplierResponse> pageEntity =  this.supplierRepository.findByAddressContainingOrContactContainingOrNameContainingAndStatus(address,contact,name,status,pageRequest).map(this::convertir);
+
+    return pageEntity;
+
 }
+    public SupplierResponse convertir(Supplier supplier) {
+        return this.supplierMapper.toResponse(supplier);
+    }
+
+
+
 
     
 

@@ -102,7 +102,6 @@ public class SupplierController implements GenericController<SupplierRequest, Su
     // findAll
     @GetMapping
     @Operation(summary = "List all suppliers", description = "Returns a paginated list of all suppliers.")
-
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation. Returns the paginated list of suppliers."),
             @ApiResponse(responseCode = "400", description = "Bad request. This may occur if the parameters are incorrect.")
@@ -112,10 +111,10 @@ public class SupplierController implements GenericController<SupplierRequest, Su
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "") String name,
         @RequestParam(defaultValue = "") String contact,
-        @RequestParam(defaultValue = "") String adress,
+        @RequestParam(defaultValue = "") String address,
         @RequestParam(defaultValue = "true") Boolean status
     ) {
-        Page<SupplierResponse> suppliers = supplierService.findByNameContainingOrContactContainingOrAddressContainingOrStatus(page-1, size, name, contact, adress, status);
+        Page<SupplierResponse> suppliers = supplierService.findByNameContainingOrContactContainingOrAddressContainingOrStatus(page-1, size, name, contact, address, status);
         return ResponseEntity.ok(suppliers);
     }
 
