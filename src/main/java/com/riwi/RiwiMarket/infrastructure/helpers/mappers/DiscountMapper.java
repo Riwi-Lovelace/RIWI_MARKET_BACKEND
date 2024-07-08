@@ -5,6 +5,7 @@ import java.util.List;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.factory.Mappers;
 
@@ -17,8 +18,11 @@ public interface DiscountMapper extends GenericMapper<DiscountRequest, DiscountR
 
     DiscountMapper mapper = Mappers.getMapper(DiscountMapper.class);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "endDiscount", ignore = true)
+    @Mappings({
+        @Mapping(target = "id", ignore = true),
+        @Mapping(target = "endDiscount", ignore = true)
+    })
+   
     Discount requestToEntity(DiscountRequest request);
 
     @InheritInverseConfiguration

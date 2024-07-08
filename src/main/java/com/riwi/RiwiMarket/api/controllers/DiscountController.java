@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -60,6 +61,7 @@ public class DiscountController implements GenericController<DiscountRequest, Di
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
+    
     @Override
     public ResponseEntity delete(Long id) {
         // TODO Auto-generated method stub
@@ -116,5 +118,10 @@ public class DiscountController implements GenericController<DiscountRequest, Di
             @PathVariable double amount) {
         return ResponseEntity.ok(this.service.findByAmount(amount));
     }
+    @PatchMapping(path = "/{id}/disable")
+        public ResponseEntity<DiscountResponse> disableStudent(@PathVariable Long id) {
 
+                this.service.delete(id);
+                return ResponseEntity.noContent().build();
+        }
 }
