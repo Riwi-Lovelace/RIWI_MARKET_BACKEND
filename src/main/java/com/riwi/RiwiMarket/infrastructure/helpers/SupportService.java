@@ -17,4 +17,5 @@ public class SupportService<Entity> {
         return repository.findById(id)
                 .orElseThrow(() -> new BadIdException(name));
     }
+
 }
