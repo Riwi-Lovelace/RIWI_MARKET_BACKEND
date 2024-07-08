@@ -1,7 +1,9 @@
 package com.riwi.RiwiMarket.api.dtos.requests;
 
 
+
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +21,6 @@ public class SubcategoryRequest {
     @Size(max=50, message = "The subcategory name lenght is 50")
     private String name;
     private Boolean status;
-    // @NotNull(message = "The category id in subcategory is required")
-    // private Category categoryId;
+    @NotNull(message = "The category id in subcategory is required")
+    private Long categoryId;
 }
