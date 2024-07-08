@@ -8,11 +8,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,10 +39,7 @@ public class DiscountController implements GenericController<DiscountRequest, Di
     @Autowired
     private final IDiscountService service;
 
-    @Operation(
-        summary = "create a new discount",
-        description = "You must send, description, amount, startDiscount, endDiscount and status."
-    )
+    @Operation(summary = "create a new discount", description = "You must send, description, amount, startDiscount, endDiscount and status.")
     @PostMapping
     @Override
     public ResponseEntity<DiscountResponse> create(@Validated @RequestBody DiscountRequest request) {
@@ -61,18 +58,14 @@ public class DiscountController implements GenericController<DiscountRequest, Di
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
-    
     @Override
     public ResponseEntity delete(Long id) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
     /****************************/
-    @Operation(
-        summary = "List all discounts with pagination",
-        description = "You must send the page and size to receive all corresponding clients."
-    )
+    @Operation(summary = "List all discounts with pagination", description = "You must send the page and size to receive all corresponding clients.")
     @GetMapping
     public ResponseEntity<Page<DiscountResponse>> getAll(
             @RequestParam(defaultValue = "1") int page,
@@ -80,48 +73,33 @@ public class DiscountController implements GenericController<DiscountRequest, Di
         return ResponseEntity.ok(this.service.getAll(page - 1, size));
     }
 
-    @ApiResponse(
-        responseCode = "400",
-        description = "The id is not valid",
-        content = {
-            @Content(
-                mediaType = "application/json",
-                schema = @Schema(implementation = ErrorResponse.class)
-            )
-        }
-    )
-    @Operation(
-        summary = "Show discounts by ID",
-        description = "You must send the id of the reservation you want to see"
-    )
+    @ApiResponse(responseCode = "400", description = "The id is not valid", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+    })
+    @Operation(summary = "Show discounts by ID", description = "You must send the id of the reservation you want to see")
     @GetMapping(path = "/{id}")
     public ResponseEntity<DiscountResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(this.service.getById(id));
     }
 
-    @Operation(
-        summary = " discount list by description",
-        description = "list the discounts according to the description entered."
-    )
+    @Operation(summary = " discount list by description", description = "list the discounts according to the description entered.")
     @GetMapping(path = "/description/{description}")
     public ResponseEntity<List<DiscountResponse>> findByDescriptionContaining(
             @PathVariable String description) {
         return ResponseEntity.ok(this.service.findByDescriptionContaining(description));
     }
 
-    @Operation(
-        summary = " discount list by amount",
-        description = "list the discounts according to the amount entered."
-    )
+    @Operation(summary = " discount list by amount", description = "list the discounts according to the amount entered.")
     @GetMapping(path = "/amount/{amount}")
     public ResponseEntity<List<DiscountResponse>> findByAmount(
             @PathVariable double amount) {
         return ResponseEntity.ok(this.service.findByAmount(amount));
     }
-    @PatchMapping(path = "/{id}/disable")
-        public ResponseEntity<DiscountResponse> disableStudent(@PathVariable Long id) {
 
-                this.service.delete(id);
-                return ResponseEntity.noContent().build();
-        }
+    @PatchMapping(path = "/{id}/disable")
+    public ResponseEntity<DiscountResponse> disableDiscount(@PathVariable Long id) {
+
+        this.service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

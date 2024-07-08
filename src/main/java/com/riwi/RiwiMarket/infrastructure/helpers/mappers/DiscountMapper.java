@@ -19,8 +19,7 @@ public interface DiscountMapper extends GenericMapper<DiscountRequest, DiscountR
     DiscountMapper mapper = Mappers.getMapper(DiscountMapper.class);
 
     @Mappings({
-        @Mapping(target = "id", ignore = true),
-        @Mapping(target = "endDiscount", ignore = true)
+        @Mapping(target = "id", ignore = true)
     })
    
     Discount requestToEntity(DiscountRequest request);
