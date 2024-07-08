@@ -9,6 +9,6 @@ public interface ISupplierService extends GenericService<SupplierRequest, Suppli
 
     public final String FIELD_BY_SORT = "name";
 
-    Page<SupplierResponse> findByNameContainingOrContactContainingOrAddressContainingOrStatus(int page, int size, String name, String contact, String address, Boolean status);
+    Page<SupplierResponse> findByAddressContainingOrContactContainingOrNameContaining(int page, int size, String name, String contact, String address);
     void disableSuplier(Long id);
 }

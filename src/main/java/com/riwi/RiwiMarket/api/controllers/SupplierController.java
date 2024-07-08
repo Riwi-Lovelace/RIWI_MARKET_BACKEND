@@ -111,10 +111,9 @@ public class SupplierController implements GenericController<SupplierRequest, Su
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "") String name,
         @RequestParam(defaultValue = "") String contact,
-        @RequestParam(defaultValue = "") String address,
-        @RequestParam(defaultValue = "true") Boolean status
+        @RequestParam(defaultValue = "") String address
     ) {
-        Page<SupplierResponse> suppliers = supplierService.findByNameContainingOrContactContainingOrAddressContainingOrStatus(page-1, size, name, contact, address, status);
+        Page<SupplierResponse> suppliers = supplierService.findByAddressContainingOrContactContainingOrNameContaining(page-1, size, name, contact, address);
         return ResponseEntity.ok(suppliers);
     }
 

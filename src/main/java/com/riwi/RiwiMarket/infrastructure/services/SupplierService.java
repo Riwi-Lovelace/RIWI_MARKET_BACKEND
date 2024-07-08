@@ -81,8 +81,8 @@ public class SupplierService implements ISupplierService{
 
   
     @Override
-    public Page<SupplierResponse> findByNameContainingOrContactContainingOrAddressContainingOrStatus(
-        int page, int size, String name, String contact, String address, Boolean status) {
+    public Page<SupplierResponse> findByAddressContainingOrContactContainingOrNameContaining(
+        int page, int size, String name, String contact, String address) {
     
     PageRequest pageRequest = PageRequest.of(page, size);
 
@@ -90,15 +90,10 @@ public class SupplierService implements ISupplierService{
         address="";
         name="";
         contact="";
-        if (!status){
-            address=" ";
-            name=" ";
-            contact=" ";
-        }
+
     }else {
         if (contact.equals("")){
             contact=" ";
-
         }
         if (address.equals("")){
             address=" ";
@@ -107,7 +102,9 @@ public class SupplierService implements ISupplierService{
             name=" ";
         }
     }
-    Page<SupplierResponse> pageEntity =  this.supplierRepository.findByAddressContainingOrContactContainingOrNameContainingAndStatus(address,contact,name,status,pageRequest).map(this::convertir);
+
+    
+    Page<SupplierResponse> pageEntity =  this.supplierRepository.findByAddressContainingOrContactContainingOrNameContaining(address,contact,name,pageRequest).map(this::convertir);
 
     return pageEntity;
 
