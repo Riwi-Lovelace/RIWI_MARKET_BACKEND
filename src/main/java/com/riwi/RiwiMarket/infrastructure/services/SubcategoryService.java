@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.riwi.RiwiMarket.api.dtos.requests.SubCategoryPatchRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.SubcategoryRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.SubcategoryResponse;
+import com.riwi.RiwiMarket.domain.entities.Category;
 import com.riwi.RiwiMarket.domain.entities.Subcategory;
+import com.riwi.RiwiMarket.domain.repositories.CategoryRepository;
 import com.riwi.RiwiMarket.domain.repositories.SubcategoryRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.ISubcategory;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
@@ -25,12 +27,22 @@ public class SubcategoryService implements ISubcategory  {
     
     @Autowired
     private final SubcategoryRepository subcategoryRepository;
+
+    @Autowired
+    private final CategoryRepository categoryRepository;
+
     @Autowired
     private final SupportService<Subcategory> supportService;
+
+    @Autowired
+    private final SupportService<Category> supportServiceCategory;
+    
     
     @Override
     public SubcategoryResponse create(SubcategoryRequest request) {
         Subcategory subcategory = this.subcategoryMapper.toEntity(request);
+        Category category = this.supportServiceCategory.findById(categoryRepository, request.getCategoryId(), "Category");
+        subcategory.setCategory(category);
         subcategory.setStatus(true);
         return subcategoryMapper.toResponse(this.subcategoryRepository.save(subcategory));
     }
