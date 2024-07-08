@@ -56,8 +56,9 @@ public class DiscountService implements IDiscountService {
 
     @Override
     public void delete(Long id) {
-        
-        this.discountRepository.delete(this.find(id));
+        Discount discount = this.find(id);
+        discount.setStatus(false);
+        this.discountRepository.save(discount);
     }
 
     @Override
