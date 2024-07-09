@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -59,12 +60,18 @@ public class RefundService implements IRefundService {
     }
 
     @Override
+    public List<Refund> findByDate(LocalDate startDate, LocalDate endDate) {
+        return null;
+    }
+
+    @Override
     public RefundResponse update(Long aLong, RefundRequest request) {
+        //Not contemplated
         return null;
     }
 
     @Override
     public void delete(Long aLong) {
-
+        //Not contemplated
     }
 }

@@ -8,6 +8,7 @@ import com.riwi.RiwiMarket.util.enums.MethodRefund;
 import com.riwi.RiwiMarket.util.enums.ReasonRefund;
 import org.springframework.data.domain.Page;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -18,4 +19,6 @@ public interface IRefundService extends GenericService<RefundRequest, RefundResp
     List<Refund> findByMethod(MethodRefund method);
 
     List<Refund> findByReason(ReasonRefund reason);
+
+    List<Refund> findByDate(LocalDate startDate, LocalDate endDate);
 }
