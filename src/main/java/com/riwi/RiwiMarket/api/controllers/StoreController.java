@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,8 +51,10 @@ public class StoreController implements IStoreController {
     }
 
     @Override
-    public ResponseEntity<StoreResponse> update(StoreRequest request, Long id) {
-        return null;
+    @PutMapping(path = "/update/{id}")
+    @Operation(summary = "Update a store",description = "update any store selected by id")
+    public ResponseEntity<StoreResponse> update(@Validated @RequestBody StoreRequest request, @PathVariable Long id) {
+        return ResponseEntity.ok(this.storeService.update(id,request));
     }
 
     @Override

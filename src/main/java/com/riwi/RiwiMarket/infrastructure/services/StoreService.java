@@ -2,7 +2,9 @@ package com.riwi.RiwiMarket.infrastructure.services;
 
 import com.riwi.RiwiMarket.api.dtos.requests.StoreRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.StoreResponse;
+import com.riwi.RiwiMarket.domain.entities.Pocket;
 import com.riwi.RiwiMarket.domain.entities.Store;
+import com.riwi.RiwiMarket.domain.repositories.PocketRepository;
 import com.riwi.RiwiMarket.domain.repositories.StoreRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IStoreService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
@@ -30,6 +32,9 @@ public class StoreService implements IStoreService {
     @Autowired
     private final SupportService<Store> supportService;
 
+    @Autowired
+    private final PocketRepository pocketRepository;
+
     @Override
     public StoreResponse create(StoreRequest request) {
         Store store = this.storeMapper.toEntity(request);
@@ -46,7 +51,20 @@ public class StoreService implements IStoreService {
 
     @Override
     public StoreResponse update(Long id, StoreRequest request) {
-        return null;
+        Store store = this.supportService.findById(storeRepository, id, "store");
+        store = this.storeMapper.toEntity(request);
+        store.setId(id);
+
+        List<Pocket> pockets = this.pocketRepository.findAll();
+        BigDecimal totalAmounth = BigDecimal.ZERO;
+        for (Pocket element : pockets) {
+            System.out.println(element.getAmount() + " ");
+            totalAmounth = totalAmounth.add(element.getAmount());
+        }
+        System.out.println("estoy imprimiendo los pockets" + pockets);
+        store.setAvailable(totalAmounth);
+
+        return this.storeMapper.toResponse(this.storeRepository.save(store));
     }
 
     @Override
