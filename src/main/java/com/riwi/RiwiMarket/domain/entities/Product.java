@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @Builder
 public class Product {
 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false, length = 13)
     private Long id;
