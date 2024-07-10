@@ -10,7 +10,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +35,7 @@ public class ProductController implements GenericController<ProductRequest, Prod
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
 
-    public ResponseEntity<ProductResponse> create(ProductRequest request) {
+    public ResponseEntity<ProductResponse> create(@Validated @RequestBody ProductRequest request) {
         return ResponseEntity.ok(this.productService.create(request));
     }
 

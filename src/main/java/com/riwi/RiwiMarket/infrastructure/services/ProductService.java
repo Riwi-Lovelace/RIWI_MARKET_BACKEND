@@ -2,16 +2,22 @@ package com.riwi.RiwiMarket.infrastructure.services;
 
 import com.riwi.RiwiMarket.api.dtos.requests.ProductRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.ProductResponse;
+import com.riwi.RiwiMarket.domain.entities.Brand;
 import com.riwi.RiwiMarket.domain.entities.Product;
 import com.riwi.RiwiMarket.domain.entities.Subcategory;
+import com.riwi.RiwiMarket.domain.repositories.BrandRepository;
 import com.riwi.RiwiMarket.domain.repositories.ProductRepository;
 import com.riwi.RiwiMarket.domain.repositories.SubcategoryRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IProductService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.ProductMapper;
+import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -29,6 +35,11 @@ public class ProductService implements IProductService {
     private final SubcategoryRepository subcategoryRepository;
     @Autowired
     private final SupportService<Subcategory> supportSubcategory;
+    @Autowired
+    private final BrandRepository brandRepository;
+
+
+
 
     @Override
     public ProductResponse create(ProductRequest request) {
@@ -36,7 +47,6 @@ public class ProductService implements IProductService {
         Subcategory subcategory= this.supportSubcategory.findById(this.subcategoryRepository ,request.getSubcategory(),"SubCategory");
 
         product.setSubcategory(subcategory);
-        product.setStatus(true);
         return this.productMapper.toResponse(this.productRepository.save(product));
     }
 
@@ -53,5 +63,17 @@ public class ProductService implements IProductService {
     @Override
     public void delete(Long aLong) {
 
+    }
+
+    @Override
+    public void addBrandToProduct(Long productId, Long brandId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new BadIdException("Product not found with the provided ID: " + productId));
+
+        Brand brand = brandRepository.findById(brandId)
+                .orElseThrow(() -> new BadIdException("Brand not found with the provided ID: " + brandId));
+
+        product.setBrand(brand);
+        productRepository.save(product);
     }
 }
