@@ -3,14 +3,12 @@ package com.riwi.RiwiMarket.api.dtos.requests;
 import com.riwi.RiwiMarket.domain.entities.Item;
 import com.riwi.RiwiMarket.util.enums.Method;
 import com.riwi.RiwiMarket.util.enums.Reason;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import jakarta.validation.constraints.NotNull;
-@Data
-@Builder
+
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class RefundRequest {
