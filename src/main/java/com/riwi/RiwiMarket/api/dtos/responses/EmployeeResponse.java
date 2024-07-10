@@ -28,8 +28,8 @@ public class EmployeeResponse {
     private BigDecimal salary;
     private Integer schedule;
     private StoreToEmployeeResponse storeId;
-    private List<PayrollToEmployeeResponse> employeeId;
-    //private List<ExpenseToEmployeeResponse> employeeId;
-    //private List<CashMachineToEmployeeResponse> employeeId;
+    private List<PayrollToEmployeeResponse> payrolls;
+    private List<ExpenseToEmployeeResponse> expenses;
+    private List<CashMachineToEmployeeResponse> cashMachines;
 
 }
