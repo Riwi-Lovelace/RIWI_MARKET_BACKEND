@@ -7,8 +7,8 @@ import com.riwi.RiwiMarket.domain.repositories.RefundRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IRefundService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.RefundMapper;
-import com.riwi.RiwiMarket.util.enums.MethodRefund;
-import com.riwi.RiwiMarket.util.enums.ReasonRefund;
+import com.riwi.RiwiMarket.util.enums.Method;
+import com.riwi.RiwiMarket.util.enums.Reason;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -45,12 +45,12 @@ public class RefundService implements IRefundService {
     }
 
     @Override
-    public List<Refund> findByMethod(MethodRefund method) {
+    public List<Refund> findByMethod(Method method) {
         return null;
     }
 
     @Override
-    public List<Refund> findByReason(ReasonRefund reason) {
+    public List<Refund> findByReason(Reason reason) {
         return null;
     }
 

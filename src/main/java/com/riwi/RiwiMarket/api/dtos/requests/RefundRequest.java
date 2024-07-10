@@ -1,7 +1,7 @@
 package com.riwi.RiwiMarket.api.dtos.requests;
 
-import com.riwi.RiwiMarket.util.enums.MethodRefund;
-import com.riwi.RiwiMarket.util.enums.ReasonRefund;
+import com.riwi.RiwiMarket.util.enums.Method;
+import com.riwi.RiwiMarket.util.enums.Reason;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +15,7 @@ import jakarta.validation.constraints.NotNull;
 public class RefundRequest {
 
     @NotNull(message = "The method of refund can't be null")
-    private MethodRefund method;
+    private Method method;
     @NotNull(message = "The reason of refund can't be null")
-    private ReasonRefund reason;
+    private Reason reason;
 }

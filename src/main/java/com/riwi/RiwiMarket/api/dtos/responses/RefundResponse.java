@@ -1,7 +1,7 @@
 package com.riwi.RiwiMarket.api.dtos.responses;
 
-import com.riwi.RiwiMarket.util.enums.MethodRefund;
-import com.riwi.RiwiMarket.util.enums.ReasonRefund;
+import com.riwi.RiwiMarket.util.enums.Method;
+import com.riwi.RiwiMarket.util.enums.Reason;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 public class RefundResponse {
 
     private Long id;
-    private MethodRefund method;
-    private ReasonRefund reason;
+    private Method method;
+    private Reason reason;
     private LocalDateTime date;
 
 }
