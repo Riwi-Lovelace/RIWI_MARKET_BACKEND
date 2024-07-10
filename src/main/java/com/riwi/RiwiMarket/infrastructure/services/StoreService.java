@@ -37,7 +37,11 @@ public class StoreService implements IStoreService {
 
     @Override
     public StoreResponse create(StoreRequest request) {
-        return null;
+        Store store = this.storeMapper.toEntity(request);
+        store.setAvailable(new BigDecimal(0));
+        store.setAddress(request.getAddress());
+
+        return this.storeMapper.toResponse(this.storeRepository.save(store));
     }
 
     @Override
