@@ -6,11 +6,17 @@ import com.riwi.RiwiMarket.api.dtos.requests.StoreRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.PocketResponse;
 import com.riwi.RiwiMarket.api.dtos.responses.StoreResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IStoreService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,8 +30,18 @@ public class StoreController implements IStoreController {
     private final IStoreService storeService;
 
     @Override
-    public ResponseEntity<StoreResponse> create(StoreRequest request) {
-        return null;
+    @PostMapping
+    @Operation(
+            summary = "Create Storage",
+            description = "Fill in the required fields to create a new storage."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Storage retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<StoreResponse> create( @Validated @RequestBody StoreRequest request) {
+        return ResponseEntity.ok(this.storeService.create(request));
     }
 
     @Override
