@@ -6,13 +6,14 @@ import com.riwi.RiwiMarket.api.dtos.requests.StoreRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.PocketResponse;
 import com.riwi.RiwiMarket.api.dtos.responses.StoreResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IStoreService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/Store")
@@ -34,8 +35,10 @@ public class StoreController implements IStoreController {
     }
 
     @Override
-    public ResponseEntity<StoreResponse> update(StoreRequest request, Long id) {
-        return null;
+    @PutMapping(path = "/update/{id}")
+    @Operation(summary = "Update a store",description = "update any store selected by id")
+    public ResponseEntity<StoreResponse> update(@Validated @RequestBody StoreRequest request, @PathVariable Long id) {
+        return ResponseEntity.ok(this.storeService.update(id,request));
     }
 
     @Override
