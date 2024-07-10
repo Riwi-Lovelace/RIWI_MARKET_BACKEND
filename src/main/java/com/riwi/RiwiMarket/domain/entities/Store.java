@@ -34,6 +34,9 @@ public class Store {
     @Column(length = 100, nullable = false)
     private String address;
 
+    @Column(length = 100,nullable = false)
+    private String email;
+
     @Column(length = 15, nullable = false)
     private String phone;
 
