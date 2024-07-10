@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -31,7 +32,9 @@ public class StoreService implements IStoreService {
 
     @Override
     public StoreResponse create(StoreRequest request) {
-        return null;
+        Store store = this.storeMapper.toEntity(request);
+        store.setAvailable(new BigDecimal(0.0));
+        return this.storeMapper.toResponse(this.storeRepository.save(store));
     }
 
     @Override
