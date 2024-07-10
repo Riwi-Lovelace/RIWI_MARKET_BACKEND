@@ -10,14 +10,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/products")
 @AllArgsConstructor
+@RequestMapping(path = "/products")
 public class ProductController implements GenericController<ProductRequest, ProductResponse,Long> {
+
+
     @Autowired
     private final IProductService productService;
 
@@ -31,7 +36,9 @@ public class ProductController implements GenericController<ProductRequest, Prod
             @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
+    }
+    )
+
 
     public ResponseEntity<ProductResponse> create(ProductRequest request) {
         return ResponseEntity.ok(this.productService.create(request));
@@ -48,7 +55,32 @@ public class ProductController implements GenericController<ProductRequest, Prod
     }
 
     @Override
-    public ResponseEntity<Void> delete(Long aLong) {
-        return null;
+    public ResponseEntity<Void> delete(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
+   
+    @PutMapping("/products/description/{id}")
+    @Operation(
+            summary = "Update product description",
+            description = "Change the description to update product description."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+
+    public ResponseEntity<ProductResponse> updateProductDescription(@PathVariable Long id, @RequestParam String description) {
+        return ResponseEntity.ok(this.productService.updateProductDescription(id,description));
+    }
+
+
+
+
+
+
+
+
 }
+

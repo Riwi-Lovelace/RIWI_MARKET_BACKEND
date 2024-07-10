@@ -4,4 +4,5 @@ import com.riwi.RiwiMarket.api.dtos.requests.ProductRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.ProductResponse;
 
 public interface IProductService extends GenericService<ProductRequest, ProductResponse,Long>{
+    ProductResponse updateProductDescription(Long id, String description);
 }
