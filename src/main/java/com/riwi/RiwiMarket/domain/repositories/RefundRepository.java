@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface RefundRepository extends JpaRepository<Refund, Long>{
 
-    List<Refund> findByReason(Method method);
+    List<Refund> findByMethod(Method method);
 
     List<Refund> findByReason(Reason reason);
 }
