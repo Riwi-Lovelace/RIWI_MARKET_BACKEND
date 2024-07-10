@@ -2,7 +2,9 @@ package com.riwi.RiwiMarket.infrastructure.services;
 
 import com.riwi.RiwiMarket.api.dtos.requests.RefundRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.RefundResponse;
+import com.riwi.RiwiMarket.domain.entities.Item;
 import com.riwi.RiwiMarket.domain.entities.Refund;
+import com.riwi.RiwiMarket.domain.repositories.ItemRepository;
 import com.riwi.RiwiMarket.domain.repositories.RefundRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IRefundService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
@@ -29,6 +31,8 @@ public class RefundService implements IRefundService {
 
     @Autowired
     RefundRepository refundRepository;
+    @Autowired
+    ItemRepository itemRepository;
 
     @Autowired
     SupportService<Refund> supportService;
@@ -36,6 +40,7 @@ public class RefundService implements IRefundService {
 
     @Override
     public RefundResponse create(RefundRequest request) {
+        //parce toca mirar como mapper item en el mapper de refund para poder usarlo aqui
         return null;
     }
 
