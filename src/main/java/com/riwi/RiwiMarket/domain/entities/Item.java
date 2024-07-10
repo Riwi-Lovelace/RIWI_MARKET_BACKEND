@@ -31,12 +31,8 @@ public class Item {
 
     @Column(nullable = false)
     private Boolean status;
-<<<<<<< HEAD
-     @Column(columnDefinition = "DECIMAL(2,2)")
-=======
 
     @Column(columnDefinition = "DECIMAL(2,2)")
->>>>>>> origin/develop
     private Double discount;
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -1,5 +1,6 @@
 package com.riwi.RiwiMarket.api.controllers;
 
+import com.riwi.RiwiMarket.api.abstract_controller.IRefundController;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/Refund")
 @AllArgsConstructor
-public class RefundController implements IRefundController{
+public class RefundController implements IRefundController {
 
     @Override
     public ResponseEntity<RefundResponse> create(RefundRequest request) {
@@ -42,6 +43,11 @@ public class RefundController implements IRefundController{
     @GetMapping(path = "/{reason}")
     @Override
     public ResponseEntity<List<RefundResponse>> getByReason() {
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<List<RefundResponse>> getByDate() {
         return null;
     }
 

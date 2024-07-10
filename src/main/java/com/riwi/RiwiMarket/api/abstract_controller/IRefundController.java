@@ -1,4 +1,4 @@
-package com.riwi.RiwiMarket.api.controllers;
+package com.riwi.RiwiMarket.api.abstract_controller;
 
 import com.riwi.RiwiMarket.api.dtos.requests.RefundRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.RefundResponse;
@@ -13,4 +13,6 @@ public interface IRefundController extends GenericController<RefundRequest, Refu
     ResponseEntity<List<RefundResponse>> getByMethod();
 
     ResponseEntity<List<RefundResponse>> getByReason();
+
+    ResponseEntity<List<RefundResponse>> getByDate();
 }

@@ -28,10 +28,7 @@ public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/develop
     @Column(nullable = false, columnDefinition = "DECIMAL(2,2)")
     private Double amount;
 
