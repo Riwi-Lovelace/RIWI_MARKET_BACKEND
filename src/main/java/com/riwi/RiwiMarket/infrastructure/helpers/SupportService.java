@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@AllArgsConstructor
 @Component
 @AllArgsConstructor
 public class SupportService<Entity> {
