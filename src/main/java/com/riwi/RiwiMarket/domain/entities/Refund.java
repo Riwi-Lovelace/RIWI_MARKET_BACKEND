@@ -46,5 +46,5 @@ public class Refund {
     
     @OneToOne
     @JoinColumn(name = "item_id", referencedColumnName = "id")
-    private Item item;
+    private Item itemId;
 }

@@ -1,5 +1,6 @@
 package com.riwi.RiwiMarket.api.dtos.responses;
 
+import com.riwi.RiwiMarket.domain.entities.Item;
 import com.riwi.RiwiMarket.util.enums.Method;
 import com.riwi.RiwiMarket.util.enums.Reason;
 import lombok.AllArgsConstructor;
@@ -19,5 +20,6 @@ public class RefundResponse {
     private Method method;
     private Reason reason;
     private LocalDateTime date;
+    private Item itemId;
 
 }
