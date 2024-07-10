@@ -18,5 +18,7 @@ public class RefundRequest {
     @NotNull(message = "The reason of refund can't be null")
     private Reason reason;
     @NotNull(message = "The item id in Refund is required")
-    private Item itemId;
+    private Integer quantity;
+    @NotNull(message = "The item id in Refund is required")
+    private Long itemId;
 }

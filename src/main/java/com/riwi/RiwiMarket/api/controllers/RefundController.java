@@ -2,6 +2,8 @@ package com.riwi.RiwiMarket.api.controllers;
 
 import com.riwi.RiwiMarket.api.abstract_controller.IRefundController;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IRefundService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/Refund")
+@Tag(name="Refund Controller")
 @AllArgsConstructor
 public class RefundController implements IRefundController {
     @Autowired

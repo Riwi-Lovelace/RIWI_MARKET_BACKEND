@@ -11,6 +11,7 @@ import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.RefundMapper;
 import com.riwi.RiwiMarket.util.enums.Method;
 import com.riwi.RiwiMarket.util.enums.Reason;
+import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -40,9 +42,14 @@ public class RefundService implements IRefundService {
 
     @Override
     public RefundResponse create(RefundRequest request) {
-        //parce toca mirar como mapper item en el mapper de refund para poder usarlo aqui
-        return null;
+        Refund refund = this.returnMapper.toEntity(request);
+        Item item =itemRepository.findById(request.getItemId()).orElseThrow(() -> new BadRequestException("ID NOT FOUND"));
+        refund.setItemId(item);
+        item.setQuantity(item.getQuantity()-request.getQuantity());
+        itemRepository.save(item);
+        return returnMapper.toResponse(refundRepository.save(refund));
     }
+    
 
     @Override
     public Page<RefundResponse> getAll(int page, int size) {

@@ -40,6 +40,8 @@ public class Refund {
     @Enumerated(EnumType.STRING)
     private Reason reason;
 
+    @Column(nullable = false)
+    private Integer quantity;
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime date;
