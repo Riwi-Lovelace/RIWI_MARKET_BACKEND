@@ -2,6 +2,7 @@ package com.riwi.RiwiMarket.api.controllers;
 
 import com.riwi.RiwiMarket.api.abstract_controller.IStoreController;
 import com.riwi.RiwiMarket.api.dtos.requests.PocketRequest;
+import com.riwi.RiwiMarket.api.dtos.requests.StoreRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.PocketResponse;
 import com.riwi.RiwiMarket.api.dtos.responses.StoreResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IStoreService;
@@ -21,18 +22,19 @@ public class StoreController implements IStoreController {
 
     @Autowired
     private final IStoreService storeService;
+
     @Override
-    public ResponseEntity<PocketResponse> create(PocketRequest request) {
+    public ResponseEntity<StoreResponse> create(StoreRequest request) {
         return null;
     }
 
     @Override
-    public ResponseEntity<PocketResponse> read(Long id) {
+    public ResponseEntity<StoreResponse> read(Long id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<PocketResponse> update(PocketRequest request, Long id) {
+    public ResponseEntity<StoreResponse> update(StoreRequest request, Long id) {
         return null;
     }
 
