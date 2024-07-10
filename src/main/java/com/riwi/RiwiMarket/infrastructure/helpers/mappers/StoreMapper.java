@@ -13,5 +13,5 @@ import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface StoreMapper extends GenericMapper<StoreRequest, StoreResponse, Store>{
-    List<StoreResponse> listEntitiesToPocketResp(List<Store> stores);
+    List<StoreResponse> listEntitiesToStoreResp(List<Store> stores);
 }

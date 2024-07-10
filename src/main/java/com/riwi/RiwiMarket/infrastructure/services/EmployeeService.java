@@ -1,12 +1,12 @@
 package com.riwi.RiwiMarket.infrastructure.services;
 
-import com.riwi.RiwiMarket.api.dtos.requests.StoreRequest;
-import com.riwi.RiwiMarket.api.dtos.responses.StoreResponse;
-import com.riwi.RiwiMarket.domain.entities.Store;
-import com.riwi.RiwiMarket.domain.repositories.StoreRepository;
-import com.riwi.RiwiMarket.infrastructure.abstract_services.IStoreService;
+import com.riwi.RiwiMarket.api.dtos.requests.EmployeeRequest;
+import com.riwi.RiwiMarket.api.dtos.responses.EmployeeResponse;
+import com.riwi.RiwiMarket.domain.entities.Employee;
+import com.riwi.RiwiMarket.domain.repositories.EmployeeRepository;
+import com.riwi.RiwiMarket.infrastructure.abstract_services.IEmployeeService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
-import com.riwi.RiwiMarket.infrastructure.helpers.mappers.StoreMapper;
+import com.riwi.RiwiMarket.infrastructure.helpers.mappers.EmployeeMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,29 +18,29 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class StoreService implements IStoreService {
+public class EmployeeService implements IEmployeeService {
 
     @Autowired
-    private final StoreRepository storeRepository;
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
-    private final StoreMapper storeMapper;
+    private final EmployeeMapper employeeMapper;
 
     @Autowired
-    private final SupportService<Store> supportService;
+    private final SupportService<Employee> supportService;
 
     @Override
-    public StoreResponse create(StoreRequest request) {
+    public EmployeeResponse create(EmployeeRequest request) {
         return null;
     }
 
     @Override
-    public StoreResponse read(Long id) {
+    public EmployeeResponse read(Long id) {
         return null;
     }
 
     @Override
-    public StoreResponse update(Long id, StoreRequest request) {
+    public EmployeeResponse update(Long id, EmployeeRequest request) {
         return null;
     }
 
@@ -50,7 +50,7 @@ public class StoreService implements IStoreService {
     }
 
     @Override
-    public Page<StoreResponse> getAll(int page, int size) {
+    public Page<EmployeeResponse> getAll(int page, int size) {
         return null;
     }
 
