@@ -6,10 +6,10 @@ import com.riwi.RiwiMarket.domain.entities.Refund;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
-import java.util.List;
+
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface RefundMapper extends GenericMapper<RefundRequest, RefundResponse, Refund>{
 
-    List<RefundResponse> RefundListToResponseList(List<Refund> refunds);
+    RefundResponse entityToResponse(Refund refund);
 }

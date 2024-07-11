@@ -21,4 +21,6 @@ public interface IRefundService extends GenericService<RefundRequest, RefundResp
     List<Refund> findByReason(Reason reason);
 
     List<Refund> findByDate(LocalDate startDate, LocalDate endDate);
+
+    public RefundResponse getById(Long id);
 }

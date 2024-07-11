@@ -1,6 +1,7 @@
 package com.riwi.RiwiMarket.infrastructure.services;
 
 import com.riwi.RiwiMarket.api.dtos.requests.RefundRequest;
+import com.riwi.RiwiMarket.api.dtos.responses.ItemResponse;
 import com.riwi.RiwiMarket.api.dtos.responses.RefundResponse;
 import com.riwi.RiwiMarket.domain.entities.Refund;
 import com.riwi.RiwiMarket.domain.repositories.RefundRepository;
@@ -12,6 +13,7 @@ import com.riwi.RiwiMarket.util.enums.Reason;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,7 @@ public class RefundService implements IRefundService {
     RefundMapper returnMapper;
 
     @Autowired
-    RefundRepository refundRepository;
+    private final RefundRepository refundRepository;
 
     @Autowired
     SupportService<Refund> supportService;
@@ -41,7 +43,11 @@ public class RefundService implements IRefundService {
 
     @Override
     public Page<RefundResponse> getAll(int page, int size) {
-        return null;
+        if (page < 0) page = 0;
+
+        PageRequest paginable = PageRequest.of(page, size);
+
+        return this.refundRepository.findAll(paginable).map(this.returnMapper::entityToResponse);
     }
 
     @Override
@@ -73,5 +79,15 @@ public class RefundService implements IRefundService {
     @Override
     public void delete(Long aLong) {
         //Not contemplated
+    }
+
+
+    public Refund find(Long id){
+        return this.refundRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public RefundResponse getById(Long id){
+        return this.returnMapper.entityToResponse(this.find(id));
     }
 }
