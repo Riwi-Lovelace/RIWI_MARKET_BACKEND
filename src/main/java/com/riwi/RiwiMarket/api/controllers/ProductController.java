@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.AllArgsConstructor;
+
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,9 +81,22 @@ public class ProductController implements GenericController<ProductRequest, Prod
 
 
 
+@PutMapping("/products/price/{id}")
+    @Operation(
+            summary = "Update product price",
+            description = "add and change the price to product."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+
+    public ResponseEntity<ProductResponse> addProductPrice(@PathVariable Long id, @RequestParam BigDecimal price) {
+        return ResponseEntity.ok(this.productService.addProductPrice(id,price));
 
 
 
+ }
 
 }
-
