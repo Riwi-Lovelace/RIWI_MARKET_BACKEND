@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,6 +36,7 @@ public class StoreService implements IStoreService {
         Store store = this.storeMapper.toEntity(request);
         store.setAvailable(new BigDecimal(0));
         store.setAddress(request.getAddress());
+        store.setEmployees(new ArrayList<>());
 
         return this.storeMapper.toResponse(this.storeRepository.save(store));
     }

@@ -30,7 +30,7 @@ public class StoreController implements IStoreController {
     private final IStoreService storeService;
 
     @Override
-    @PostMapping
+/*    @PostMapping
     @Operation(
             summary = "Create Storage",
             description = "Fill in the required fields to create a new storage."
@@ -39,9 +39,9 @@ public class StoreController implements IStoreController {
             @ApiResponse(responseCode = "200", description = "Storage retrieved successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
+    })*/
     public ResponseEntity<StoreResponse> create( @Validated @RequestBody StoreRequest request) {
-        return ResponseEntity.ok(this.storeService.create(request));
+        return null; /*ResponseEntity.ok(this.storeService.create(request))*/
     }
 
     @Override
