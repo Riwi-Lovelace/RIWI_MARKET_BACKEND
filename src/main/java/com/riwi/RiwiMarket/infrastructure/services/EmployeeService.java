@@ -7,6 +7,7 @@ import com.riwi.RiwiMarket.domain.repositories.EmployeeRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IEmployeeService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.EmployeeMapper;
+import com.riwi.RiwiMarket.util.enums.RoleEmployee;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,7 +42,28 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public EmployeeResponse update(Long id, EmployeeRequest request) {
-        return null;
+       Employee employee = this.supportService.findById(employeeRepository, id,"employee");
+
+       if (isSellerUpdate(request)){
+           employee.setEmail(request.getEmail());
+           employee.setPhone(request.getPhone());
+           employee.setAddress(request.getAddress());
+       }else {
+           employee.setName(request.getName());
+           employee.setDocument(request.getDocument());
+           employee.setEmail(request.getEmail());
+           employee.setPhone(request.getPhone());
+           employee.setAddress(request.getAddress());
+           employee.setPassword(request.getPassword());
+           employee.setSalary(request.getSalary());
+           employee.setRole(request.getRole());
+           employee.setSchedule(request.getSchedule());
+       }
+
+       Employee updatedEmployee = employeeRepository.save(employee);
+       return employeeMapper.toResponse(updatedEmployee);
+
+
     }
 
     @Override
@@ -61,4 +83,10 @@ public class EmployeeService implements IEmployeeService {
         List<T> subList = list.subList(start, end);
         return new PageImpl<>(subList, PageRequest.of(page, size), list.size());
     }
+
+    //determine if the requester is a seller
+    private boolean isSellerUpdate(EmployeeRequest request){
+        return request.getRole().equals(RoleEmployee.SELLER);
+    }
+
 }

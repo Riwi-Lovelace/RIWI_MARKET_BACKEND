@@ -4,13 +4,15 @@ import com.riwi.RiwiMarket.api.abstract_controller.IEmployeeController;
 import com.riwi.RiwiMarket.api.dtos.requests.EmployeeRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.EmployeeResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IEmployeeService;
+import com.riwi.RiwiMarket.infrastructure.services.EmployeeService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/Employee")
@@ -32,9 +34,12 @@ public class EmployeeController implements IEmployeeController {
     }
 
     @Override
-    public ResponseEntity<EmployeeResponse> update(EmployeeRequest request, Long id) {
-        return null;
+    @PutMapping(path = "update/{id}")
+    @Operation(summary = "Update a employee",description = "update any employee selected by id")
+    public ResponseEntity<EmployeeResponse> update(@Validated @RequestBody EmployeeRequest request,@PathVariable Long id) {
+        return ResponseEntity.ok(this.employeeService.update(id,request));
     }
+
 
     @Override
     public ResponseEntity<Void> delete(Long id) {
