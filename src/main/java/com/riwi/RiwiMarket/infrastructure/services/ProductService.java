@@ -10,9 +10,7 @@ import com.riwi.RiwiMarket.infrastructure.abstract_services.IProductService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.ProductMapper;
 import lombok.AllArgsConstructor;
-
 import java.math.BigDecimal;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,5 +72,4 @@ public class ProductService implements IProductService {
         product.setPrice(price);
         return productMapper.toResponse(productRepository.save(product));
       }
-
-}
+    }
