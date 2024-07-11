@@ -54,4 +54,16 @@ public class ProductService implements IProductService {
     public void delete(Long aLong) {
 
     }
+
+    @Override
+    public ProductResponse updateProductDescription(Long id, String description) {
+      Product product =  SupportService.findById(productRepository, id, "product");
+      product.setDescription(description);
+      return productMapper.toResponse(productRepository.save(product));
+    }
+
+    
+
+
+
 }
