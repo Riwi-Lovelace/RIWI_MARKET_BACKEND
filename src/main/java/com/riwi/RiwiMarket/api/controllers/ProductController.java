@@ -55,8 +55,7 @@ public class ProductController implements GenericController<ProductRequest, Prod
     public ResponseEntity<Void> delete(Long aLong) {
         return null;
     }
-
-
+    
     @PutMapping("/brand/{id}")
     @Operation(
             summary = "Add Brand to Product",
