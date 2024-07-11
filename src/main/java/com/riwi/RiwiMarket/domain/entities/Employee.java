@@ -95,7 +95,7 @@ public class Employee {
     private List<CashMachine> cashMachines;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id", referencedColumnName = "id")
     private Store storeId;
 

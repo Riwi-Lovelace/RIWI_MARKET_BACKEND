@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -52,7 +53,6 @@ public class EmployeeService implements IEmployeeService {
 
     }
 
-
     public Page<EmployeeResponse> getAll(int page, int size, SortEmployee sortEmployee) {
         if (page < 0) page = 0;
 
@@ -65,16 +65,43 @@ public class EmployeeService implements IEmployeeService {
         }
 
         System.out.println("lo que devuelve de empleados " + this.employeeRepository.findAll());
+        EmployeeResponse employeeResponse = new EmployeeResponse();
         for(Employee employee: this.employeeRepository.findAll()){
             System.out.println("name" + employee.getName());
             System.out.println("email" + employee.getEmail());
             System.out.println("role" + employee.getRole());
             System.out.println("Phone" + employee.getPhone());
-            System.out.println("CashMachines" + employee.getCashMachines());
-            System.out.println("Payroll" + employee.getPayrolls());
-            System.out.println("Expense" + employee.getExpenses());
+            System.out.println("Phone" + employee.getPayrolls());
+
+            try{
+                //System.out.println("Esto es StoreId" + employee.getStoreId().getName());
+            }catch (Exception e){
+                System.out.println("El errror es " + e.getMessage());
+            }
+            if(employee.getStoreId() == null){
+                System.out.println("Estoy vacio");
+            }
+//            System.out.println("CashMachines" + employee.getCashMachines());
+//            System.out.println("Payroll" + employee.getPayrolls());
+//            System.out.println("Expense" + employee.getExpenses());
+
+            employeeResponse = this.employeeMapper.toResponse(employee);
+            System.out.println(" ");
+            System.out.println(" ");
+            System.out.println("name Response: " + employeeResponse.getName());
+            System.out.println("email Response: " + employeeResponse.getEmail());
+            System.out.println("role Response: " + employeeResponse.getRole());
+            System.out.println("Phone Response: " + employeeResponse.getPhone());
+            //System.out.println("StoreID " + employeeResponse.getStoreId().getNit());
         }
         return this.employeeRepository.findAll(pagination).map(this.employeeMapper::toResponse);
+    }
+
+    @Override
+    public List<EmployeeResponse> getAllNoPage() {
+            return this.employeeRepository.findAll().
+                    stream().
+                    map(employee -> this.employeeMapper.toResponse(employee)).collect(Collectors.toList());
     }
 
     //function to convert ArrayList of an entity to Page of entity
