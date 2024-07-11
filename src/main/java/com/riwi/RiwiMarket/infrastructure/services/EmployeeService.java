@@ -66,8 +66,13 @@ public class EmployeeService implements IEmployeeService {
 
         System.out.println("lo que devuelve de empleados " + this.employeeRepository.findAll());
         for(Employee employee: this.employeeRepository.findAll()){
-            System.out.println(employee.getName());
-            System.out.println(employee.toString());
+            System.out.println("name" + employee.getName());
+            System.out.println("email" + employee.getEmail());
+            System.out.println("role" + employee.getRole());
+            System.out.println("Phone" + employee.getPhone());
+            System.out.println("CashMachines" + employee.getCashMachines());
+            System.out.println("Payroll" + employee.getPayrolls());
+            System.out.println("Expense" + employee.getExpenses());
         }
         return this.employeeRepository.findAll(pagination).map(this.employeeMapper::toResponse);
     }

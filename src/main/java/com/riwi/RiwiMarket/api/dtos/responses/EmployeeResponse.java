@@ -26,5 +26,5 @@ public class EmployeeResponse {
     private String password;
     private BigDecimal salary;
     private Integer schedule;
-    private Store storeId;
+    private StoreToEmployeeResponse storeId;
 }
