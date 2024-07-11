@@ -8,6 +8,5 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductBrandRequest {
-    private Long productId;
     private Long brandId;
 }

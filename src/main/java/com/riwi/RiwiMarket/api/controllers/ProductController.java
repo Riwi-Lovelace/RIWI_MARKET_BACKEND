@@ -57,7 +57,7 @@ public class ProductController implements GenericController<ProductRequest, Prod
     }
 
 
-    @PutMapping("/description")
+    @PutMapping("/brand/{id}")
     @Operation(
             summary = "Add Brand to Product",
             description = "Add an existing brand to an existing product by providing their IDs."
@@ -68,9 +68,10 @@ public class ProductController implements GenericController<ProductRequest, Prod
             @ApiResponse(responseCode = "404", description = "Product or brand not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<Map<String, String>> addBrandToProduct(@Validated @RequestBody ProductBrandRequest request) {
-        Long productId = request.getProductId();
+    public ResponseEntity<Map<String, String>> addBrandToProduct(@Validated @RequestBody ProductBrandRequest request, @PathVariable Long id) {
         Long brandId = request.getBrandId();
+        Long productId = id;
+
 
         productService.addBrandToProduct(productId, brandId);
 

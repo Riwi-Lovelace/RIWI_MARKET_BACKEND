@@ -22,13 +22,10 @@ import org.springframework.stereotype.Service;
 public class ProductService implements IProductService {
     @Autowired
     private final ProductRepository productRepository;
-
     @Autowired
     private final ProductMapper productMapper;
-
     @Autowired
     private final SupportService<Product> SupportService;
-
     @Autowired
     private final SubcategoryRepository subcategoryRepository;
     @Autowired
