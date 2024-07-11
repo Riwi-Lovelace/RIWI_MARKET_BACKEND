@@ -35,7 +35,7 @@ public class EmployeeController implements IEmployeeController {
 
     @Override
     @PutMapping(path = "update/{id}")
-    @Operation(summary = "Update a employee",description = "update any employee selected by id")
+    @Operation(summary = "Update a employee",description = "update any employee selected by id, those with the role of admin are able to modify all information but Seller role can only modify email, phone and address")
     public ResponseEntity<EmployeeResponse> update(@Validated @RequestBody EmployeeRequest request,@PathVariable Long id) {
         return ResponseEntity.ok(this.employeeService.update(id,request));
     }
