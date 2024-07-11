@@ -44,11 +44,9 @@ public class EmployeeService implements IEmployeeService {
     public EmployeeResponse update(Long id, EmployeeRequest request) {
        Employee employee = this.supportService.findById(employeeRepository, id,"employee");
 
-       if (isSellerUpdate(request)){
-           employee.setEmail(request.getEmail());
-           employee.setPhone(request.getPhone());
-           employee.setAddress(request.getAddress());
-       }else {
+       RoleEmployee initialRole = employee.getRole();
+
+       if (initialRole == RoleEmployee.ADMIN){
            employee.setName(request.getName());
            employee.setDocument(request.getDocument());
            employee.setEmail(request.getEmail());
@@ -58,6 +56,10 @@ public class EmployeeService implements IEmployeeService {
            employee.setSalary(request.getSalary());
            employee.setRole(request.getRole());
            employee.setSchedule(request.getSchedule());
+       }else {
+           employee.setEmail(request.getEmail());
+           employee.setPhone(request.getPhone());
+           employee.setAddress(request.getAddress());
        }
 
        Employee updatedEmployee = employeeRepository.save(employee);
@@ -82,11 +84,6 @@ public class EmployeeService implements IEmployeeService {
         int end = Math.min((start + PageRequest.of(page, size).getPageSize()), list.size());
         List<T> subList = list.subList(start, end);
         return new PageImpl<>(subList, PageRequest.of(page, size), list.size());
-    }
-
-    //determine if the requester is a seller
-    private boolean isSellerUpdate(EmployeeRequest request){
-        return request.getRole().equals(RoleEmployee.SELLER);
     }
 
 }
