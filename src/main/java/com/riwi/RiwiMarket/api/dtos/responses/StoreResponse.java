@@ -20,5 +20,5 @@ public class StoreResponse {
     private String phone;
     private String nit;
     private BigDecimal available;
-    private List<EmployeeToStoreResponse> employees;
+    private List<StoreEmployeeList> employees;
 }
