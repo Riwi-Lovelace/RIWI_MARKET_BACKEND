@@ -63,7 +63,7 @@ public class EmployeeController implements IEmployeeController {
     @GetMapping(path = "/paginate")
    public ResponseEntity<Page<EmployeeResponse>> getAllPage(){
 
-        return ResponseEntity.ok(this.employeeService.getAll(5, 2,SortEmployee.ASC));
+        return ResponseEntity.ok(this.employeeService.getAll(5, 1,SortEmployee.ASC));
     }
 
 }

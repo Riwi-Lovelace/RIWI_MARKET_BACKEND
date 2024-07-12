@@ -11,10 +11,7 @@ import com.riwi.RiwiMarket.util.enums.SortCustomer;
 import com.riwi.RiwiMarket.util.enums.SortEmployee;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -54,7 +51,7 @@ public class EmployeeService implements IEmployeeService {
 
     }
 
-
+    @Override
     public Page<EmployeeResponse> getAll(int page, int size, SortEmployee sortEmployee) {
         if (page < 0) page = 0;
 
@@ -98,7 +95,14 @@ public class EmployeeService implements IEmployeeService {
 //            System.out.println("Phone Response: " + employeeResponse.getPhone());
 //            //System.out.println("StoreID " + employeeResponse.getStoreId().getNit());
 //        }
-        return this.employeeRepository.findAll(pagination).map(this.employeeMapper::toResponse);
+        //Pageable paging = PageRequest.of((page-1), size);
+        System.out.println("Esto es page" +page);
+        System.out.println("Esto es size" + size);
+        Pageable paging = PageRequest.of(0, 5);
+
+        Page<Employee> pagedResult = this.employeeRepository.findAll(paging);
+        return pagedResult.map(this.employeeMapper::toResponse);
+        //return this.employeeRepository.findAll(pagination).map(this.employeeMapper::toResponse);
         //return this.employeeRepository.findAll(pagination).stream().map(employee -> this.employeeMapper.toResponse(employee)).collect(Collectors.toList());
     }
 
