@@ -3,6 +3,7 @@ package com.riwi.RiwiMarket.api.controllers;
 import com.riwi.RiwiMarket.api.abstract_controller.IEmployeeController;
 import com.riwi.RiwiMarket.api.dtos.requests.EmployeeRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.EmployeeResponse;
+import com.riwi.RiwiMarket.api.dtos.responses.StoreResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IEmployeeService;
 import com.riwi.RiwiMarket.util.enums.SortCustomer;
 import com.riwi.RiwiMarket.util.enums.SortEmployee;
@@ -57,6 +58,12 @@ public class EmployeeController implements IEmployeeController {
     public List<EmployeeResponse> getAll() {
 
         return this.employeeService.getAllNoPage();
+    }
+
+    @GetMapping(path = "/paginate")
+   public ResponseEntity<Page<EmployeeResponse>> getAllPage(){
+
+        return ResponseEntity.ok(this.employeeService.getAll(5, 2,SortEmployee.ASC));
     }
 
 }
