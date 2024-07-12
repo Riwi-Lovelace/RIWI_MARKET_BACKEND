@@ -7,5 +7,4 @@ import org.springframework.http.ResponseEntity;
 
 public interface IEmployeeController extends GenericController<EmployeeRequest, EmployeeResponse, Long>{
 
-    ResponseEntity<Page<EmployeeResponse>> getAll();
 }
