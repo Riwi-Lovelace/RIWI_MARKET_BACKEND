@@ -1,6 +1,6 @@
 package com.riwi.RiwiMarket.api.dtos.responses;
 
-import com.riwi.RiwiMarket.domain.entities.Subcategory;
+//import com.riwi.RiwiMarket.domain.entities.Subcategory;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -16,6 +16,6 @@ public class ProductResponse {
     private String name;
     private BigDecimal iva;
     private Boolean status;
-    private Subcategory subcategory;
+    //private SubcategoryResponse subcategory;
     private String urlImg;
 }
