@@ -31,5 +31,4 @@ public class EmployeeResponse {
     private List<PayrollToEmployeeResponse> payrolls;
     private List<ExpenseToEmployeeResponse> expenses;
     private List<CashMachineToEmployeeResponse> cashMachines;
-
 }
