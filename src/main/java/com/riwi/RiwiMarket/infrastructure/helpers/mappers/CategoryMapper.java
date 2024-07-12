@@ -8,4 +8,5 @@ import org.mapstruct.MappingConstants;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CategoryMapper extends  GenericMapper<CategoryRequest, CategoryResponse, Category> {
+    
 }
