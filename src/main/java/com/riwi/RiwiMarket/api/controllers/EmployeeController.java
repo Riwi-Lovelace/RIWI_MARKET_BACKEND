@@ -61,9 +61,12 @@ public class EmployeeController implements IEmployeeController {
     }
 
     @GetMapping(path = "/paginate")
-   public ResponseEntity<Page<EmployeeResponse>> getAllPage(){
+   public ResponseEntity<Page<EmployeeResponse>> getAllPage(@RequestParam(defaultValue = "1") int page,
+                                                            @RequestParam(defaultValue = "5") int size,
+                                                            @RequestHeader(required = false) SortEmployee sortEmployee){
 
-        return ResponseEntity.ok(this.employeeService.getAll(5, 1,SortEmployee.ASC));
+        if (Objects.isNull(sortEmployee)) sortEmployee = SortEmployee.NONE;
+        return ResponseEntity.ok(this.employeeService.getAll(page,size,sortEmployee));
     }
 
 }
