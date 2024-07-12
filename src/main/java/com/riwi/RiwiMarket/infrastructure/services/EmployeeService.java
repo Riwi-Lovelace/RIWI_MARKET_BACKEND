@@ -4,9 +4,11 @@ import com.riwi.RiwiMarket.api.dtos.requests.EmployeeRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.EmployeeResponse;
 import com.riwi.RiwiMarket.domain.entities.Employee;
 import com.riwi.RiwiMarket.domain.repositories.EmployeeRepository;
+import com.riwi.RiwiMarket.domain.repositories.StoreRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IEmployeeService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.EmployeeMapper;
+import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 import com.riwi.RiwiMarket.util.enums.RoleEmployee;
 import com.riwi.RiwiMarket.util.enums.SortCustomer;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,6 +30,9 @@ public class EmployeeService implements IEmployeeService {
 
     @Autowired
     private final EmployeeRepository employeeRepository;
+
+    @Autowired
+    private final StoreRepository storeRepository;
 
     @Autowired
     private final EmployeeMapper employeeMapper;
@@ -40,8 +46,13 @@ public class EmployeeService implements IEmployeeService {
             throw new BadRequestException("There is already an employee with such a document");
         }
 
-        Employee saveEmployee = employeeRepository.save(employeeMapper.toEntity(request));
-        return employeeMapper.toResponse(saveEmployee);
+        Employee employee = employeeMapper.toEntity(request);
+        employee.setStoreId(this.storeRepository.findById(request.getStore_id()).orElseThrow(()-> new BadIdException("Store")));
+        employee.setCashMachines(new ArrayList<>());
+        employee.setExpenses(new ArrayList<>());
+        employee.setPayrolls(new ArrayList<>());
+    
+        return employeeMapper.toResponse(this.employeeRepository.save(employee));
     }
 
     @Override
