@@ -8,6 +8,7 @@ import com.riwi.RiwiMarket.domain.repositories.ItemRepository;
 import com.riwi.RiwiMarket.domain.repositories.RefundRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IRefundService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
+import com.riwi.RiwiMarket.infrastructure.helpers.mappers.ItemMapper;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.RefundMapper;
 import com.riwi.RiwiMarket.util.enums.Method;
 import com.riwi.RiwiMarket.util.enums.Reason;
@@ -23,7 +24,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-
 @Service
 @AllArgsConstructor
 public class RefundService implements IRefundService {
@@ -38,18 +38,29 @@ public class RefundService implements IRefundService {
 
     @Autowired
     SupportService<Refund> supportService;
-
+    @Autowired
+    ItemMapper itemMapper;
 
     @Override
     public RefundResponse create(RefundRequest request) {
         Refund refund = this.returnMapper.toEntity(request);
-        Item item =itemRepository.findById(request.getItemId()).orElseThrow(() -> new BadRequestException("ID NOT FOUND"));
+        Item item = itemRepository.findById(request.getItemId())
+                .orElseThrow(() -> new BadRequestException("ID NOT FOUND"));
+        
         refund.setItemId(item);
-        item.setQuantity(item.getQuantity()-request.getQuantity());
+        int valor=(item.getQuantity() - request.getQuantity()) ;
+        if (valor==0) {
+            item.setStatus(false);
+            item.setQuantity(valor);
+
+        }else{
+                item.setQuantity(valor);
+
+        }
+
         itemRepository.save(item);
         return returnMapper.toResponse(refundRepository.save(refund));
     }
-    
 
     @Override
     public Page<RefundResponse> getAll(int page, int size) {
@@ -78,12 +89,12 @@ public class RefundService implements IRefundService {
 
     @Override
     public RefundResponse update(Long aLong, RefundRequest request) {
-        //Not contemplated
+        // Not contemplated
         return null;
     }
 
     @Override
     public void delete(Long aLong) {
-        //Not contemplated
+        // Not contemplated
     }
 }

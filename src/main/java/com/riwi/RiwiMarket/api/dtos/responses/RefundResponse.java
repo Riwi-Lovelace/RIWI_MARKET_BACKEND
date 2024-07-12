@@ -19,6 +19,6 @@ public class RefundResponse {
     private Reason reason;
     private LocalDateTime date;
     private Integer quantity;
-    private Item itemId;
+    private ItemResponse itemId;
 
 }

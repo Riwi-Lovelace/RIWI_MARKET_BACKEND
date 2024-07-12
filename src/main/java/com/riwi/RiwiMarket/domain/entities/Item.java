@@ -1,6 +1,7 @@
 package com.riwi.RiwiMarket.domain.entities;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -39,8 +40,8 @@ public class Item {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
-    @OneToOne(mappedBy = "itemId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Refund refundId;
+    @OneToMany(mappedBy = "itemId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Refund> refundId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sale_id" , referencedColumnName = "id")
