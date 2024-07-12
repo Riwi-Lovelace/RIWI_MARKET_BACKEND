@@ -7,6 +7,7 @@ import com.riwi.RiwiMarket.domain.repositories.EmployeeRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IEmployeeService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.EmployeeMapper;
+import com.riwi.RiwiMarket.util.enums.RoleEmployee;
 import com.riwi.RiwiMarket.util.enums.SortCustomer;
 import com.riwi.RiwiMarket.util.enums.SortEmployee;
 import lombok.AllArgsConstructor;
@@ -44,7 +45,30 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public EmployeeResponse update(Long id, EmployeeRequest request) {
-        return null;
+       Employee employee = this.supportService.findById(employeeRepository, id,"employee");
+
+       RoleEmployee initialRole = employee.getRole();
+
+       if (initialRole == RoleEmployee.ADMIN){
+           employee.setName(request.getName());
+           employee.setDocument(request.getDocument());
+           employee.setEmail(request.getEmail());
+           employee.setPhone(request.getPhone());
+           employee.setAddress(request.getAddress());
+           employee.setPassword(request.getPassword());
+           employee.setSalary(request.getSalary());
+           employee.setRole(request.getRole());
+           employee.setSchedule(request.getSchedule());
+       }else {
+           employee.setEmail(request.getEmail());
+           employee.setPhone(request.getPhone());
+           employee.setAddress(request.getAddress());
+       }
+
+       Employee updatedEmployee = employeeRepository.save(employee);
+       return employeeMapper.toResponse(updatedEmployee);
+
+
     }
 
     @Override
@@ -84,4 +108,5 @@ public class EmployeeService implements IEmployeeService {
         List<T> subList = list.subList(start, end);
         return new PageImpl<>(subList, PageRequest.of(page, size), list.size());
     }
+
 }
