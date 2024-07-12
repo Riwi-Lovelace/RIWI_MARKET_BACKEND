@@ -7,6 +7,7 @@ import com.riwi.RiwiMarket.domain.repositories.EmployeeRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IEmployeeService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.EmployeeMapper;
+import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 import com.riwi.RiwiMarket.util.enums.RoleEmployee;
 import com.riwi.RiwiMarket.util.enums.SortCustomer;
 import com.riwi.RiwiMarket.util.enums.SortEmployee;
@@ -35,7 +36,12 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public EmployeeResponse create(EmployeeRequest request) {
-        return null;
+        if (!employeeRepository.findByDocument(request.getDocument()).isEmpty()) {
+            throw new BadRequestException("There is already an employee with such a document");
+        }
+
+        Employee saveEmployee = employeeRepository.save(employeeMapper.toEntity(request));
+        return employeeMapper.toResponse(saveEmployee);
     }
 
     @Override
