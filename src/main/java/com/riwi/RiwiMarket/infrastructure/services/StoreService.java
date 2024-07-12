@@ -48,7 +48,7 @@ public class StoreService implements IStoreService {
 
     @Override
     public StoreResponse read(Long id) {
-        return null;
+        return this.storeMapper.toResponse(this.supportService.findById(storeRepository,id,"Store"));
     }
 
     @Override
