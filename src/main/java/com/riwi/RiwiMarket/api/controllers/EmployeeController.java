@@ -19,13 +19,14 @@ import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Objects;
@@ -62,8 +63,12 @@ public class EmployeeController implements IEmployeeController {
     }
 
     @Override
-    public ResponseEntity<EmployeeResponse> read(Long id) {
-        return null;
+    @GetMapping(path = "/{id}")
+    @Operation(
+            summary = "Get information of an employee.",
+            description = "In this section you will find info of an employee by giving his/her Id.")
+    public ResponseEntity<EmployeeResponse> read(@PathVariable Long id) {
+        return ResponseEntity.ok(employeeService.read(id));
     }
 
     @Override
