@@ -1,10 +1,7 @@
 package com.riwi.RiwiMarket.api.dtos.requests;
 
 import com.riwi.RiwiMarket.util.enums.RoleEmployee;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -22,6 +19,7 @@ public class EmployeeRequest {
     @NotBlank(message = "document is required")
     private String document;
     @NotBlank(message = "email is required")
+    @Email(message = "the email format must be valid")
     @Size(min = 0, max = 100, message = "email exceeds the number of characters allowed(100)")
     private String email;
     @NotNull(message = "role is required")
