@@ -47,11 +47,11 @@ public class EmployeeService implements IEmployeeService {
         }
 
         Employee employee = employeeMapper.toEntity(request);
-        employee.setStoreId(this.storeRepository.findById(request.getStore_id()).orElseThrow(()-> new BadIdException("Store")));
+        employee.setStoreId(this.storeRepository.findById(request.getStore_id()).orElseThrow(() -> new BadIdException("Store")));
         employee.setCashMachines(new ArrayList<>());
         employee.setExpenses(new ArrayList<>());
         employee.setPayrolls(new ArrayList<>());
-    
+
         return employeeMapper.toResponse(this.employeeRepository.save(employee));
     }
 
@@ -62,28 +62,28 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public EmployeeResponse update(Long id, EmployeeRequest request) {
-       Employee employee = this.supportService.findById(employeeRepository, id,"employee");
+        Employee employee = this.supportService.findById(employeeRepository, id, "employee");
 
-       RoleEmployee initialRole = employee.getRole();
+        RoleEmployee initialRole = employee.getRole();
 
-       if (initialRole == RoleEmployee.ADMIN){
-           employee.setName(request.getName());
-           employee.setDocument(request.getDocument());
-           employee.setEmail(request.getEmail());
-           employee.setPhone(request.getPhone());
-           employee.setAddress(request.getAddress());
-           employee.setPassword(request.getPassword());
-           employee.setSalary(request.getSalary());
-           employee.setRole(request.getRole());
-           employee.setSchedule(request.getSchedule());
-       }else {
-           employee.setEmail(request.getEmail());
-           employee.setPhone(request.getPhone());
-           employee.setAddress(request.getAddress());
-       }
+        if (initialRole == RoleEmployee.ADMIN) {
+            employee.setName(request.getName());
+            employee.setDocument(request.getDocument());
+            employee.setEmail(request.getEmail());
+            employee.setPhone(request.getPhone());
+            employee.setAddress(request.getAddress());
+            employee.setPassword(request.getPassword());
+            employee.setSalary(request.getSalary());
+            employee.setRole(request.getRole());
+            employee.setSchedule(request.getSchedule());
+        } else {
+            employee.setEmail(request.getEmail());
+            employee.setPhone(request.getPhone());
+            employee.setAddress(request.getAddress());
+        }
 
-       Employee updatedEmployee = employeeRepository.save(employee);
-       return employeeMapper.toResponse(updatedEmployee);
+        Employee updatedEmployee = employeeRepository.save(employee);
+        return employeeMapper.toResponse(updatedEmployee);
 
 
     }
@@ -92,7 +92,6 @@ public class EmployeeService implements IEmployeeService {
     public void delete(Long id) {
 
     }
-
 
     public Page<EmployeeResponse> getAll(int page, int size, SortEmployee sortEmployee) {
         if (page < 0) page = 0;

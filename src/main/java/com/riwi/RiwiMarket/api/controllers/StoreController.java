@@ -1,27 +1,20 @@
 package com.riwi.RiwiMarket.api.controllers;
 
 import com.riwi.RiwiMarket.api.abstract_controller.IStoreController;
-import com.riwi.RiwiMarket.api.dtos.requests.PocketRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.StoreRequest;
-import com.riwi.RiwiMarket.api.dtos.responses.PocketResponse;
 import com.riwi.RiwiMarket.api.dtos.responses.StoreResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IStoreService;
+import com.riwi.RiwiMarket.util.enums.SortType;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/store")
@@ -43,7 +36,7 @@ public class StoreController implements IStoreController {
             @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })*/
-    public ResponseEntity<StoreResponse> create( @Validated @RequestBody StoreRequest request) {
+    public ResponseEntity<StoreResponse> create(@Validated @RequestBody StoreRequest request) {
         return null; /*ResponseEntity.ok(this.storeService.create(request))*/
     }
 
@@ -58,9 +51,9 @@ public class StoreController implements IStoreController {
 
     @Override
     @PutMapping(path = "/update/{id}")
-    @Operation(summary = "Update a store",description = "update any store selected by id")
+    @Operation(summary = "Update a store", description = "update any store selected by id")
     public ResponseEntity<StoreResponse> update(@Validated @RequestBody StoreRequest request, @PathVariable Long id) {
-        return ResponseEntity.ok(this.storeService.update(id,request));
+        return ResponseEntity.ok(this.storeService.update(id, request));
     }
 
     @Override
@@ -69,7 +62,15 @@ public class StoreController implements IStoreController {
     }
 
     @Override
-    public ResponseEntity<Page<StoreResponse>> getAll() {
-        return null;
+    @GetMapping
+    @Operation(summary = "Get all the stores information",
+            description = "Get a list with all the stores and their information.")
+    public ResponseEntity<Page<StoreResponse>> getAll(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestHeader(required = false) SortType sortType) {
+        if (Objects.isNull(sortType)) sortType = SortType.NONE;
+
+        return ResponseEntity.ok(this.storeService.getAll(page - 1, size, sortType));
     }
 }
