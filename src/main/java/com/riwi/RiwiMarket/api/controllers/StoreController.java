@@ -71,6 +71,6 @@ public class StoreController implements IStoreController {
             @RequestHeader(required = false) SortType sortType) {
         if (Objects.isNull(sortType)) sortType = SortType.NONE;
 
-        return ResponseEntity.ok(this.storeService.getAll( size,page - 1, sortType));
+        return ResponseEntity.ok(this.storeService.getAll(page - 1, size, sortType));
     }
 }
