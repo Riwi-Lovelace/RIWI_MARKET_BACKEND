@@ -57,7 +57,7 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public EmployeeResponse read(Long id) {
-        return null;
+        return this.employeeMapper.toResponse(this.supportService.findById(this.employeeRepository, id, "Employee"));
     }
 
     @Override
