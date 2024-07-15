@@ -10,6 +10,7 @@ import com.riwi.RiwiMarket.infrastructure.abstract_services.IStoreService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.StoreMapper;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -38,12 +39,7 @@ public class StoreService implements IStoreService {
 
     @Override
     public StoreResponse create(StoreRequest request) {
-        Store store = this.storeMapper.toEntity(request);
-        store.setAvailable(new BigDecimal(0));
-        store.setAddress(request.getAddress());
-        store.setEmployees(new ArrayList<>());
-
-        return this.storeMapper.toResponse(this.storeRepository.save(store));
+        return null;
     }
 
     @Override
