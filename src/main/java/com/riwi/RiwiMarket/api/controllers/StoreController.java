@@ -13,6 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
 
@@ -23,21 +26,13 @@ import java.util.Objects;
 public class StoreController implements IStoreController {
 
     @Autowired
-    private final IStoreService storeService;
+    private final IStoreService iStoreService;
+
+
 
     @Override
-/*    @PostMapping
-    @Operation(
-            summary = "Create Storage",
-            description = "Fill in the required fields to create a new storage."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Storage retrieved successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })*/
-    public ResponseEntity<StoreResponse> create(@Validated @RequestBody StoreRequest request) {
-        return null; /*ResponseEntity.ok(this.storeService.create(request))*/
+    public ResponseEntity<StoreResponse> create( @Validated @RequestBody StoreRequest request) {
+        return null;
     }
 
     @GetMapping(path = "/{id}")
