@@ -26,9 +26,7 @@ import java.util.Objects;
 public class StoreController implements IStoreController {
 
     @Autowired
-    private final IStoreService iStoreService;
-
-
+    private final IStoreService storeService;
 
     @Override
     public ResponseEntity<StoreResponse> create( @Validated @RequestBody StoreRequest request) {
