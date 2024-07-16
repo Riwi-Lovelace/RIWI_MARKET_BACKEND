@@ -9,6 +9,7 @@ import com.riwi.RiwiMarket.util.enums.Reason;
 import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -21,4 +22,6 @@ public interface IRefundService extends GenericService<RefundRequest, RefundResp
     List<Refund> findByReason(Reason reason);
 
     List<Refund> findByDate(LocalDate startDate, LocalDate endDate);
+
+    Page<RefundResponse> findByMethodContainingAndReasonContainingAndDateContaining(int page, int size, String method, String reason, LocalDateTime date);
 }

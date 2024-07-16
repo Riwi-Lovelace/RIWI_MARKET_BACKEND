@@ -50,7 +50,7 @@ public class Refund {
     @Column(nullable = false)
     private LocalDateTime date;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "item_id", referencedColumnName = "id")
     private Item itemId;
 }
