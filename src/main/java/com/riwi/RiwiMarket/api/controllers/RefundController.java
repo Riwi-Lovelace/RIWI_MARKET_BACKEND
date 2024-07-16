@@ -43,67 +43,14 @@ public class RefundController implements IRefundController {
             return ResponseEntity.ok(this.refundService.create(request));
     }
 
-    @GetMapping(path = "/{id}")
     @Override
+    @GetMapping(path = "/{id}")
     public ResponseEntity<RefundResponse> read(Long aLong) {
-        return null;
+        return ResponseEntity.ok(this.refundService.read(aLong));
     }
 
     @Override
     public ResponseEntity<List<RefundResponse>> getAll() {
-        return null;
-    }
-
-    @GetMapping(path = "/{method}")
-    @Override
-    public ResponseEntity<List<RefundResponse>> getByMethod() {
-        return null;
-    }
-
-    @GetMapping(path = "/{reason}")
-    @Override
-    public ResponseEntity<List<RefundResponse>> getByReason() {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<List<RefundResponse>> getByDate() {
-        return null;
-    }
-
-
-    /*@GetMapping
-    @Operation(summary = "Advance List of All refunds", description = "Refunds a paginated list of all refunds")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful operation. Returns the paginated list of refunds"),
-            @ApiResponse(responseCode = "400", description = "Bad request. This may occur if the parameters are incorrect.")
-    })
-    public ResponseEntity<Page<RefundResponse>> findAll(
-
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "") String method,
-            @RequestParam(defaultValue = "") String reason,
-            @RequestParam(defaultValue = "yyyy-mm-dd") String date
-    ){
-        LocalDateTime dateTime = null
-        try {
-            if (!date.isEmpty()) {
-                LocalDateTime dateTime = LocalDateTime.parse(date);
-            }
-
-            Page<RefundResponse> refunds = refundService.findByMethodContainingAndReasonContainingAndDateContaining(page -1, size, method, reason, dateTime);
-
-            return ResponseEntity.ok(refunds);
-        } catch (DateTimeParseException e){
-            return ResponseEntity.badRequest().body(null);
-        }
-
-
-    }*/
-
-    @Override
-    public ResponseEntity<RefundResponse> update(RefundRequest request, Long aLong) {
         return null;
     }
 
@@ -112,5 +59,12 @@ public class RefundController implements IRefundController {
     public ResponseEntity<Void> delete(Long aLong) {
         return null;
     }
+
+
+    @Override
+    public ResponseEntity<RefundResponse> update(RefundRequest request, Long aLong) {
+        return null;
+    }
+
 
 }

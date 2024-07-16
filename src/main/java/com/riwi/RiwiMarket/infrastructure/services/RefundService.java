@@ -67,26 +67,10 @@ public class RefundService implements IRefundService {
     }
 
     @Override
-    public List<Refund> findByMethod(Method method) {
-        return null;
-    }
-
-    @Override
-    public List<Refund> findByReason(Reason reason) {
-        return null;
-    }
-
-    @Override
     public RefundResponse read(Long aLong) {
-        return null;
+        Refund refund = this.supportService.findById(refundRepository, aLong, "Refund");
+        return this.returnMapper.toResponse(refund);
     }
-
-    @Override
-    public List<Refund> findByDate(LocalDate startDate, LocalDate endDate) {
-        return null;
-    }
-
-
 
     @Override
     public RefundResponse update(Long aLong, RefundRequest request) {

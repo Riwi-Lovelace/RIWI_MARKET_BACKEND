@@ -10,9 +10,9 @@ public interface IRefundController extends GenericController<RefundRequest, Refu
 
     ResponseEntity<List<RefundResponse>> getAll();
 
-    ResponseEntity<List<RefundResponse>> getByMethod();
+    /*ResponseEntity<List<RefundResponse>> getByMethod();
 
     ResponseEntity<List<RefundResponse>> getByReason();
 
-    ResponseEntity<List<RefundResponse>> getByDate();
+    ResponseEntity<List<RefundResponse>> getByDate();*/
 }
