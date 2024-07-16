@@ -72,7 +72,7 @@ public class RefundController implements IRefundController {
     }
 
 
-    @GetMapping
+    /*@GetMapping
     @Operation(summary = "Advance List of All refunds", description = "Refunds a paginated list of all refunds")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful operation. Returns the paginated list of refunds"),
@@ -100,7 +100,7 @@ public class RefundController implements IRefundController {
         }
 
 
-    }
+    }*/
 
     @Override
     public ResponseEntity<RefundResponse> update(RefundRequest request, Long aLong) {

@@ -16,13 +16,11 @@ import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -88,21 +86,7 @@ public class RefundService implements IRefundService {
         return null;
     }
 
-    @Override
-    public Page<RefundResponse> findByMethodContainingAndReasonContainingAndDateContaining(int page, int size, String method, String reason,  LocalDateTime startDate, LocalDateTime endDate) {
 
-        PageRequest pageRequest = PageRequest.of(page, size);
-
-        if (method.isEmpty() && reason.isEmpty()){
-            return refundRepository.findAll(pageRequest);
-        }
-
-        Method methodEnum = Method.valueOf(method);
-        Reason reasonEnum = Reason.valueOf(reason);
-
-        Page<RefundResponse> pageEntity = refundRepository.findByMethod(Method.valueOf("PRODUCT")).stream().map(refundRepository.);
-
-    }
 
     @Override
     public RefundResponse update(Long aLong, RefundRequest request) {
@@ -118,9 +102,9 @@ public class RefundService implements IRefundService {
     @Override
     public Page<RefundResponse> findByMethodContainingAndReasonContainingAndDateContaining(int page, int size, java.lang.String method, java.lang.String reason, java.time.LocalDateTime date) {
 
-        PageRequest pageRequest = PageRequest.of(page, size);
+        /*PageRequest pageRequest = PageRequest.of(page, size);*/
 
-        if (method.isEmpty() && reason.isEmpty()){
+      /*  if (method.isEmpty() && reason.isEmpty()){
             return refundRepository.findAll(pageRequest);
         }
 
@@ -136,5 +120,7 @@ public class RefundService implements IRefundService {
         } else {
             return repo2.findByEnum2OrAttribute(enume, attribute,pageRequest);
         }
+    }*/
+        return  null;
     }
 }
