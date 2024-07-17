@@ -4,6 +4,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,4 +18,8 @@ public class BatchToStockResponse {
     private BigDecimal weight;
     private BigDecimal purchasePrice;
     private LocalDateTime entryDate;
+    private ProductToBatchResponse product;
+    private SupplierResponse supplier;
+    private List<LossToBatchResponse> losses;
+
 }

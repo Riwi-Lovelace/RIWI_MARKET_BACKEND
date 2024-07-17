@@ -9,9 +9,11 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StockResponse {
+public class ProductToBatchResponse {
     private Long id;
-    private Integer quantity;
-    private BigDecimal weight;
-    private BatchToStockResponse batch;
+    private String name;
+    private BigDecimal price;
+    private BigDecimal iva;
+    private String description;
+    private Boolean status;
 }
