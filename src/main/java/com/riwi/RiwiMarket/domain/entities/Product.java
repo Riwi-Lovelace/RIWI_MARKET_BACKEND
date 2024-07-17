@@ -2,6 +2,7 @@ package com.riwi.RiwiMarket.domain.entities;
 
 import java.util.List;
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,9 +37,10 @@ public class Product {
     @Column(nullable = false)
     private String urlImg;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subcategory_id", referencedColumnName = "id")
     private Subcategory subcategory;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id", referencedColumnName = "id")
@@ -48,4 +50,14 @@ public class Product {
     mappedBy = "product",
     cascade = CascadeType.ALL)
     private List<Batch> batches;
+
+    @Transient
+    private  String subcategoryName;
+    @Transient
+    private  Long IdBrand;
+
+    public Product( String subcategoryName) {this.subcategoryName = subcategoryName;
+    }
+
+
 }

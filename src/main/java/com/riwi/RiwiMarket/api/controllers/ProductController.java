@@ -3,22 +3,30 @@ package com.riwi.RiwiMarket.api.controllers;
 import com.riwi.RiwiMarket.api.abstract_controller.GenericController;
 import com.riwi.RiwiMarket.api.dtos.requests.ProductRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.ProductResponse;
+import com.riwi.RiwiMarket.domain.entities.Product;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.supercsv.io.ICsvBeanWriter;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -78,9 +86,47 @@ public class ProductController implements GenericController<ProductRequest, Prod
         return ResponseEntity.ok(this.productService.updateProductDescription(id,description));
     }
 
+    @Operation(
+            summary = "export archive.csv",
+            description = "Download a csv format file with product information"
+    )
+    @GetMapping("/export-csv")
+    public void  exportCsv(HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition","attachment: filename=Products" + System.currentTimeMillis()+".csv");
+    ICsvBeanWriter writer= this.productService.getCsv(response);
+    writer.close();
 
+}
+    @Operation(
+            summary = "import archive.csv",
+            description = "Upload a csv file for reading and creating content"
+    )
+    @PostMapping(path = "/import-csv",consumes = "multipart/form-data")
+    public ResponseEntity<List<ProductResponse>> importCsv(@RequestParam("archivo Csv") MultipartFile  archivoCsv){
 
+        return ResponseEntity.ok(this.productService.setCsv(archivoCsv));
+    }
+    @Operation(
+            summary = "export archive.xlsx",
+            description = "Download an Excel file in xlsx format with product information"
+    )
+    @GetMapping(value = "/export-xlsx",produces = MediaType.APPLICATION_ATOM_XML_VALUE)
+    public ResponseEntity<byte[]> getXml() throws IOException{
+        ByteArrayInputStream in = this.productService.getXls();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition","attachment; filename=Product.xlsx");
+        return  ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_OCTET_STREAM).body(in.readAllBytes());
+    }
+    @Operation(
+            summary = "import archive.xlsx",
+            description = "Upload an Excel file in xlsx format for reading and content creation"
+    )
+    @PostMapping(path = "/import-xlsx",consumes = "multipart/form-data")
+    public ResponseEntity<List<ProductResponse>> importXlsx(@RequestParam("archivo Xlsx") MultipartFile  archivoXlsx) throws IOException{
 
+        return ResponseEntity.ok(this.productService.setXlsx(archivoXlsx));
+    }
 @PutMapping("/products/price/{id}")
     @Operation(
             summary = "Update product price",
@@ -97,6 +143,6 @@ public class ProductController implements GenericController<ProductRequest, Prod
 
 
 
- }
+}
 
 }

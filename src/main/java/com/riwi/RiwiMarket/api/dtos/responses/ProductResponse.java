@@ -16,6 +16,6 @@ public class ProductResponse {
     private String name;
     private BigDecimal iva;
     private Boolean status;
-    private Subcategory subcategory;
+    private SubcategoryResponse subcategory;
     private String urlImg;
 }
