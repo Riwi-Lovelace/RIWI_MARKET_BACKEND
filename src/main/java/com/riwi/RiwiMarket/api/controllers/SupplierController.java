@@ -71,7 +71,7 @@ public class SupplierController implements GenericController<SupplierRequest, Su
         }
     }
 
-    // Method pach for active o disable this service
+    // Method patch for active o disable this service
     @PatchMapping("/{id}/status")
     @Operation(summary = "Find suppliers by name", description = "Returns a paginated list of suppliers whose name matchs the provided value.")
 
