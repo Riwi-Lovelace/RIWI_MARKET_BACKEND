@@ -8,6 +8,7 @@ import com.riwi.RiwiMarket.domain.entities.Stock;
 import com.riwi.RiwiMarket.domain.repositories.StockRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IStockService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
+import com.riwi.RiwiMarket.infrastructure.helpers.mappers.StockMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,8 @@ public class StockService implements IStockService {
     @Autowired
     private final SupportService<Stock> supportService;
 
-    //Falta Mapper
+    @Autowired
+    private final StockMapper stockMapper;
     @Override
     public StockResponse create(StockRequest request) {
         return null;
