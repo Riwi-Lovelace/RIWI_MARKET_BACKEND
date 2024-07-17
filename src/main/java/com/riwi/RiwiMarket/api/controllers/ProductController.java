@@ -4,14 +4,31 @@ import com.riwi.RiwiMarket.api.abstract_controller.GenericController;
 import com.riwi.RiwiMarket.api.dtos.requests.ProductBrandRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.ProductRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.ProductResponse;
+import com.riwi.RiwiMarket.domain.entities.Product;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IProductService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.supercsv.io.ICsvBeanWriter;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +36,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/products")
 @AllArgsConstructor
+@RequestMapping(path = "/products")
 public class ProductController implements GenericController<ProductRequest, ProductResponse,Long> {
+
+
     @Autowired
     private final IProductService productService;
 
@@ -35,7 +54,9 @@ public class ProductController implements GenericController<ProductRequest, Prod
             @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
+    }
+    )
+
 
     public ResponseEntity<ProductResponse> create(@Validated @RequestBody ProductRequest request) {
         return ResponseEntity.ok(this.productService.create(request));
@@ -52,31 +73,83 @@ public class ProductController implements GenericController<ProductRequest, Prod
     }
 
     @Override
-    public ResponseEntity<Void> delete(Long aLong) {
-        return null;
+    public ResponseEntity<Void> delete(Long id) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
-    
-    @PutMapping("/brand/{id}")
+   
+    @PutMapping("/products/description/{id}")
     @Operation(
-            summary = "Add Brand to Product",
-            description = "Add an existing brand to an existing product by providing their IDs."
+            summary = "Update product description",
+            description = "Change the description to update product description."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Brand successfully added to the product"),
-            @ApiResponse(responseCode = "400", description = "Invalid product or brand ID"),
-            @ApiResponse(responseCode = "404", description = "Product or brand not found"),
+            @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    public ResponseEntity<Map<String, String>> addBrandToProduct(@Validated @RequestBody ProductBrandRequest request, @PathVariable Long id) {
-        Long brandId = request.getBrandId();
-        Long productId = id;
 
-
-        productService.addBrandToProduct(productId, brandId);
-
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Brand successfully added to the product");
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ProductResponse> updateProductDescription(@PathVariable Long id, @RequestParam String description) {
+        return ResponseEntity.ok(this.productService.updateProductDescription(id,description));
     }
+
+    @Operation(
+            summary = "export archive.csv",
+            description = "Download a csv format file with product information"
+    )
+    @GetMapping("/export-csv")
+    public void  exportCsv(HttpServletResponse response) throws IOException {
+        response.setContentType("text/csv");
+        response.setHeader("Content-Disposition","attachment: filename=Products" + System.currentTimeMillis()+".csv");
+    ICsvBeanWriter writer= this.productService.getCsv(response);
+    writer.close();
+
+}
+    @Operation(
+            summary = "import archive.csv",
+            description = "Upload a csv file for reading and creating content"
+    )
+    @PostMapping(path = "/import-csv",consumes = "multipart/form-data")
+    public ResponseEntity<List<ProductResponse>> importCsv(@RequestParam("archivo Csv") MultipartFile  archivoCsv){
+
+        return ResponseEntity.ok(this.productService.setCsv(archivoCsv));
+    }
+    @Operation(
+            summary = "export archive.xlsx",
+            description = "Download an Excel file in xlsx format with product information"
+    )
+    @GetMapping(value = "/export-xlsx",produces = MediaType.APPLICATION_ATOM_XML_VALUE)
+    public ResponseEntity<byte[]> getXml() throws IOException{
+        ByteArrayInputStream in = this.productService.getXls();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition","attachment; filename=Product.xlsx");
+        return  ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_OCTET_STREAM).body(in.readAllBytes());
+    }
+    @Operation(
+            summary = "import archive.xlsx",
+            description = "Upload an Excel file in xlsx format for reading and content creation"
+    )
+    @PostMapping(path = "/import-xlsx",consumes = "multipart/form-data")
+    public ResponseEntity<List<ProductResponse>> importXlsx(@RequestParam("archivo Xlsx") MultipartFile  archivoXlsx) throws IOException{
+
+        return ResponseEntity.ok(this.productService.setXlsx(archivoXlsx));
+    }
+@PutMapping("/products/price/{id}")
+    @Operation(
+            summary = "Update product price",
+            description = "add and change the price to product."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+
+    public ResponseEntity<ProductResponse> addProductPrice(@PathVariable Long id, @RequestParam BigDecimal price) {
+        return ResponseEntity.ok(this.productService.addProductPrice(id,price));
+
+
+
+}
 
 }
