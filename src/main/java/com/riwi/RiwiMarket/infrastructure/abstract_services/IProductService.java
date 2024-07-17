@@ -1,5 +1,7 @@
 package com.riwi.RiwiMarket.infrastructure.abstract_services;
 
+import java.math.BigDecimal;
+
 import com.riwi.RiwiMarket.api.dtos.requests.ProductRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.ProductResponse;
 import com.riwi.RiwiMarket.domain.entities.Product;
@@ -14,6 +16,7 @@ import java.util.List;
 
 public interface IProductService extends GenericService<ProductRequest, ProductResponse,Long>{
     ProductResponse updateProductDescription(Long id, String description);
+    ProductResponse addProductPrice(Long id, BigDecimal price);
     ICsvBeanWriter getCsv(HttpServletResponse response) throws IOException;
     public List<ProductResponse> setCsv(MultipartFile file);
     public ByteArrayInputStream getXls() throws IOException;

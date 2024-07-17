@@ -13,6 +13,7 @@ import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.ProductMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import java.math.BigDecimal;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -42,7 +43,6 @@ public class ProductService implements IProductService {
     @Autowired
     private final ProductMapper productMapper;
 
-
     @Autowired
     private final SupportService<Product> SupportService;
     @Autowired
@@ -60,7 +60,6 @@ public class ProductService implements IProductService {
         Subcategory subcategory= this.supportSubcategory.findById(this.subcategoryRepository ,request.getSubcategoryID(),"SubCategory");
         product.setPrice(new BigDecimal(0));
         product.setSubcategory(subcategory);
-
         product.setStatus(true);
         return this.productMapper.toResponse(this.productRepository.save(product));
     }
@@ -244,4 +243,14 @@ public class ProductService implements IProductService {
        }
         return listProduct.stream().map(this::convert).collect(Collectors.toList());
     }
-}
+
+    @Override
+    public ProductResponse addProductPrice(Long id, BigDecimal price) {
+        Product product =  SupportService.findById(productRepository, id, "price");
+        if (product.getPrice().compareTo(BigDecimal.ZERO) < 0) {
+            return null;
+        }
+        product.setPrice(price);
+        return productMapper.toResponse(productRepository.save(product));
+      }
+    }
