@@ -47,11 +47,12 @@ public class ProductController implements GenericController<ProductRequest, Prod
         return ResponseEntity.ok(this.productService.create(request));
     }
 
-    /******* Fine by id *****/
+    /****** Fine by id ****/
     @ApiResponse(
         responseCode = "400", description = "ID not found"
     )
     @Operation(
+        
         summary = "see product by id",
         description = "Write the ID of the product you are looking for."
     )
