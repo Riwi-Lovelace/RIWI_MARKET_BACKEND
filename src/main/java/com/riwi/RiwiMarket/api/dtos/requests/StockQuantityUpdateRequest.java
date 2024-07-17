@@ -9,8 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class StockQuantityUpdateRequest {
-    @NotNull(message = "id is required")
-    private Long id;
-    @NotNull(message = "id is required")
+    @NotNull(message = "quantity is required")
     private Integer quantity;
 }
