@@ -3,9 +3,11 @@ package com.riwi.RiwiMarket.infrastructure.services;
 import com.riwi.RiwiMarket.api.dtos.requests.ProductRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.ProductResponse;
 import com.riwi.RiwiMarket.domain.entities.Brand;
+import com.riwi.RiwiMarket.domain.entities.Category;
 import com.riwi.RiwiMarket.domain.entities.Product;
 import com.riwi.RiwiMarket.domain.entities.Subcategory;
 import com.riwi.RiwiMarket.domain.repositories.BrandRepository;
+import com.riwi.RiwiMarket.domain.repositories.CategoryRepository;
 import com.riwi.RiwiMarket.domain.repositories.ProductRepository;
 import com.riwi.RiwiMarket.domain.repositories.SubcategoryRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IProductService;
@@ -14,6 +16,7 @@ import com.riwi.RiwiMarket.infrastructure.helpers.mappers.ProductMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -24,25 +27,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
-import org.supercsv.io.ICsvWriter;
 import org.supercsv.prefs.CsvPreference;
-
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 @Service
 @AllArgsConstructor
 public class ProductService implements IProductService {
     @Autowired
     private final ProductRepository productRepository;
-
     @Autowired
     private final ProductMapper productMapper;
-
     @Autowired
     private final SupportService<Product> SupportService;
     @Autowired
@@ -53,7 +49,10 @@ public class ProductService implements IProductService {
     private final SubcategoryRepository subcategoryRepository;
     @Autowired
     private final SupportService<Subcategory> supportSubcategory;
-
+    @Autowired
+    private final SupportService<Category> supportCategory;
+    @Autowired
+    private final CategoryRepository categoryRepository;
     @Override
     public ProductResponse create(ProductRequest request) {
         Product product= this.productMapper.toEntity(request);
@@ -253,4 +252,22 @@ public class ProductService implements IProductService {
         product.setPrice(price);
         return productMapper.toResponse(productRepository.save(product));
       }
+
+    @Override
+    public List<ProductResponse> findBySubcategory(Long id) {
+        return this.productMapper.toListResponse(this.productRepository.findBySubcategory_Id(id));
     }
+
+    @Override
+    public List<ProductResponse> findByCategory(Long id) {
+        Category category = this.supportCategory.findById(categoryRepository,id,"Category");
+        List<Product> productList = this.productRepository.findAll();
+        List<Product> products = new ArrayList<>();
+        productList.forEach(product -> {
+            if (category.getId()==product.getSubcategory().getCategory().getId()){
+                products.add(product);
+            }
+        });
+        return this.productMapper.toListResponse(products);
+    }
+}

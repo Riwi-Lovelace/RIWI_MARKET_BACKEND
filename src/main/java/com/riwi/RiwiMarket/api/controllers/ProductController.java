@@ -71,7 +71,7 @@ public class ProductController implements GenericController<ProductRequest, Prod
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
    
-    @PutMapping("/products/description/{id}")
+    @PutMapping("/description/{id}")
     @Operation(
             summary = "Update product description",
             description = "Change the description to update product description."
@@ -90,6 +90,11 @@ public class ProductController implements GenericController<ProductRequest, Prod
             summary = "export archive.csv",
             description = "Download a csv format file with product information"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @GetMapping("/export-csv")
     public void  exportCsv(HttpServletResponse response) throws IOException {
         response.setContentType("text/csv");
@@ -102,11 +107,21 @@ public class ProductController implements GenericController<ProductRequest, Prod
             summary = "import archive.csv",
             description = "Upload a csv file for reading and creating content"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping(path = "/import-csv",consumes = "multipart/form-data")
     public ResponseEntity<List<ProductResponse>> importCsv(@RequestParam("archivo Csv") MultipartFile  archivoCsv){
 
         return ResponseEntity.ok(this.productService.setCsv(archivoCsv));
     }
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @Operation(
             summary = "export archive.xlsx",
             description = "Download an Excel file in xlsx format with product information"
@@ -122,12 +137,17 @@ public class ProductController implements GenericController<ProductRequest, Prod
             summary = "import archive.xlsx",
             description = "Upload an Excel file in xlsx format for reading and content creation"
     )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
     @PostMapping(path = "/import-xlsx",consumes = "multipart/form-data")
     public ResponseEntity<List<ProductResponse>> importXlsx(@RequestParam("archivo Xlsx") MultipartFile  archivoXlsx) throws IOException{
 
         return ResponseEntity.ok(this.productService.setXlsx(archivoXlsx));
     }
-@PutMapping("/products/price/{id}")
+    @PutMapping("/price/{id}")
     @Operation(
             summary = "Update product price",
             description = "add and change the price to product."
@@ -141,8 +161,32 @@ public class ProductController implements GenericController<ProductRequest, Prod
     public ResponseEntity<ProductResponse> addProductPrice(@PathVariable Long id, @RequestParam BigDecimal price) {
         return ResponseEntity.ok(this.productService.addProductPrice(id,price));
 
-
-
-}
+    }
+    @GetMapping("/FindBySubCategory/{id}")
+    @Operation(
+            summary = "find product by SubCategory",
+            description = "Enter the SubCategory ID of the products."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public  ResponseEntity<List<ProductResponse>> FindBySubCategory(@PathVariable Long id){
+        return ResponseEntity.ok(this.productService.findBySubcategory(id));
+    }
+    @GetMapping("/FindByCategory/{id}")
+    @Operation(
+            summary = "find product by Category",
+            description = "Enter the Category ID of the products."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public  ResponseEntity<List<ProductResponse>> FindBySCategory(@PathVariable Long id){
+        return ResponseEntity.ok(this.productService.findByCategory(id));
+    }
 
 }

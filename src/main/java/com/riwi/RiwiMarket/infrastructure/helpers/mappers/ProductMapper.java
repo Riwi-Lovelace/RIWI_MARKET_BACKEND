@@ -6,6 +6,9 @@ import com.riwi.RiwiMarket.domain.entities.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 
+import java.util.List;
+
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ProductMapper  extends GenericMapper<ProductRequest, ProductResponse, Product>{
+    List<ProductResponse> toListResponse(List<Product> products);
 }

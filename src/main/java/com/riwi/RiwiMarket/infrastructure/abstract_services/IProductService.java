@@ -21,5 +21,6 @@ public interface IProductService extends GenericService<ProductRequest, ProductR
     public List<ProductResponse> setCsv(MultipartFile file);
     public ByteArrayInputStream getXls() throws IOException;
     public List<ProductResponse> setXlsx(MultipartFile archive)  throws IOException;
-
+    public List<ProductResponse> findBySubcategory(Long id);
+    public  List<ProductResponse> findByCategory(Long id);
 }
