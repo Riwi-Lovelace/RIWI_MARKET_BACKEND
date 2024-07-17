@@ -270,4 +270,9 @@ public class ProductService implements IProductService {
         });
         return this.productMapper.toListResponse(products);
     }
+
+    @Override
+    public List<ProductResponse> findByBrand(Long id) {
+        return this.productMapper.toListResponse(this.productRepository.findByBrand_id(id));
+    }
 }

@@ -188,5 +188,18 @@ public class ProductController implements GenericController<ProductRequest, Prod
     public  ResponseEntity<List<ProductResponse>> FindBySCategory(@PathVariable Long id){
         return ResponseEntity.ok(this.productService.findByCategory(id));
     }
+    @GetMapping("/FindByBrand/{id}")
+    @Operation(
+            summary = "find product by Brand",
+            description = "Enter the Brand ID of the products."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public  ResponseEntity<List<ProductResponse>> FindByBrand(@PathVariable Long id){
+        return ResponseEntity.ok(this.productService.findByBrand(id));
+    }
 
 }
