@@ -5,12 +5,9 @@ import java.math.BigDecimal;
 import com.riwi.RiwiMarket.api.dtos.requests.ProductRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.ProductResponse;
 
-import java.util.UUID;
-import com.riwi.RiwiMarket.domain.entities.Product;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
 import org.supercsv.io.ICsvBeanWriter;
-import org.supercsv.io.ICsvWriter;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
