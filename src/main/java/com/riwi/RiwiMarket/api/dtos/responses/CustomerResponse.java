@@ -6,12 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class CategoryResponse {
+public class CustomerResponse {
+
+    private Long id;
     private String name;
-    private boolean status;
+    private String email;
+    private String phone;
+    private String address;
+    private String document;
 }

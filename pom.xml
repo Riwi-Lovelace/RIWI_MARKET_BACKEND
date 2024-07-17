@@ -32,7 +32,6 @@
 		<org.projectlombok.version>1.18.16</org.projectlombok.version>
 	</properties>
 	<dependencies>
-
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
@@ -54,7 +53,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>com.mysql</groupId>
 			<artifactId>mysql-connector-j</artifactId>
@@ -116,6 +114,9 @@
 							<version>0.2.0</version>
 						</path>
 					</annotationProcessorPaths>
+					<compilerArgs>
+                    	<arg>-Amapstruct.verbose=true</arg>
+                	</compilerArgs>
 				</configuration>
 			</plugin>
 		</plugins>

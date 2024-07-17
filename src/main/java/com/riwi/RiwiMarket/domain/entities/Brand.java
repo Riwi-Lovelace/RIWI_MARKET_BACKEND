@@ -29,7 +29,7 @@ public class Brand {
 
     @Column(length = 50, nullable = false)
     private String name;
-    
+
     @Column(nullable = false)
     private Boolean status;
 
