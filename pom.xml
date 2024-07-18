@@ -147,11 +147,7 @@
 							<version>0.2.0</version>
 						</path>
 					</annotationProcessorPaths>
-					<compilerPaths>
-					<path>
-						-Amapstruct.verbose=true
-					</path>
-				</compilerPaths>
+			
 				</configuration>
 			</plugin>
 		</plugins>

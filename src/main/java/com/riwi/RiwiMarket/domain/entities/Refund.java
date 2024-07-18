@@ -1,5 +1,6 @@
 package com.riwi.RiwiMarket.domain.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -48,9 +49,9 @@ public class Refund {
     private Integer quantity;
     @CreationTimestamp
     @Column(nullable = false)
-    private LocalDateTime date;
+    private LocalDate date;
     
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "item_id", referencedColumnName = "id")
     private Item itemId;
 }

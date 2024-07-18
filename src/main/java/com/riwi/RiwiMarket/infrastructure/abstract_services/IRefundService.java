@@ -14,11 +14,12 @@ import java.util.List;
 
 public interface IRefundService extends GenericService<RefundRequest, RefundResponse, Long>{
 
-    Page<RefundResponse> getAll(int page, int size);
+    Page<RefundResponse> getAll(int page, int size,Method method,Reason reason,LocalDate date,LocalDate dateEnd);
 
     List<Refund> findByMethod(Method method);
 
     List<Refund> findByReason(Reason reason);
 
     List<Refund> findByDate(LocalDate startDate, LocalDate endDate);
+    
 }

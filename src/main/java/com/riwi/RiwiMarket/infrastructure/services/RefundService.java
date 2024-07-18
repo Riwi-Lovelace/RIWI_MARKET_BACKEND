@@ -1,5 +1,6 @@
 package com.riwi.RiwiMarket.infrastructure.services;
-
+import com.riwi.RiwiMarket.util.enums.Method;
+import com.riwi.RiwiMarket.util.enums.Reason;
 import com.riwi.RiwiMarket.api.dtos.requests.RefundRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.RefundResponse;
 import com.riwi.RiwiMarket.domain.entities.Item;
@@ -10,12 +11,13 @@ import com.riwi.RiwiMarket.infrastructure.abstract_services.IRefundService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.ItemMapper;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.RefundMapper;
-import com.riwi.RiwiMarket.util.enums.Method;
-import com.riwi.RiwiMarket.util.enums.Reason;
+
 import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,7 @@ public class RefundService implements IRefundService {
     @Override
     public RefundResponse create(RefundRequest request) {
         Refund refund = this.returnMapper.toEntity(request);
+        refund.setDate(LocalDate.now());
         Item item = itemRepository.findById(request.getItemId())
                 .orElseThrow(() -> new BadRequestException("ID NOT FOUND"));
         
@@ -57,16 +60,29 @@ public class RefundService implements IRefundService {
                 item.setQuantity(valor);
 
         }
+        //Get prueba
 
         itemRepository.save(item);
         return returnMapper.toResponse(refundRepository.save(refund));
     }
+ 
+
 
     @Override
-    public Page<RefundResponse> getAll(int page, int size) {
-        return null;
+    public Page<RefundResponse> getAll(int page, int size, Method method,Reason reason, LocalDate date,
+            LocalDate dateEnd) {
+                PageRequest pageRequest = PageRequest.of(page, size);
+                if(reason == null && method == null && dateEnd == null && date == null){
+                    Page<Refund> refundPage = this.refundRepository.findAll(pageRequest);
+                    List<RefundResponse> refundResponse =this.returnMapper.RefundListToResponseList(refundPage.getContent());
+                    return new PageImpl<>(refundResponse, pageRequest,refundPage.getTotalElements());
+                }else{
+                    // Page<Refund> refundPage = this.refundRepository.findByMethodOrReasonOrDateBetween(method, reason, pageRequest,date,dateEnd);
+                   Page<Refund> refundPage = this.refundRepository.getall(pageRequest,method,reason,date,dateEnd);
+                    List<RefundResponse> refundResponse =this.returnMapper.RefundListToResponseList(refundPage.getContent());
+                    return new PageImpl<>(refundResponse, pageRequest,refundPage.getTotalElements());
+                }
     }
-
     @Override
     public List<Refund> findByMethod(Method method) {
         return null;
