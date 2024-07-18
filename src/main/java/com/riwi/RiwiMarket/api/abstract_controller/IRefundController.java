@@ -15,9 +15,9 @@ public interface IRefundController extends GenericController<RefundRequest, Refu
 
     ResponseEntity<Page<RefundResponse>> getAll(int page, int size,Method method, Reason reason,LocalDate date, LocalDate dateEnd);
 
-    ResponseEntity<List<RefundResponse>> getByMethod();
+    /*ResponseEntity<List<RefundResponse>> getByMethod();
 
     ResponseEntity<List<RefundResponse>> getByReason();
 
-    ResponseEntity<List<RefundResponse>> getByDate();
+    ResponseEntity<List<RefundResponse>> getByDate();*/
 }

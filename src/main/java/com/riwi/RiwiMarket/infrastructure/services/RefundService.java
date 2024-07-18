@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -84,23 +83,9 @@ public class RefundService implements IRefundService {
                 }
     }
     @Override
-    public List<Refund> findByMethod(Method method) {
-        return null;
-    }
-
-    @Override
-    public List<Refund> findByReason(Reason reason) {
-        return null;
-    }
-
-    @Override
     public RefundResponse read(Long aLong) {
-        return null;
-    }
-
-    @Override
-    public List<Refund> findByDate(LocalDate startDate, LocalDate endDate) {
-        return null;
+        Refund refund = this.supportService.findById(refundRepository, aLong, "Refund");
+        return this.returnMapper.toResponse(refund);
     }
 
     @Override
@@ -112,5 +97,30 @@ public class RefundService implements IRefundService {
     @Override
     public void delete(Long aLong) {
         // Not contemplated
+    }
+
+    @Override
+    public Page<RefundResponse> findByMethodContainingAndReasonContainingAndDateContaining(int page, int size, java.lang.String method, java.lang.String reason, java.time.LocalDateTime date) {
+
+        /*PageRequest pageRequest = PageRequest.of(page, size);*/
+
+      /*  if (method.isEmpty() && reason.isEmpty()){
+            return refundRepository.findAll(pageRequest);
+        }
+
+        Enumcito enume;
+        try {
+            enume = Enumcito.valueOf(enum2);
+        } catch (IllegalArgumentException e) {
+            return repo2.findByEnum2OrAttribute(null, attribute,pageRequest);
+        }
+
+        if (!attribute.isEmpty() && !enum2.isEmpty()) {
+            return repo2.findByEnum2AndAttribute(enume, attribute,pageRequest);
+        } else {
+            return repo2.findByEnum2OrAttribute(enume, attribute,pageRequest);
+        }
+    }*/
+        return  null;
     }
 }
