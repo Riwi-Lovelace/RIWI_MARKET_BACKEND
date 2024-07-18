@@ -1,12 +1,10 @@
 package com.riwi.RiwiMarket.api.dtos.requests;
 
-import com.riwi.RiwiMarket.domain.entities.Item;
 import com.riwi.RiwiMarket.util.enums.Method;
 import com.riwi.RiwiMarket.util.enums.Reason;
 import lombok.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 @Setter
 @Getter
