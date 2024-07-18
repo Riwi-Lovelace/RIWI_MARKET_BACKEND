@@ -8,7 +8,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Mappings;
-
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
@@ -27,4 +26,6 @@ public interface RefundMapper extends GenericMapper<RefundRequest, RefundRespons
     public RefundResponse toResponse(Refund refund);
 
     List<RefundResponse> RefundListToResponseList(List<Refund> refunds);
+
+    
 }
