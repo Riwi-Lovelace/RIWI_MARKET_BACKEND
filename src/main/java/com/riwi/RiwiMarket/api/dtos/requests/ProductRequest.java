@@ -28,5 +28,5 @@ public class ProductRequest {
     private String urlImg;
 
     @NotBlank(message = "subcategory name is required")
-    private Long subcategory;
+    private Long subcategoryID;
 }
