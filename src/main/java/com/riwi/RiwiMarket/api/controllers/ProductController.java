@@ -3,21 +3,15 @@ package com.riwi.RiwiMarket.api.controllers;
 import com.riwi.RiwiMarket.api.abstract_controller.GenericController;
 import com.riwi.RiwiMarket.api.dtos.requests.ProductRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.ProductResponse;
-import com.riwi.RiwiMarket.domain.entities.Product;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IProductService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-
 import java.math.BigDecimal;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -26,10 +20,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.supercsv.io.ICsvBeanWriter;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.List;
+
 
 @RestController
 @RequestMapping(path = "/products")
