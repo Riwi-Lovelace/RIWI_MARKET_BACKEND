@@ -12,6 +12,9 @@ import com.riwi.RiwiMarket.infrastructure.helpers.mappers.StockMapper;
 import com.riwi.RiwiMarket.util.enums.GeneralSort;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,8 +52,20 @@ public class StockService implements IStockService {
 
     @Override
     public List<StockResponse> getAll(String productName, String categoryName, int size, int page, GeneralSort generalSort) {
+        PageRequest pageRequest = PageRequest.of(page,size);
 
-        return this.stockMapper.listEntitiesToStockResp(this.stockRepository.findAll());
+        if(productName == null && categoryName == null){
+            Page<Stock> stockPage = this.stockRepository.findAll(pageRequest);
+            List<StockResponse> stockResponse = this.stockMapper.listEntitiesToStockResp(stockPage.getContent());
+            return new PageImpl<>(stockResponse, pageRequest, stockPage.getTotalElements());
+        }else {
+            Page<Stock> stockPage = this.stockRepository.getall(pageRequest,productName,categoryName);
+            List<StockResponse> stockResponse = this.stockMapper.listEntitiesToStockResp(stockPage.getContent());
+            return new PageImpl<>(stockResponse , pageRequest,stockPage.getTotalElements());
+        }
+
+
+
     }
 
     @Override
