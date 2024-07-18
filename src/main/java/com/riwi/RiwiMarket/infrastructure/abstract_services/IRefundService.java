@@ -15,13 +15,7 @@ import java.util.List;
 
 public interface IRefundService extends GenericService<RefundRequest, RefundResponse, Long>{
 
-    Page<RefundResponse> getAll(int page, int size);
-
-    /*List<Refund> findByMethod(Method method);
-
-    List<Refund> findByReason(Reason reason);
-
-    List<Refund> findByDate(LocalDate startDate, LocalDate endDate);*/
+    Page<RefundResponse> getAll(int page, int size,Method method,Reason reason,LocalDate date,LocalDate dateEnd);
 
     Page<RefundResponse> findByMethodContainingAndReasonContainingAndDateContaining(int page, int size, String method, String reason, LocalDateTime date);
 }

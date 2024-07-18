@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.Mappings;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -27,4 +28,6 @@ public interface RefundMapper extends GenericMapper<RefundRequest, RefundRespons
     public RefundResponse toResponse(Refund refund);
 
     List<RefundResponse> RefundListToResponseList(List<Refund> refunds);
+
+    
 }

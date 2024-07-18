@@ -40,7 +40,7 @@ public class Item {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
-    @OneToMany(mappedBy = "itemId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "itemId", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Refund> refundId;
 
     @ManyToOne(fetch = FetchType.LAZY)
