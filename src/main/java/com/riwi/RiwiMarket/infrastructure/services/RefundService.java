@@ -11,14 +11,13 @@ import com.riwi.RiwiMarket.infrastructure.abstract_services.IRefundService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.ItemMapper;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.RefundMapper;
-
 import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 
-import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -99,28 +98,4 @@ public class RefundService implements IRefundService {
         // Not contemplated
     }
 
-    @Override
-    public Page<RefundResponse> findByMethodContainingAndReasonContainingAndDateContaining(int page, int size, java.lang.String method, java.lang.String reason, java.time.LocalDateTime date) {
-
-        /*PageRequest pageRequest = PageRequest.of(page, size);*/
-
-      /*  if (method.isEmpty() && reason.isEmpty()){
-            return refundRepository.findAll(pageRequest);
-        }
-
-        Enumcito enume;
-        try {
-            enume = Enumcito.valueOf(enum2);
-        } catch (IllegalArgumentException e) {
-            return repo2.findByEnum2OrAttribute(null, attribute,pageRequest);
-        }
-
-        if (!attribute.isEmpty() && !enum2.isEmpty()) {
-            return repo2.findByEnum2AndAttribute(enume, attribute,pageRequest);
-        } else {
-            return repo2.findByEnum2OrAttribute(enume, attribute,pageRequest);
-        }
-    }*/
-        return  null;
-    }
 }
