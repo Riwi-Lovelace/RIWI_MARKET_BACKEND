@@ -16,4 +16,7 @@ public class ProductToBatchResponse {
     private BigDecimal iva;
     private String description;
     private Boolean status;
+    private BrandToProductResponse brand;
+    private SubcategoryToProductResponse subcategory;
+
 }
