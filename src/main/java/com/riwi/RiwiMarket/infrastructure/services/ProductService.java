@@ -3,14 +3,17 @@ package com.riwi.RiwiMarket.infrastructure.services;
 import com.riwi.RiwiMarket.api.dtos.requests.ProductRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.ProductResponse;
 import com.riwi.RiwiMarket.domain.entities.Brand;
+import com.riwi.RiwiMarket.domain.entities.Category;
 import com.riwi.RiwiMarket.domain.entities.Product;
 import com.riwi.RiwiMarket.domain.entities.Subcategory;
 import com.riwi.RiwiMarket.domain.repositories.BrandRepository;
+import com.riwi.RiwiMarket.domain.repositories.CategoryRepository;
 import com.riwi.RiwiMarket.domain.repositories.ProductRepository;
 import com.riwi.RiwiMarket.domain.repositories.SubcategoryRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IProductService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.ProductMapper;
+import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 import jakarta.servlet.http.HttpServletResponse;
 import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 import lombok.AllArgsConstructor;
@@ -20,14 +23,16 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
 import org.springframework.web.multipart.MultipartFile;
 import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
-
 import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -49,6 +54,10 @@ public class ProductService implements IProductService {
     @Autowired
     private final SupportService<Subcategory> supportSubcategory;
     @Autowired
+    private final SupportService<Category> supportCategory;
+    @Autowired
+    private final CategoryRepository categoryRepository;
+    @Autowired
     private final BrandRepository brandRepository;
 
 
@@ -63,8 +72,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductResponse read(Long aLong) {
-        return null;
+    public ProductResponse read(Long id) {
+        return this.productMapper.toResponse(this.find(id));
     }
 
     @Override
@@ -251,7 +260,11 @@ public class ProductService implements IProductService {
         product.setPrice(price);
         return productMapper.toResponse(productRepository.save(product));
       }
-    
+
+    @Override
+    public List<ProductResponse> findBySubcategory(Long id) {
+        return this.productMapper.toListResponse(this.productRepository.findBySubcategory_Id(id));
+
     @Override
     public void addBrandToProduct(Long productId, Long brandId) {
         Product product = productRepository.findById(productId)
@@ -262,5 +275,54 @@ public class ProductService implements IProductService {
 
         product.setBrand(brand);
         productRepository.save(product);
+    }
+
+    @Override
+    public List<ProductResponse> findByCategory(Long id) {
+        Category category = this.supportCategory.findById(categoryRepository,id,"Category");
+        List<Product> productList = this.productRepository.findAll();
+        List<Product> products = new ArrayList<>();
+        productList.forEach(product -> {
+            if (category.getId()==product.getSubcategory().getCategory().getId()){
+                products.add(product);
+            }
+        });
+        return this.productMapper.toListResponse(products);
+    }
+
+    @Override
+    public List<ProductResponse> findByBrand(Long id) {
+        return this.productMapper.toListResponse(this.productRepository.findByBrand_id(id));
+    }
+
+    @Override
+    public List<ProductResponse> findByName(String name) {
+        return this.productRepository.findByName(name)
+        .stream()
+        .map(this.productMapper::toResponse)
+        .collect(Collectors.toList());
+    }
+    /*/
+    @Override
+    public List<ProductResponse> findBySubcategoryId(Long id) {
+        return this.productRepository.findBySubcategoryId(id)
+        .stream()
+        .map(this.productMapper::toResponse)
+        .collect(Collectors.toList());
+    }*/
+
+    @Override
+    public Page<ProductResponse> getAll(int page, int size) {
+        if(page < 0)
+            page = 0;
+        PageRequest pagination = PageRequest.of(page, size);
+
+        return this.productRepository.findAll(pagination)
+            .map(this.productMapper::toResponse);
+    }
+
+    private Product find(Long id){
+        return this.productRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("There is not prodcut with the provided id"));
     }
 }
