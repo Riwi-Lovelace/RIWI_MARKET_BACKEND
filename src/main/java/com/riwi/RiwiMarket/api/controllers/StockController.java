@@ -10,11 +10,9 @@ import com.riwi.RiwiMarket.util.enums.GeneralSort;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
@@ -48,10 +46,10 @@ public class StockController implements IStockController {
     }
 
 
-
+    @GetMapping
     @Override
-    public ResponseEntity<List<StockResponse>> getAll(String productName,
-                                                      String categoryName,
+    public ResponseEntity<Page<StockResponse>> getAll(@RequestParam(required = false, value = "") String productName,
+                                                      @RequestParam(required = false, value = "") String categoryName,
                                                       @RequestParam(defaultValue = "5") int size,
                                                       @RequestParam(defaultValue = "1") int page,
                                                       @RequestHeader(required = false)
