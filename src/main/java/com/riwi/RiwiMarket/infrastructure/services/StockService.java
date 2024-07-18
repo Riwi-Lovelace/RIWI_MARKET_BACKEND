@@ -4,7 +4,9 @@ import com.riwi.RiwiMarket.api.dtos.requests.StockQuantityUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.StockRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.StockWeightUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.StockResponse;
+import com.riwi.RiwiMarket.domain.entities.Batch;
 import com.riwi.RiwiMarket.domain.entities.Stock;
+import com.riwi.RiwiMarket.domain.repositories.BatchRepository;
 import com.riwi.RiwiMarket.domain.repositories.StockRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IStockService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
@@ -26,9 +28,31 @@ public class StockService implements IStockService {
 
     @Autowired
     private final StockMapper stockMapper;
+
+    @Autowired
+    private final BatchRepository batchRepository;
+
+    @Autowired
+    private final SupportService<Batch> supportServiceBatch;
+
     @Override
     public StockResponse create(StockRequest request) {
-        return null;
+
+        Batch batch = this.supportServiceBatch.findById(batchRepository, request.getBatch_id(), "batch");
+        
+        Stock stock = new Stock();
+        stock.setBatch(batch);
+        
+        if (batch.getQuantity() != null){
+            stock.setQuantity(batch.getQuantity());
+            stock.setWeight(null);
+        }else {
+            stock.setWeight(batch.getWeight());
+            stock.setQuantity(null);
+        }
+
+        Stock savedStock = stockRepository.save(stock);
+        return stockMapper.toResponse(savedStock);
     }
 
     @Override
