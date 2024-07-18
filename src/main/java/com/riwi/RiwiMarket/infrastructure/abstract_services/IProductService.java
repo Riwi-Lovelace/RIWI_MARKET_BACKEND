@@ -5,9 +5,11 @@ import org.springframework.data.domain.Page;
 import java.math.BigDecimal;
 import com.riwi.RiwiMarket.api.dtos.requests.ProductRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.ProductResponse;
+
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
 import org.supercsv.io.ICsvBeanWriter;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
@@ -17,6 +19,7 @@ public interface IProductService extends GenericService<ProductRequest, ProductR
     List<ProductResponse>findByName(String name);
     //Listar todos
     Page<ProductResponse> getAll(int page, int size);
+    public void addBrandToProduct(Long productId, Long brandId);
     ProductResponse updateProductDescription(Long id, String description);
     ProductResponse addProductPrice(Long id, BigDecimal price);
     ICsvBeanWriter getCsv(HttpServletResponse response) throws IOException;

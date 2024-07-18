@@ -14,20 +14,17 @@ import com.riwi.RiwiMarket.infrastructure.abstract_services.IProductService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.ProductMapper;
 import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
-
 import jakarta.servlet.http.HttpServletResponse;
+import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,6 +35,8 @@ import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
+
 
 @Service
 @AllArgsConstructor
@@ -49,8 +48,6 @@ public class ProductService implements IProductService {
     @Autowired
     private final SupportService<Product> SupportService;
     @Autowired
-    private final BrandRepository brandRepository;
-    @Autowired
     private final SupportService<Brand> supportBrand;
     @Autowired
     private final SubcategoryRepository subcategoryRepository;
@@ -60,13 +57,17 @@ public class ProductService implements IProductService {
     private final SupportService<Category> supportCategory;
     @Autowired
     private final CategoryRepository categoryRepository;
+    @Autowired
+    private final BrandRepository brandRepository;
+
+
+
     @Override
     public ProductResponse create(ProductRequest request) {
         Product product= this.productMapper.toEntity(request);
         Subcategory subcategory= this.supportSubcategory.findById(this.subcategoryRepository ,request.getSubcategoryID(),"SubCategory");
         product.setPrice(new BigDecimal(0));
         product.setSubcategory(subcategory);
-        product.setStatus(true);
         return this.productMapper.toResponse(this.productRepository.save(product));
     }
 
@@ -263,6 +264,17 @@ public class ProductService implements IProductService {
     @Override
     public List<ProductResponse> findBySubcategory(Long id) {
         return this.productMapper.toListResponse(this.productRepository.findBySubcategory_Id(id));
+
+    @Override
+    public void addBrandToProduct(Long productId, Long brandId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new BadIdException("Product not found with the provided ID: " + productId));
+
+        Brand brand = brandRepository.findById(brandId)
+                .orElseThrow(() -> new BadIdException("Brand not found with the provided ID: " + brandId));
+
+        product.setBrand(brand);
+        productRepository.save(product);
     }
 
     @Override
