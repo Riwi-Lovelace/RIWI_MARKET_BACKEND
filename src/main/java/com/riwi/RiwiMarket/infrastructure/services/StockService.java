@@ -9,6 +9,7 @@ import com.riwi.RiwiMarket.domain.repositories.StockRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IStockService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.StockMapper;
+import com.riwi.RiwiMarket.util.enums.GeneralSort;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,8 +48,9 @@ public class StockService implements IStockService {
     }
 
     @Override
-    public List<StockResponse> getAll(String productName, String categoryName) {
-        return null;
+    public List<StockResponse> getAll(String productName, String categoryName, int size, int page, GeneralSort generalSort) {
+
+        return this.stockMapper.listEntitiesToStockResp(this.stockRepository.findAll());
     }
 
     @Override
