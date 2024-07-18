@@ -16,6 +16,7 @@ import com.riwi.RiwiMarket.infrastructure.helpers.mappers.ProductMapper;
 import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 import jakarta.servlet.http.HttpServletResponse;
 import com.riwi.RiwiMarket.util.exceptions.BadIdException;
+import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
 import org.apache.poi.ss.usermodel.Cell;
@@ -37,6 +38,9 @@ import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -70,6 +74,7 @@ public class ProductService implements IProductService {
         product.setSubcategory(subcategory);
         return this.productMapper.toResponse(this.productRepository.save(product));
     }
+
 
     @Override
     public ProductResponse read(Long id) {
@@ -324,5 +329,41 @@ public class ProductService implements IProductService {
     private Product find(Long id){
         return this.productRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("There is not prodcut with the provided id"));
+    }
+
+    private Product getProductById(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new BadIdException("Product not found with id: " + productId));
+    }
+    @Override
+    public Map<String, String> archiveProduct(Long productId) {
+        Product product = getProductById(productId);
+        Map<String, String> response = new HashMap<>();
+
+        if (!product.getStatus()) {
+            response.put("message", "Product is already archived.");
+        } else {
+            product.setStatus(false);
+            productRepository.save(product);
+            response.put("message", "Product archived successfully.");
+        }
+
+        return response;
+    }
+
+    @Override
+    public Map<String, String> unarchiveProduct(Long productId) {
+        Product product = getProductById(productId);
+        Map<String, String> response = new HashMap<>();
+
+        if (product.getStatus()) {
+            response.put("message", "Product is already active.");
+        } else {
+            product.setStatus(true);
+            productRepository.save(product);
+            response.put("message", "Product unarchived successfully.");
+        }
+
+        return response;
     }
 }

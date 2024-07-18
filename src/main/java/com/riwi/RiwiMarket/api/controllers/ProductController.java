@@ -31,6 +31,10 @@ import java.util.Map;
 import org.springframework.validation.annotation.Validated;
 
 
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/products")
@@ -111,6 +115,37 @@ public class ProductController implements GenericController<ProductRequest, Prod
         @PathVariable String name) {
         return ResponseEntity.ok(this.productService.findByName(name));
     }
+
+    @PutMapping("/active/{id}")
+    @Operation(
+            summary = "Unarchive Product",
+            description = "Change the status of the product to active."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product unarchived successfully or already active"),
+            @ApiResponse(responseCode = "404", description = "Product not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<Map<String, String>> unarchiveProduct(@PathVariable Long id) {
+        Map<String, String> response = productService.unarchiveProduct(id);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/inactive/{id}")
+    @Operation(
+            summary = "Archive Product",
+            description = "Change the status of the product to inactive."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Product archived successfully or already archived"),
+            @ApiResponse(responseCode = "404", description = "Product not found"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<Map<String, String>> archiveProduct(@PathVariable Long id) {
+        Map<String, String> response = productService.archiveProduct(id);
+        return ResponseEntity.ok(response);
+    }
+
 
     /*
     @GetMapping(path = "/subCategory/{subCategory}")

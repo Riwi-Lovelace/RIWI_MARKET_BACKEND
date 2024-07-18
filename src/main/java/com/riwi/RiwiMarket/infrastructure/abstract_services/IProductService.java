@@ -5,6 +5,9 @@ import org.springframework.data.domain.Page;
 import java.math.BigDecimal;
 import com.riwi.RiwiMarket.api.dtos.requests.ProductRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.ProductResponse;
+import com.riwi.RiwiMarket.domain.entities.Product;
+
+import java.util.Map;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +17,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 public interface IProductService extends GenericService<ProductRequest, ProductResponse,Long>{
+    Map<String, String> archiveProduct(Long productId);
+
+    Map<String, String> unarchiveProduct(Long productId);
 
     //Method to serch for product by name
     List<ProductResponse>findByName(String name);
