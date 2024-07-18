@@ -13,6 +13,8 @@ import com.riwi.RiwiMarket.domain.repositories.SubcategoryRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IProductService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.ProductMapper;
+import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
+
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
@@ -22,7 +24,13 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.supercsv.io.CsvBeanWriter;
@@ -64,8 +72,8 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public ProductResponse read(Long aLong) {
-        return null;
+    public ProductResponse read(Long id) {
+        return this.productMapper.toResponse(this.find(id));
     }
 
     @Override
@@ -274,5 +282,36 @@ public class ProductService implements IProductService {
     @Override
     public List<ProductResponse> findByBrand(Long id) {
         return this.productMapper.toListResponse(this.productRepository.findByBrand_id(id));
+    }
+
+    @Override
+    public List<ProductResponse> findByName(String name) {
+        return this.productRepository.findByName(name)
+        .stream()
+        .map(this.productMapper::toResponse)
+        .collect(Collectors.toList());
+    }
+    /*/
+    @Override
+    public List<ProductResponse> findBySubcategoryId(Long id) {
+        return this.productRepository.findBySubcategoryId(id)
+        .stream()
+        .map(this.productMapper::toResponse)
+        .collect(Collectors.toList());
+    }*/
+
+    @Override
+    public Page<ProductResponse> getAll(int page, int size) {
+        if(page < 0)
+            page = 0;
+        PageRequest pagination = PageRequest.of(page, size);
+
+        return this.productRepository.findAll(pagination)
+            .map(this.productMapper::toResponse);
+    }
+
+    private Product find(Long id){
+        return this.productRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("There is not prodcut with the provided id"));
     }
 }

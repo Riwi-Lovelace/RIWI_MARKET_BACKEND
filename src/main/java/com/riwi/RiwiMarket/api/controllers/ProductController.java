@@ -12,13 +12,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,11 +32,10 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
 @RequestMapping(path = "/products")
+@Tag(name= "Product")
+@AllArgsConstructor
 public class ProductController implements GenericController<ProductRequest, ProductResponse,Long> {
-
-
     @Autowired
     private final IProductService productService;
 
@@ -47,17 +49,24 @@ public class ProductController implements GenericController<ProductRequest, Prod
             @ApiResponse(responseCode = "200", description = "Product retrieved successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid page or size parameters"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
-    }
-    )
-
+    })
 
     public ResponseEntity<ProductResponse> create(ProductRequest request) {
         return ResponseEntity.ok(this.productService.create(request));
     }
 
-    @Override
-    public ResponseEntity<ProductResponse> read(Long aLong) {
-        return null;
+    /****** Fine by id ****/
+    @ApiResponse(
+        responseCode = "400", description = "ID not found"
+    )
+    @Operation(
+
+        summary = "see product by id",
+        description = "Write the ID of the product you are looking for."
+    )
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<ProductResponse> read(@PathVariable Long id) {
+        return ResponseEntity.ok(this.productService.read(id));
     }
 
     @Override
@@ -70,7 +79,7 @@ public class ProductController implements GenericController<ProductRequest, Prod
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
-   
+
     @PutMapping("/description/{id}")
     @Operation(
             summary = "Update product description",
@@ -84,6 +93,40 @@ public class ProductController implements GenericController<ProductRequest, Prod
 
     public ResponseEntity<ProductResponse> updateProductDescription(@PathVariable Long id, @RequestParam String description) {
         return ResponseEntity.ok(this.productService.updateProductDescription(id,description));
+    }
+
+    /******* Fine by name *****/
+    @ApiResponse(
+        responseCode = "400", description = "Name not found"
+    )
+    @Operation(
+        summary = "see product by name",
+        description = "Write the name of the product you are looking for."
+    )
+    @GetMapping(path = "/name/{name}")
+    public ResponseEntity<List<ProductResponse>> findByName(
+        @PathVariable String name) {
+        return ResponseEntity.ok(this.productService.findByName(name));
+    }
+
+    /*
+    @GetMapping(path = "/subCategory/{subCategory}")
+    public ResponseEntity<List<ProductResponse>> findBySubcategoryId(
+        @PathVariable Long id) {
+        return ResponseEntity.ok(this.productService.findBySubcategoryId(id));
+    }*/
+
+    /******* List all products *****/
+    @Operation(
+        summary = "see all products",
+        description = "list of all products."
+    )
+    @GetMapping
+    public ResponseEntity<Page<ProductResponse>> getAll(
+        @RequestParam(defaultValue = "1") int page,
+        @RequestParam(defaultValue = "5") int size
+    ){
+        return ResponseEntity.ok(this.productService.getAll(page -1, size));
     }
 
     @Operation(

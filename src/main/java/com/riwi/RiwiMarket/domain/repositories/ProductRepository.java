@@ -11,4 +11,10 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product,Long> {
     public List<Product> findBySubcategory_Id (Long id);
     public List<Product> findByBrand_id(Long id);
+
+    //Method to serch for product by name
+   List<Product>findByName(String name);
+
+
+
 }
