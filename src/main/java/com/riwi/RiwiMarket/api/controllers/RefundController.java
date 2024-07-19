@@ -72,12 +72,18 @@ public class RefundController implements IRefundController {
         // se convierte en la fecha actual, y si es antes que star , se convierte en la
         // fecha star.
 
-        if (star == null) {
+        if ((star == null) && (end == null)) {
+
+            return ResponseEntity.ok(this.refundService.getAll1(request));
+        } else if (star == null) {
             if (end.isAfter(dLocalDate)) {
                 request.setDateEnd(dLocalDate);
                 request.setDate(dLocalDate);
-            }else{
+            } else {
                 request.setDate(end);
+                request.setDateEnd(end);
+                System.out.println(request.getDate());
+                System.out.println(request.getDateEnd());
             }
         } else if (end == null) {
             request.setDateEnd(star);
