@@ -2,6 +2,7 @@ package com.riwi.RiwiMarket.infrastructure.services;
 import com.riwi.RiwiMarket.util.enums.Method;
 import com.riwi.RiwiMarket.util.enums.Reason;
 import com.riwi.RiwiMarket.api.dtos.requests.RefundRequest;
+import com.riwi.RiwiMarket.api.dtos.requests.RefundRequestGetAll;
 import com.riwi.RiwiMarket.api.dtos.responses.RefundResponse;
 import com.riwi.RiwiMarket.domain.entities.Item;
 import com.riwi.RiwiMarket.domain.entities.Refund;
@@ -66,21 +67,22 @@ public class RefundService implements IRefundService {
  
 
 
-    @Override
-    public Page<RefundResponse> getAll(int page, int size, Method method,Reason reason, LocalDate date,
-            LocalDate dateEnd) {
-                PageRequest pageRequest = PageRequest.of(page, size);
-                if(reason == null && method == null && dateEnd == null && date == null){
-                    Page<Refund> refundPage = this.refundRepository.findAll(pageRequest);
-                    List<RefundResponse> refundResponse =this.returnMapper.RefundListToResponseList(refundPage.getContent());
-                    return new PageImpl<>(refundResponse, pageRequest,refundPage.getTotalElements());
-                }else{
-                    // Page<Refund> refundPage = this.refundRepository.findByMethodOrReasonOrDateBetween(method, reason, pageRequest,date,dateEnd);
-                   Page<Refund> refundPage = this.refundRepository.getall(pageRequest,method,reason,date,dateEnd);
-                    List<RefundResponse> refundResponse =this.returnMapper.RefundListToResponseList(refundPage.getContent());
-                    return new PageImpl<>(refundResponse, pageRequest,refundPage.getTotalElements());
-                }
-    }
+    // @Override
+    // // Estas lineas de codigo es la solucion planteada sin un dtorefundRequestGetAll. y esta no tiene funcionalidad aplicada. para retornar las fechas.
+    // public Page<RefundResponse> getAll(int page, int size, Method method,Reason reason, LocalDate date,
+    //         LocalDate dateEnd) {
+    //             PageRequest pageRequest = PageRequest.of(page, size);
+    //             if(reason == null && method == null && dateEnd == null && date == null){
+    //                 Page<Refund> refundPage = this.refundRepository.findAll(pageRequest);
+    //                 List<RefundResponse> refundResponse =this.returnMapper.RefundListToResponseList(refundPage.getContent());
+    //                 return new PageImpl<>(refundResponse, pageRequest,refundPage.getTotalElements());
+    //             }else{
+    //                 // Page<Refund> refundPage = this.refundRepository.findByMethodOrReasonOrDateBetween(method, reason, pageRequest,date,dateEnd);
+    //                Page<Refund> refundPage = this.refundRepository.getall(pageRequest,method,reason,date,dateEnd);
+    //                 List<RefundResponse> refundResponse =this.returnMapper.RefundListToResponseList(refundPage.getContent());
+    //                 return new PageImpl<>(refundResponse, pageRequest,refundPage.getTotalElements());
+    //             }
+    // }
     @Override
     public RefundResponse read(Long aLong) {
         Refund refund = this.supportService.findById(refundRepository, aLong, "Refund");
@@ -96,6 +98,24 @@ public class RefundService implements IRefundService {
     @Override
     public void delete(Long aLong) {
         // Not contemplated
+    }
+
+
+
+    @Override
+    // Este codigo tiene la funcionalidad aplicada. para retornar las fechas. con el refundRequestGetAll.
+    public Page<RefundResponse> getAll1(RefundRequestGetAll request) {
+        PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
+        if(request.getReason() == null && request.getMethod() == null && request.getDateEnd() == null && request.getDate() == null){
+            Page<Refund> refundPage = this.refundRepository.findAll(pageRequest);
+            List<RefundResponse> refundResponse =this.returnMapper.RefundListToResponseList(refundPage.getContent());
+            return new PageImpl<>(refundResponse, pageRequest,refundPage.getTotalElements());
+        }else{
+           Page<Refund> refundPage = this.refundRepository.getall(pageRequest,request.getMethod(),request.getReason(),request.getDate(),request.getDateEnd());
+            List<RefundResponse> refundResponse =this.returnMapper.RefundListToResponseList(refundPage.getContent());
+            return new PageImpl<>(refundResponse, pageRequest,refundPage.getTotalElements());
+        }
+        
     }
 
 }
