@@ -52,10 +52,27 @@ public class StockService implements IStockService {
 
     @Override
     public Page<StockResponse> getAll(String productName, String categoryName, int size, int page, GeneralSort generalSort) {
-        PageRequest pageRequest = PageRequest.of(page,size);
+        PageRequest pageRequest = PageRequest.of(page-1,size);
 
         if(productName == null && categoryName == null){
+            System.out.println("entro a findAll");
             Page<Stock> stockPage = this.stockRepository.findAll(pageRequest);
+            List<Stock> stocks = this.stockRepository.findAll();
+            for(Stock stock: stocks){
+                System.out.println("id: " + stock.getId());
+                System.out.println("quantity " + stock.getQuantity());
+                System.out.println("weight " + stock.getWeight());
+            }
+
+            System.out.println("Esto es paginate");
+
+            for(Stock stocke: stockPage.getContent()){
+                System.out.println("id: " + stocke.getId());
+                System.out.println("quantity " + stocke.getQuantity());
+                System.out.println("weight " + stocke.getWeight());
+            }
+
+
             List<StockResponse> stockResponse = this.stockMapper.listEntitiesToStockResp(stockPage.getContent());
             return new PageImpl<>(stockResponse, pageRequest, stockPage.getTotalElements());
         }else {

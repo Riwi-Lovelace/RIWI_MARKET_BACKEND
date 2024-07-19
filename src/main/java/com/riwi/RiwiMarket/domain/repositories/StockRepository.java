@@ -16,9 +16,13 @@ import java.util.List;
 public interface StockRepository extends JpaRepository<Stock, Long> {
     //Add here the advanced queries to databases
 
-    @Query("SELECT r FROM stock r WHERE" +
-            "(:productName IS NULL OR r.batch.product.name = :productName) AND" +
-            "(:categoryName IS NULL OR r.batch.product.subcategory.category.name = :categoryName)")
+    @Query("SELECT s FROM stock s " +
+            "JOIN s.batch b " +
+            "JOIN b.product p " +
+            "JOIN p.subcategory sc " +
+            " JOIN sc.category c " +
+            "WHERE (:productName IS NULL OR s.batch.product.name = :productName) AND " +
+            "(:categoryName IS NULL OR s.batch.product.subcategory.category.name = :categoryName)")
     Page<Stock> getall(PageRequest request, @Param("productName")String productName, @Param("categoryName")String categoryName);
 
 }
