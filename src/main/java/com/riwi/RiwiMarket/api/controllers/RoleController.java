@@ -118,12 +118,11 @@ public class RoleController implements IRoleController {
                 schema = @Schema(implementation = ErrorResponse.class)
             )}
     )
-    @Operation(summary = "Update role", description = "Update roles Active or Inactive")
+    @Operation(summary = "Update role", description = "Update roles Active or Inactive and name")
     @PutMapping(path = "/{id}")
     @Override
     public ResponseEntity<RoleResponse> updateIsActive(@Validated @RequestBody RoleRequestIsActive requestIsActive,@PathVariable Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateIsActive'");
+        return ResponseEntity.ok(this.roleService.updateIsActive(id, requestIsActive));
     }
     
 }
