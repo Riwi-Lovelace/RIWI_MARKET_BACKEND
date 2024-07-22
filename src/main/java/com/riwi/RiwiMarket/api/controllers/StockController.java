@@ -7,6 +7,7 @@ import com.riwi.RiwiMarket.api.dtos.requests.StockWeightUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.StockResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IStockService;
 import com.riwi.RiwiMarket.util.enums.GeneralSort;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,10 @@ public class StockController implements IStockController {
 
     @GetMapping
     @Override
+    @Operation(
+            summary = "Get information of the stock",
+            description = "You can get all the stock of the store when you don't specify product Name and category Name. When you specify one parameter for searching you get the products that match or you even can specify two parameter and get the stock that match product Name and category Name. This get is paginate."
+    )
     public ResponseEntity<Page<StockResponse>> getAll(@RequestParam(required = false, value = "") String productName,
                                                       @RequestParam(required = false, value = "") String categoryName,
                                                       @RequestParam(defaultValue = "5") int size,

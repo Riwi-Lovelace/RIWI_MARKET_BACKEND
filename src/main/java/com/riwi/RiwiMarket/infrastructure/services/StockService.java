@@ -53,7 +53,7 @@ public class StockService implements IStockService {
 
     @Override
     public Page<StockResponse> getAll(String productName, String categoryName, int size, int page, GeneralSort generalSort) {
-        //PageRequest pageRequest = PageRequest.of(page-1,size);
+
         PageRequest pageRequest = null;
         switch (generalSort) {
             case NONE -> pageRequest = PageRequest.of(page-1, size);
