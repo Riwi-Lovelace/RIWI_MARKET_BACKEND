@@ -15,17 +15,14 @@ import java.util.List;
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
     //Add here the advanced queries to databases
-
+    //this Query search by product name or categoryName and can search the same word or contains part of the word
     @Query("SELECT s FROM stock s " +
             "JOIN s.batch b " +
             "JOIN b.product p " +
             "JOIN p.subcategory sc " +
             " JOIN sc.category c " +
-            "WHERE (:productName IS NULL OR s.batch.product.name = :productName) AND " +
-            "(:categoryName IS NULL OR s.batch.product.subcategory.category.name = :categoryName)")
+            "WHERE (:productName IS NULL OR s.batch.product.name LIKE %:productName%) AND " +
+            "(:categoryName IS NULL OR s.batch.product.subcategory.category.name LIKE %:categoryName%)")
     Page<Stock> getall(PageRequest request, @Param("productName")String productName, @Param("categoryName")String categoryName);
 
 }
-
-
-// getAll(String productName, String categoryName, int size, int page, GeneralSort generalSort)
