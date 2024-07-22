@@ -12,5 +12,4 @@ import java.time.LocalDate;
 
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
-
 }
