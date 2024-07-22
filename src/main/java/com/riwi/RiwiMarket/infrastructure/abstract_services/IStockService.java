@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import java.util.List;
 
 public interface IStockService extends GenericService<StockRequest, StockResponse, Long> {
+
+    public final String FIELD_BY_SORT_STOCK = "batch";
     Page<StockResponse> getAll(String productName, String categoryName, int size, int page, GeneralSort generalSort);
 
     StockResponse updateQuantity(StockQuantityUpdateRequest request, Long id);

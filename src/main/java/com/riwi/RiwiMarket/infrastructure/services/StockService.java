@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,7 +53,14 @@ public class StockService implements IStockService {
 
     @Override
     public Page<StockResponse> getAll(String productName, String categoryName, int size, int page, GeneralSort generalSort) {
-        PageRequest pageRequest = PageRequest.of(page-1,size);
+        //PageRequest pageRequest = PageRequest.of(page-1,size);
+        PageRequest pageRequest = null;
+        switch (generalSort) {
+            case NONE -> pageRequest = PageRequest.of(page-1, size);
+            case ASC -> pageRequest = PageRequest.of(page-1, size, Sort.by(FIELD_BY_SORT_STOCK).ascending());
+            case DESC -> pageRequest = PageRequest.of(page-1, size, Sort.by(FIELD_BY_SORT_STOCK).descending());
+        }
+
 
         if(productName == null && categoryName == null){
             //if user doesn't input productName and categoryName
