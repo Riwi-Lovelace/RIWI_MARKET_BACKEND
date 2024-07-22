@@ -4,6 +4,7 @@ import com.riwi.RiwiMarket.api.abstract_controller.GenericController;
 import com.riwi.RiwiMarket.api.dtos.requests.ProductBrandRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.ProductRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.ProductResponse;
+import com.riwi.RiwiMarket.domain.entities.Product;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -77,8 +78,17 @@ public class ProductController implements GenericController<ProductRequest, Prod
     }
 
     @Override
-    public ResponseEntity<ProductResponse> update(ProductRequest request, Long aLong) {
-        return null;
+    @ApiResponse(
+            responseCode = "400", description = "ID not found"
+    )
+    @Operation(
+
+            summary ="Update Product",
+            description = "update a product by entering the id and new information"
+    )
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<ProductResponse> update(@RequestBody @Validated ProductRequest request, @PathVariable  Long id) {
+         return ResponseEntity.ok( this.productService.update(id,request));
     }
 
     @Override
