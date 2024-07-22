@@ -43,6 +43,7 @@ public class Item {
     private Refund refund;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sale_id" , referencedColumnName = "id")
+    @JoinColumn(name =
+            "sale_id" , referencedColumnName = "id")
     private Sale saleId;
 }
