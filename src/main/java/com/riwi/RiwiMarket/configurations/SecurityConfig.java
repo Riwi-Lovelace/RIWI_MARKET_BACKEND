@@ -1,4 +1,4 @@
-package com.riwi.RiwiMarket.configurations;
+/* package com.riwi.RiwiMarket.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,3 +22,4 @@ public class SecurityConfig {
                 ).build();
     }
 }
+ */

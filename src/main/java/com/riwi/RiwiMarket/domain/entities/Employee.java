@@ -2,13 +2,10 @@ package com.riwi.RiwiMarket.domain.entities;
 
 import java.math.BigDecimal;
 import java.util.List;
-import com.riwi.RiwiMarket.util.enums.RoleEmployee;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -53,13 +50,18 @@ public class Employee {
 
     @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private BigDecimal salary;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private RoleEmployee role;
     
     @Column(nullable = false)
     private Integer schedule;
+    
+    @Column(nullable = false)
+    @OneToMany(
+        fetch = FetchType.EAGER,
+        mappedBy = "",
+        cascade = CascadeType.ALL,
+        orphanRemoval = false
+    )
+    private List<Role> roles;
 
     @OneToMany(
         fetch = FetchType.EAGER,
