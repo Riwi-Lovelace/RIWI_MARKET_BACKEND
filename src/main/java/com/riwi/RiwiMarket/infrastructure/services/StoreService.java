@@ -1,0 +1,96 @@
+package com.riwi.RiwiMarket.infrastructure.services;
+
+import com.riwi.RiwiMarket.api.dtos.requests.StoreRequest;
+import com.riwi.RiwiMarket.api.dtos.responses.StoreResponse;
+import com.riwi.RiwiMarket.domain.entities.Pocket;
+import com.riwi.RiwiMarket.domain.entities.Store;
+import com.riwi.RiwiMarket.domain.repositories.PocketRepository;
+import com.riwi.RiwiMarket.domain.repositories.StoreRepository;
+import com.riwi.RiwiMarket.infrastructure.abstract_services.IStoreService;
+import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
+import com.riwi.RiwiMarket.infrastructure.helpers.mappers.StoreMapper;
+import com.riwi.RiwiMarket.util.enums.SortType;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@AllArgsConstructor
+public class StoreService implements IStoreService {
+
+    @Autowired
+    private final StoreRepository storeRepository;
+
+    @Autowired
+    private final StoreMapper storeMapper;
+
+    @Autowired
+    private final SupportService<Store> supportService;
+
+    @Autowired
+    private final PocketRepository pocketRepository;
+
+    @Override
+    public StoreResponse create(StoreRequest request) {
+        return null;
+    }
+
+    @Override
+    public StoreResponse read(Long id) {
+        return this.storeMapper.toResponse(this.supportService.findById(storeRepository, id, "Store"));
+    }
+
+    @Override
+    public StoreResponse update(Long id, StoreRequest request) {
+        Store store = this.supportService.findById(storeRepository, id, "store");
+        store = this.storeMapper.toEntity(request);
+        store.setId(id);
+
+        List<Pocket> pockets = this.pocketRepository.findAll();
+        BigDecimal totalAmounth = BigDecimal.ZERO;
+        for (Pocket element : pockets) {
+            System.out.println(element.getAmount() + " ");
+            totalAmounth = totalAmounth.add(element.getAmount());
+        }
+        System.out.println("estoy imprimiendo los pockets" + pockets);
+        store.setAvailable(totalAmounth);
+
+        return this.storeMapper.toResponse(this.storeRepository.save(store));
+    }
+
+    @Override
+    public void delete(Long id) {
+
+    }
+
+    @Override
+    public Page<StoreResponse> getAll(int page, int size, SortType sortStore) {
+        if (page < 0) page = 0;
+        PageRequest pagination = null;
+        switch (sortStore) {
+
+            case NONE -> pagination = PageRequest.of(page, size, Sort.unsorted());
+            case ASC -> pagination = PageRequest.of(page, size, Sort.by("name").ascending());
+            case DESC -> pagination = PageRequest.of(page, size, Sort.by("name").descending());
+            default -> throw new IllegalArgumentException("Invalid sort type: " + sortStore);
+        }
+        return this.storeRepository.findAll(pagination).map(this.storeMapper::toResponse);
+    }
+
+    //function to convert ArrayList of an entity to Page of entity
+    private <T> Page<T> convertListToPage(List<T> list, int page, int size) {
+        int start = (int) PageRequest.of(page, size).getOffset();
+        int end = Math.min((start + PageRequest.of(page, size).getPageSize()), list.size());
+        List<T> subList = list.subList(start, end);
+        return new PageImpl<>(subList, PageRequest.of(page, size), list.size());
+    }
+}

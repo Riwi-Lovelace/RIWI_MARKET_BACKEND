@@ -9,5 +9,7 @@ public class RiwiMarketApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RiwiMarketApplication.class, args);
 	}
+		
+
 
 }
