@@ -26,6 +26,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -83,7 +85,11 @@ public class ProductService implements IProductService {
 
     @Override
     public ProductResponse update(Long aLong, ProductRequest request) {
-        return null;
+        Product product = this.SupportService.findById(this.productRepository, aLong,"Product");
+
+        BeanUtils.copyProperties(request,product);
+
+        return this.productMapper.toResponse(this.productRepository.save(product));
     }
 
     @Override
@@ -269,6 +275,7 @@ public class ProductService implements IProductService {
     @Override
     public List<ProductResponse> findBySubcategory(Long id) {
         return this.productMapper.toListResponse(this.productRepository.findBySubcategory_Id(id));
+    }
 
     @Override
     public void addBrandToProduct(Long productId, Long brandId) {
