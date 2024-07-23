@@ -35,10 +35,10 @@ public class Subcategory {
     @Column(nullable = false)
     private Boolean status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
-    @OneToMany(mappedBy = "subcategory", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "subcategory", fetch = FetchType.EAGER)
     private List<Product> products;
 }
