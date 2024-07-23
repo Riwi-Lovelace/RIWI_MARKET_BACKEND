@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class ExpenseRequest {
     @NotNull(message = "Amount is required")
     @DecimalMin("0.00")
     private BigDecimal amount;
+
+    private LocalDate specifDate;
 
     @NotBlank(message = "Description is required")
     @Size(min = 0, max = 100)
