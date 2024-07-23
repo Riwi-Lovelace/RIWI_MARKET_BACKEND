@@ -1,4 +1,4 @@
-package com.riwi.RiwiMarket.api.controllers;
+package com.riwi.RiwiMarket.api.abstract_controller;
 
 import org.springframework.http.ResponseEntity;
 

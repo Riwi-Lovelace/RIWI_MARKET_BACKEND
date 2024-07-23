@@ -1,11 +1,13 @@
 package com.riwi.RiwiMarket.domain.entities;
 
-import com.riwi.RiwiMarket.util.enums.StatusProduct;
+import java.util.List;
 import jakarta.persistence.*;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 
 @Entity(name = "product")
@@ -17,16 +19,45 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false, length = 13)
-    private String id;
+    private Long id;
+
     @Column(nullable = false, length = 50)
     private String name;
+
     @Column(nullable = false, columnDefinition = "DECIMAL(10,2)")
     private BigDecimal price;
-    @Column(nullable = false, columnDefinition = "DECIMAL(0,2)")
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,2)")
     private BigDecimal iva;
     @Column(columnDefinition = "TEXT")
     private String description;
-    @Enumerated(EnumType.STRING)
+
     @Column(nullable = false)
-    private StatusProduct status;
+    private Boolean status;
+
+    @Column(nullable = false)
+    private String urlImg;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "subcategory_id", referencedColumnName = "id")
+    private Subcategory subcategory;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id", referencedColumnName = "id")
+    private Brand brand;
+
+    @OneToMany(fetch = FetchType.EAGER,
+    mappedBy = "product",
+    cascade = CascadeType.ALL)
+    private List<Batch> batches;
+
+    @Transient
+    private  String subcategoryName;
+    @Transient
+    private  Long IdBrand;
+
+    public Product( String subcategoryName) {this.subcategoryName = subcategoryName;
+    }
+
+
 }

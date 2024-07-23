@@ -1,9 +1,7 @@
 package com.riwi.RiwiMarket.infrastructure.helpers.mappers;
 
-public interface GenericMapper<RequestDTO, ResponseDTO, Entity> {
+public interface GenericMapper<RequestDTO, ResponseDTO, Entity> {    
+    Entity toEntity(RequestDTO userRequest);
 
-    Entity toUserEntity(RequestDTO userRequest);
-
-    ResponseDTO toUserResponse(Entity userEntity);
-
+    ResponseDTO toResponse(Entity userEntity);
 }
