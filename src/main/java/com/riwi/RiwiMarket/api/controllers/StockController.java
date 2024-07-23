@@ -1,7 +1,7 @@
 package com.riwi.RiwiMarket.api.controllers;
 
 import com.riwi.RiwiMarket.api.abstract_controller.IStockController;
-import com.riwi.RiwiMarket.api.dtos.requests.StockQuantityUpdateRequest;
+import com.riwi.RiwiMarket.api.dtos.requests.StockUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.StockRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.StockWeightUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.StockResponse;
@@ -10,8 +10,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -48,9 +48,11 @@ public class StockController implements IStockController {
         return null;
     }
 
+
     @Override
-    public ResponseEntity<StockResponse> updateQuantity(StockQuantityUpdateRequest request, Long id) {
-        return null;
+    @PatchMapping("/{id}")
+    public StockResponse updateStock(@Validated @RequestBody StockUpdateRequest request, @PathVariable Long id) {
+        return this.stockService.updateStock(request, id);
     }
 
     @Override
