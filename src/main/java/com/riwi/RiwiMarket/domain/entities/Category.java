@@ -33,6 +33,6 @@ public class Category {
     @Column(nullable = false)
     private Boolean status;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
     private List<Subcategory> subcategories;
 }
