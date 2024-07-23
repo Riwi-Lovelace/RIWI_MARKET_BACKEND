@@ -26,8 +26,6 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
             "(:categoryName IS NULL OR s.batch.product.subcategory.category.name LIKE %:categoryName%)")
     Page<Stock> getall(PageRequest request, @Param("productName")String productName, @Param("categoryName")String categoryName);
 
-}
-
     Stock findByBatch(Batch batch);
 
 }
