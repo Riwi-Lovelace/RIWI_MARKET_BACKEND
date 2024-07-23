@@ -28,7 +28,7 @@ public class StockController implements IStockController {
     private final IStockService stockService;
 
     @Override
-    @Operation(summary = "Creat a pocket", description = "Creat a poket by sending the amount, the poket type CASH or BANK, and a description")
+    @Operation(summary = "Creat a stock", description = "Create a stock by sending the batch that will be associated")
     @PostMapping
     public ResponseEntity<StockResponse> create(@Validated @RequestBody StockRequest request) {
 
