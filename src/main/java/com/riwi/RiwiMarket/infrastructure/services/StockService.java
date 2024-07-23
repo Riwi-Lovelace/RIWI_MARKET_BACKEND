@@ -60,24 +60,38 @@ public class StockService implements IStockService {
         if (request.getQuantity() < 0 || request.getWeight().compareTo(BigDecimal.ZERO) < 0) {
             throw new BadRequestException("Negative values are not valid");
         } else if (request.getQuantity() == 0 && request.getWeight().compareTo(BigDecimal.ZERO) == 0) {
-            throw new BadRequestException("You must specify at least one field.");
-        } else if (request.getQuantity() != 0) {
-            if (request.getWeight() != BigDecimal.ZERO) {
-                throw new BadRequestException("You can only update one field. Quantity or weight. But not both.");
-            } else {
-                stock.setQuantity(request.getQuantity());
-                stock.setWeight(null);
-                this.stockRepository.save(stock);
-            }
-        } else if (request.getWeight() != null) {
+            stock.setWeight(BigDecimal.ZERO);
+            stock.setQuantity(0);
+            this.stockRepository.save(stock);
+        } else if (request.getQuantity() != 0 && !request.getWeight().equals(BigDecimal.ZERO)) {
+            throw new BadRequestException("You can only update one field. Quantity or weight. But not both.");
+        } else {
             if (request.getQuantity() != 0) {
-                throw new BadRequestException("You can only update one field. Quantity or weight. But not Both.");
+                if (checkIfIsQuantity(stock)) {
+                    stock.setQuantity(request.getQuantity());
+                    stock.setWeight(null);
+                    this.stockRepository.save(stock);
+                } else {
+                    throw new BadRequestException("You can not update quantity, cause this product is measured in weight");
+                }
             } else {
-                stock.setWeight(request.getWeight());
-                stock.setQuantity(null);
-                this.stockRepository.save(stock);
+                if (!checkIfIsQuantity(stock)) {
+                    stock.setWeight(request.getWeight());
+                    stock.setQuantity(null);
+                    this.stockRepository.save(stock);
+                } else {
+                    throw new BadRequestException("You can not update weight, cause this product is measured in quantity");
+                }
             }
         }
         return stockMapper.toResponse(stock);
+    }
+
+    private boolean checkIfIsQuantity(Stock stock) {
+        if (stock.getQuantity() != null && stock.getWeight() == null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
