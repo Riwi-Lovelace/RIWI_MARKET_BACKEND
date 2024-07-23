@@ -17,7 +17,7 @@ public class ExpenseRequest {
     private LocalDateTime date;
     private String description;
     private List<PaymentExpenseRequest> paymentExpenseId;
-    private Long supplierId;
-    private Long employeeId;
+    private Long supplier;
+    private Long employee;
 
 }

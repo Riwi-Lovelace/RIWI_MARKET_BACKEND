@@ -12,5 +12,6 @@ import com.riwi.RiwiMarket.domain.entities.Supplier;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface SupplierMapper extends GenericMapper<SupplierRequest, SupplierResponse, Supplier>{
-
+    @Override
+    public Supplier toEntity(SupplierRequest supplierRequest);
 }
