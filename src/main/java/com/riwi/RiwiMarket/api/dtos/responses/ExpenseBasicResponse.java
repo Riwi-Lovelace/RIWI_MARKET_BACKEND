@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,5 +17,6 @@ public class ExpenseBasicResponse {
     private Long id;
     private BigDecimal amount;
     private LocalDateTime date;
+    private LocalDate specifDate;
     private String description;
 }

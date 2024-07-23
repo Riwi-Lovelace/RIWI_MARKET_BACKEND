@@ -1,6 +1,7 @@
 package com.riwi.RiwiMarket.domain.entities;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class Expense {
     @CreationTimestamp
     @Column(nullable = false)
     private LocalDateTime date;
+
+    private LocalDate specifDate;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
