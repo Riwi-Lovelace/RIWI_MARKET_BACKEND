@@ -6,6 +6,7 @@ import com.riwi.RiwiMarket.api.dtos.requests.StockRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.StockWeightUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.StockResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IStockService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ public class StockController implements IStockController {
 
 
     @Override
+    @Operation(summary = "Update Stock", description = "Update the Quantity or the Weight of the Stock by giving the Id as a parameter. User can only update one field of the product. If want to update the quantity, he must just changed that field and the other one will keep in 0 or null. If want to change the Weight, it will be the same, just change the Weight field and quantity must keep in 0 or null. Negatives values are not allowed.")
     @PatchMapping("/{id}")
     public StockResponse updateStock(@Validated @RequestBody StockUpdateRequest request, @PathVariable Long id) {
         return this.stockService.updateStock(request, id);

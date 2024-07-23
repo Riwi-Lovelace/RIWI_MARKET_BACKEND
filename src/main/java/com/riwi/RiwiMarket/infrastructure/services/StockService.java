@@ -57,8 +57,10 @@ public class StockService implements IStockService {
     @Override
     public StockResponse updateStock(StockUpdateRequest request, Long id) {
         Stock stock = this.supportService.findById(this.stockRepository, id, "Stock");
-        if (request.getQuantity() < 0 || request.getWeight().compareTo(BigDecimal.ZERO) < 0){
+        if (request.getQuantity() < 0 || request.getWeight().compareTo(BigDecimal.ZERO) < 0) {
             throw new BadRequestException("Negative values are not valid");
+        } else if (request.getQuantity() == 0 && request.getWeight().compareTo(BigDecimal.ZERO) == 0) {
+            throw new BadRequestException("You must specify at least one field.");
         } else if (request.getQuantity() != 0) {
             if (request.getWeight() != BigDecimal.ZERO) {
                 throw new BadRequestException("You can only update one field. Quantity or weight. But not both.");
