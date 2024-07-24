@@ -1,9 +1,7 @@
 package com.riwi.RiwiMarket.infrastructure.abstract_services;
 
 import com.riwi.RiwiMarket.api.dtos.requests.StockUpdateRequest;
-import com.riwi.RiwiMarket.api.dtos.requests.StockQuantityUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.StockRequest;
-import com.riwi.RiwiMarket.api.dtos.requests.StockWeightUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.StockResponse;
 import com.riwi.RiwiMarket.util.enums.GeneralSort;
 import org.springframework.data.domain.Page;
