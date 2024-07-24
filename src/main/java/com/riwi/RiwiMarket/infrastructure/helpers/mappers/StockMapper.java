@@ -1,6 +1,8 @@
 package com.riwi.RiwiMarket.infrastructure.helpers.mappers;
 
+import com.riwi.RiwiMarket.api.dtos.requests.StockUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.StockRequest;
+import com.riwi.RiwiMarket.api.dtos.requests.StockWeightUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.StockResponse;
 import com.riwi.RiwiMarket.domain.entities.Stock;
 import org.mapstruct.InheritConfiguration;
@@ -23,4 +25,8 @@ public interface StockMapper extends GenericMapper<StockRequest, StockResponse, 
     @InheritConfiguration
     public StockResponse toResponse(Stock stock);
     List<StockResponse> listEntitiesToStockResp(List<Stock> stocks);
+
+    Stock toEntityUpdateQuantity(StockUpdateRequest userRequest);
+
+    Stock toEntityUpdateWeight(StockWeightUpdateRequest userRequest);
 }

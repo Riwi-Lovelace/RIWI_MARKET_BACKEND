@@ -1,5 +1,6 @@
 package com.riwi.RiwiMarket.infrastructure.abstract_services;
 
+import com.riwi.RiwiMarket.api.dtos.requests.StockUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.StockQuantityUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.StockRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.StockWeightUpdateRequest;
@@ -14,7 +15,6 @@ public interface IStockService extends GenericService<StockRequest, StockRespons
     public final String FIELD_BY_SORT_STOCK = "batch";
     Page<StockResponse> getAll(String productName, String categoryName, int size, int page, GeneralSort generalSort);
 
-    StockResponse updateQuantity(StockQuantityUpdateRequest request, Long id);
+    StockResponse updateStock(StockUpdateRequest request, Long id);
 
-    StockResponse updateWeight(StockWeightUpdateRequest request, Long id);
 }
