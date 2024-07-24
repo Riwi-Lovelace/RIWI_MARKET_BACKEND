@@ -1,7 +1,7 @@
 package com.riwi.RiwiMarket.api.controllers;
 
 import com.riwi.RiwiMarket.api.abstract_controller.IExpenseController;
-import com.riwi.RiwiMarket.api.dtos.requests.ExpenseRequest;
+import com.riwi.RiwiMarket.api.dtos.requests.ExpensePatchRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.ExpenseCompleteResponse;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IExpenseService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,7 +21,7 @@ public class ExpenseController implements IExpenseController {
     IExpenseService expenseService;
 
     @Override
-    public ResponseEntity<ExpenseCompleteResponse> create(ExpenseRequest request) {
+    public ResponseEntity<ExpenseCompleteResponse> create(ExpensePatchRequest request) {
         return null;
     }
 
@@ -31,7 +31,7 @@ public class ExpenseController implements IExpenseController {
     }
 
     @Override
-    public ResponseEntity<ExpenseCompleteResponse> update(ExpenseRequest request, Long aLong) {
+    public ResponseEntity<ExpenseCompleteResponse> update(ExpensePatchRequest request, Long aLong) {
         return null;
     }
 
