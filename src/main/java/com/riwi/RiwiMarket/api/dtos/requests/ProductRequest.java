@@ -1,9 +1,6 @@
 package com.riwi.RiwiMarket.api.dtos.requests;
 
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -29,4 +26,10 @@ public class ProductRequest {
 
     @NotNull(message = "subcategory name is required")
     private Long subcategoryID;
+
+    @DecimalMin(value = "0",message = "weight cannot be less than 0")
+    private BigDecimal weightThreshold;
+
+    @Min(value = 0,message = "the quantity cannot be less than 0")
+    private Integer quantityThreshold;
 }
