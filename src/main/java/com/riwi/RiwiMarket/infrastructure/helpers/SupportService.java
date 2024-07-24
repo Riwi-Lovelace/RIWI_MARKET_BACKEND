@@ -5,6 +5,11 @@ import org.springframework.stereotype.Component;
 import com.riwi.RiwiMarket.util.exceptions.BadIdException;
 import lombok.AllArgsConstructor;
 
+
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
+
+
 @Component
 @AllArgsConstructor
 public class SupportService<Entity> {

@@ -2,12 +2,17 @@ package com.riwi.RiwiMarket.api.dtos.responses;
 
 import lombok.*;
 
+
+
+
+
+
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class PaymentExpenseResponse {
+
+public class PocketBasicResponse {
     private Long id;
-    private PocketBasicResponse pocket;
+    private String description;
 }
