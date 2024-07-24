@@ -32,7 +32,7 @@ public class CustomerService implements ICustomerService{
     private final SupportService<Customer> supportService;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncode;
 
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -48,7 +48,7 @@ public class CustomerService implements ICustomerService{
     @Override
     public CustomerResponse create(CustomerRequest request) {
         Customer customer = this.customerMapper.toEntity(request);
-        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        customer.setPassword(passwordEncode.encode(customer.getPassword()));
         return this.customerMapper.toResponse(this.customerRepository.save(customer));
     }
 
@@ -63,7 +63,7 @@ public class CustomerService implements ICustomerService{
         Customer customer = this.findIdCustomer(id);
         customer = this.customerMapper.toEntity(request);
         if (!request.getPassword().isEmpty()) {
-            customer.setPassword(passwordEncoder.encode(request.getPassword()));
+            customer.setPassword(passwordEncode.encode(request.getPassword()));
         }
         customer.setId(id);
         return this.customerMapper.toResponse(this.customerRepository.save(customer));
