@@ -56,7 +56,7 @@ public class ExpenseService implements IExpenseService {
 
             Page<Expense> expenses = this.expenseRepository.findAll(pageRequest);
             List<ExpenseCompleteResponse> expenseCompleteResponses = this.expenseMapper.listEntities(expensePage.getContent());
-            return new PageImpl<>(expenseCompleteResponses)
+            return new PageImpl<>(expenseCompleteResponses, pageRequest, expensePage.getTotalElements());
         }else{
 
         }
