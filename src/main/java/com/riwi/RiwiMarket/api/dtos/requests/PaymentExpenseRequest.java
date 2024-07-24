@@ -1,5 +1,7 @@
 package com.riwi.RiwiMarket.api.dtos.requests;
 
+import java.math.BigDecimal;
+
 import lombok.*;
 
 @Setter
@@ -9,4 +11,6 @@ import lombok.*;
 @Builder
 public class PaymentExpenseRequest {
     private Long pocketId;
+    private BigDecimal amount;
+
 }

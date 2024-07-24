@@ -40,12 +40,12 @@ public class Expense {
     private Status paidStatus;
 
     @OneToMany(
-        fetch = FetchType.EAGER,
+        fetch = FetchType.LAZY,
         mappedBy = "expenseId",
         cascade = CascadeType.ALL,
         orphanRemoval = false
     )
-    private List<PaymentExpense> paymentExpenses;
+    private List<PaymentExpense> paymentExpensesId;
 
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -27,7 +27,7 @@ public class ExpenseRequest {
     private String description;
 
     @NotNull(message = "Paid status is required")
-    private Status paidStatus;
+     private Status paidStatus;
 
     private List<PaymentExpenseRequest> paymentExpenseId;
     private Long supplierId;

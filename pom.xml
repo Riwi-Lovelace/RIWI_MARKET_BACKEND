@@ -114,9 +114,9 @@
 							<version>0.2.0</version>
 						</path>
 					</annotationProcessorPaths>
-					<!-- <compilerArgs>
-                    	<arg>-Amapstruct.verbose=true</arg>
-                	</compilerArgs> -->
+					<compilerArgs>
+            <arg>-Amapstruct.verbose=true</arg>
+        </compilerArgs>
 				</configuration>
 			</plugin>
 		</plugins>

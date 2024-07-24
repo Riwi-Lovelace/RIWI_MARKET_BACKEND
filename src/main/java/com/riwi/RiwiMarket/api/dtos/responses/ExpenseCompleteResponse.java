@@ -1,6 +1,6 @@
 package com.riwi.RiwiMarket.api.dtos.responses;
 
-import com.riwi.RiwiMarket.api.dtos.requests.PaymentExpenseRequest;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +9,8 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
+import com.riwi.RiwiMarket.domain.entities.PaymentExpense;
+
 @Setter
 @Getter
 @AllArgsConstructor
@@ -16,7 +18,7 @@ import java.util.List;
 @SuperBuilder
 public class ExpenseCompleteResponse extends ExpenseBasicResponse {
 
-    private List<PaymentExpenseRequest> paymentExpense;
-    private SupplierResponse supplier;
-    private EmployeeResponse employee;
+    private List<PaymentExpenseResponse> paymentExpenseId;
+    private SupplierResponse supplierId;
+    private EmployeeBasicResponse employeeId;
 }
