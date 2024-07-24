@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.riwi.RiwiMarket.api.dtos.requests.CustomerRequest;
@@ -30,14 +31,12 @@ public class CustomerService implements ICustomerService{
     @Autowired
     private final SupportService<Customer> supportService;
 
-    // private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
-    
-
-    // public CustomerService(UserDAD userDAD) {
-    //     this.serDAD = userDAD;
-    //     this.passwordEncoder = new BCryp;
-    // }
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     public static String userDefault = "End Customer";
 
@@ -49,6 +48,7 @@ public class CustomerService implements ICustomerService{
     @Override
     public CustomerResponse create(CustomerRequest request) {
         Customer customer = this.customerMapper.toEntity(request);
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
         return this.customerMapper.toResponse(this.customerRepository.save(customer));
     }
 
@@ -62,6 +62,9 @@ public class CustomerService implements ICustomerService{
     public CustomerResponse update(Long id, CustomerRequest request) {
         Customer customer = this.findIdCustomer(id);
         customer = this.customerMapper.toEntity(request);
+        if (!request.getPassword().isEmpty()) {
+            customer.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
         customer.setId(id);
         return this.customerMapper.toResponse(this.customerRepository.save(customer));
     }
