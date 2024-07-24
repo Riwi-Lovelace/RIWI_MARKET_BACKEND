@@ -30,8 +30,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class ExpenseService implements IExpenseService {
@@ -119,9 +117,9 @@ public class ExpenseService implements IExpenseService {
     }
 
     @Override
-    public Page<ExpenseGetRequest> getAll(ExpenseGetRequest request) {
+    public Page<ExpenseCompleteResponse> getAll(ExpenseGetRequest request) {
 
-        /*PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
+        PageRequest pageRequest = PageRequest.of(request.getPage(), request.getSize());
 
         if (request.getId() == null && request.getMin() == null && request.getMax() == null && request.getDescription() == null && request.getStart() == null && request.getEnd() == null && request.getPaidStatus() == null && request.getSupplierId() == null && request.getEmployeeId() == null){
             Page<Expense> expensePage = this.expenseRepository.findAll(pageRequest);
@@ -130,8 +128,8 @@ public class ExpenseService implements IExpenseService {
             List<ExpenseCompleteResponse> expenseCompleteResponses = this.expenseMapper.listEntities(expensePage.getContent());
             return new PageImpl<>(expenseCompleteResponses, pageRequest, expensePage.getTotalElements());
         }else{
-
-        }*/
+            Page<Expense> expensePage = this.expenseRepository.getAll(pageRequest,request.getId(),request.getMin(),request.getMax(),request.getDescription(),request.getStart(),request.getEnd(),request.getPaidStatus(),request.getSupplierId(),request.getEmployeeId());
+        }
         return null;
     }
 }

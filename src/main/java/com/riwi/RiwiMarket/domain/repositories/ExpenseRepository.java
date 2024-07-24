@@ -33,4 +33,5 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                         @Param("paidStatus") Status paidStatus,
                         @Param("supplierId") Supplier supplierId,
                         @Param("employeeId") Employee employeeId);
+
 }
