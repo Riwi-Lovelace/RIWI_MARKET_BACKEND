@@ -24,7 +24,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Discount {
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
