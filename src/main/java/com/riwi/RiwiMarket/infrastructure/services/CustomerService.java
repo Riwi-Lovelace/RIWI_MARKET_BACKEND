@@ -30,6 +30,15 @@ public class CustomerService implements ICustomerService{
     @Autowired
     private final SupportService<Customer> supportService;
 
+    // private final PasswordEncoder passwordEncoder;
+
+    
+
+    // public CustomerService(UserDAD userDAD) {
+    //     this.serDAD = userDAD;
+    //     this.passwordEncoder = new BCryp;
+    // }
+
     public static String userDefault = "End Customer";
 
     // Call the setUserDefault method in the main method in case you want to change the default username
