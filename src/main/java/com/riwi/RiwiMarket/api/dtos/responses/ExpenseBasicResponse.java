@@ -1,5 +1,6 @@
 package com.riwi.RiwiMarket.api.dtos.responses;
 
+import com.riwi.RiwiMarket.util.enums.Status;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -19,4 +20,5 @@ public class ExpenseBasicResponse {
     private LocalDateTime date;
     private LocalDate specifDate;
     private String description;
+    private Status paidStatus;
 }
