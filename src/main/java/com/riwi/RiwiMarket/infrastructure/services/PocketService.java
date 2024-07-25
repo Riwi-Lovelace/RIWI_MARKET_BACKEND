@@ -3,7 +3,9 @@ package com.riwi.RiwiMarket.infrastructure.services;
 import com.riwi.RiwiMarket.api.dtos.requests.PocketRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.PocketResponse;
 import com.riwi.RiwiMarket.domain.entities.Pocket;
+import com.riwi.RiwiMarket.domain.entities.Store;
 import com.riwi.RiwiMarket.domain.repositories.PocketRepository;
+import com.riwi.RiwiMarket.domain.repositories.StoreRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IPocketService;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.PocketMapper;
@@ -13,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -27,6 +30,9 @@ public class PocketService implements IPocketService {
 
     @Autowired
     private final PocketMapper pocketMapper;
+
+    @Autowired
+    private final StoreRepository storeRepository;
 
     @Override
     public PocketResponse create(PocketRequest request) {
@@ -44,12 +50,18 @@ public class PocketService implements IPocketService {
                     return null;
                 }else {
                     System.out.println("You created a cash pocket");
-                    return this.pocketMapper.toResponse(this.pocketRepository.save(pocket));
+                    //First need to be created and then updated
+                    PocketResponse pocketResponse = this.pocketMapper.toResponse(this.pocketRepository.save(pocket));
+                    this.updateAvailable();
+                    return pocketResponse;
                 }
 
             }else{
                 System.out.println("You created a bank pocket");
-                return this.pocketMapper.toResponse(this.pocketRepository.save(pocket));
+                //First need to be created and then updated
+                PocketResponse pocketResponse = this.pocketMapper.toResponse(this.pocketRepository.save(pocket));
+                this.updateAvailable();
+                return pocketResponse;
             }
 
         }
@@ -76,7 +88,10 @@ public class PocketService implements IPocketService {
                 pocket.setType(request.getType());
                 pocket.setDescription(request.getDescription());
 
-                return this.pocketMapper.toResponse(this.pocketRepository.save(pocket));
+                //First need to be created and then updated
+                PocketResponse pocketResponse = this.pocketMapper.toResponse(this.pocketRepository.save(pocket));
+                this.updateAvailable();
+                return pocketResponse;
             }else{
                 System.out.println("Can not update with this description cause already exist in other pocket");
                 return null;
@@ -96,6 +111,7 @@ public class PocketService implements IPocketService {
     @Override
     public void delete(Long id) {
         this.pocketRepository.delete(this.supportService.findById(pocketRepository, id,"pocket"));
+        this.updateAvailable();
     }
 
 
@@ -138,5 +154,32 @@ public class PocketService implements IPocketService {
         }else {
             return true;
         }
+    }
+
+    //update available in store.
+    //available = amount(CASH) + sum(amount(BANKS))
+    private void updateAvailable(){
+        List<Pocket> pockets = this.pocketRepository.findAll();
+        List<Store> stores = this.storeRepository.findAll();
+        if(stores.isEmpty()){
+            System.out.println("There is no Store to update available");
+        }else{
+            BigDecimal totalAmounth = BigDecimal.ZERO;
+            //Add all the amount of the pockets
+            for (Pocket element : pockets) {
+                System.out.println(element.getAmount() + " ");
+                totalAmounth = totalAmounth.add(element.getAmount());
+            }
+
+            //save the available in the store
+            Store store = stores.get(0);
+            System.out.println("Total amount " + totalAmounth);
+            store.setAvailable(totalAmounth);
+            System.out.println("Este es el id del store" +store.getId());
+            System.out.println("Este es el nombre de la tienda " +store.getName());
+            this.storeRepository.save(store);
+        }
+
+
     }
 }
