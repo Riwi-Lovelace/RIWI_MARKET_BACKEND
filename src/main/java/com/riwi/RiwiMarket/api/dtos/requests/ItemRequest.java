@@ -10,8 +10,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemRequest {
-    @NotNull(message = "Invoice ID is required")
-    private Long billID;
+   // @NotNull(message = "Invoice ID is required")
+   // private Long billID;
     @NotNull(message = "Product ID is required")
     private Long productId;
     private Integer quantity;
