@@ -4,13 +4,17 @@ import com.riwi.RiwiMarket.api.dtos.requests.StockRequest;
 import com.riwi.RiwiMarket.api.dtos.requests.StockUpdateRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.StockResponse;
 import com.riwi.RiwiMarket.domain.entities.Batch;
+import com.riwi.RiwiMarket.domain.entities.Employee;
 import com.riwi.RiwiMarket.domain.entities.Stock;
 import com.riwi.RiwiMarket.domain.repositories.BatchRepository;
+import com.riwi.RiwiMarket.domain.repositories.EmployeeRepository;
 import com.riwi.RiwiMarket.domain.repositories.StockRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IStockService;
+import com.riwi.RiwiMarket.infrastructure.helpers.EmailHelper;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.StockMapper;
 import com.riwi.RiwiMarket.util.enums.GeneralSort;
+import com.riwi.RiwiMarket.util.enums.RoleEmployee;
 import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +25,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -29,6 +34,9 @@ public class StockService implements IStockService {
 
     @Autowired
     private final StockRepository stockRepository;
+
+    @Autowired
+    private final EmployeeRepository employeeRepository;
 
     @Autowired
     private final SupportService<Stock> supportService;
@@ -41,6 +49,9 @@ public class StockService implements IStockService {
 
     @Autowired
     private final SupportService<Batch> supportServiceBatch;
+
+    @Autowired
+    private final EmailHelper emailHelper;
 
     @Override
     public StockResponse create(StockRequest request) {
@@ -106,14 +117,12 @@ public class StockService implements IStockService {
             List<StockResponse> stockResponse = this.stockMapper.listEntitiesToStockResp(stockPage.getContent());
             return new PageImpl<>(stockResponse , pageRequest,stockPage.getTotalElements());
         }
-
-
-
     }
 
     @Override
     public StockResponse updateStock(StockUpdateRequest request, Long id) {
         Stock stock = this.supportService.findById(this.stockRepository, id, "Stock");
+        Long idProduct = stock.getBatch().getProduct().getId();
 
         if (request.getQuantity() < 0 || request.getWeight().compareTo(BigDecimal.ZERO) < 0) {
 
@@ -123,8 +132,10 @@ public class StockService implements IStockService {
 
             if (checkIfIsQuantity(stock)) {
                 stock.setQuantity(0);
+                observerQuantity(stock.getQuantity(), idProduct);
             }else{
                 stock.setWeight(BigDecimal.ZERO);
+                observerWeight(stock.getWeight(), idProduct);
             }
             this.stockRepository.save(stock);
 
@@ -137,14 +148,16 @@ public class StockService implements IStockService {
                 if (checkIfIsQuantity(stock)) {
                     stock.setQuantity(request.getQuantity());
                     stock.setWeight(null);
+
                     this.stockRepository.save(stock);
                 } else {
                     throw new BadRequestException("You can not update quantity, cause this product is measured in weight");
-                }
+            }
             } else {
                 if (!checkIfIsQuantity(stock)) {
                     stock.setWeight(request.getWeight());
                     stock.setQuantity(null);
+
                     this.stockRepository.save(stock);
                 } else {
                     throw new BadRequestException("You can not update weight, cause this product is measured in quantity");
@@ -160,5 +173,33 @@ public class StockService implements IStockService {
         } else {
             return false;
         }
+    }
+
+    public void observerQuantity(int quantity, Long idProduct ){
+        if(quantity == 0){
+            Employee admin = searchAdmin();
+            this.emailHelper.sendMailZero(admin.getEmail(), admin.getName(), String.valueOf(idProduct), LocalDateTime.now());
+        }
+    }
+
+    public void observerWeight(BigDecimal weight, Long idProduct){
+        if(weight.compareTo(BigDecimal.ZERO) == 0){
+            Employee admin = searchAdmin();
+            this.emailHelper.sendMailZero(admin.getEmail(), admin.getName(), String.valueOf(idProduct), LocalDateTime.now());
+        }
+    }
+
+    public Employee searchAdmin(){
+        try {
+          if( this.employeeRepository.findByRole(RoleEmployee.ADMIN).isEmpty()){
+              System.out.println("There aren't available admins");
+              throw new BadRequestException("There aren't available admins");
+          }else{
+              return this.employeeRepository.findByRole(RoleEmployee.ADMIN).get(0);
+          }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

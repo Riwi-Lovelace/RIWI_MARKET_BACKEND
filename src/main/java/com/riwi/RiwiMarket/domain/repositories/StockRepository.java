@@ -1,5 +1,6 @@
 package com.riwi.RiwiMarket.domain.repositories;
 
+
 import com.riwi.RiwiMarket.domain.entities.Category;
 import com.riwi.RiwiMarket.domain.entities.Product;
 import com.riwi.RiwiMarket.domain.entities.Batch;
@@ -21,7 +22,7 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
             "JOIN s.batch b " +
             "JOIN b.product p " +
             "JOIN p.subcategory sc " +
-            " JOIN sc.category c " +
+            "JOIN sc.category c " +
             "WHERE (:productName IS NULL OR s.batch.product.name LIKE %:productName%) AND " +
             "(:categoryName IS NULL OR s.batch.product.subcategory.category.name LIKE %:categoryName%)")
     Page<Stock> getall(PageRequest request, @Param("productName")String productName, @Param("categoryName")String categoryName);
