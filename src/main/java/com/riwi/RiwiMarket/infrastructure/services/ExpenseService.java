@@ -19,6 +19,7 @@ import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
 import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +130,9 @@ public class ExpenseService implements IExpenseService {
             return new PageImpl<>(expenseCompleteResponses, pageRequest, expensePage.getTotalElements());
         }else{
             Page<Expense> expensePage = this.expenseRepository.getAll(pageRequest,request.getId(),request.getMin(),request.getMax(),request.getDescription(),request.getStart(),request.getEnd(),request.getPaidStatus(),request.getSupplierId(),request.getEmployeeId());
+            List<ExpenseCompleteResponse> expenseCompleteResponse = this.expenseMapper.listEntities(expensePage.getContent());
+            return new PageImpl<>(expenseCompleteResponse, pageRequest,expensePage.getTotalElements());
         }
-        return null;
     }
+
 }

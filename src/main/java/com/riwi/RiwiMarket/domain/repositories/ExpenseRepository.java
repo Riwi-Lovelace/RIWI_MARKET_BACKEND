@@ -9,21 +9,25 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 
-
+@Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
 
     @Query("SELECT e FROM expense e WHERE" +
             "(:id IS NULL OR e.id = :id) AND" +
-            "(:min IS NULL OR :max IS NULL OR e.amount BETWEEN :min AND :max)"+
+            "(:min IS NULL OR :max IS NULL OR e.amount BETWEEN :min AND :max) AND"+
+            "((:min IS NULL OR e.amount >= :min) AND (:max IS NULL OR e.amount <= :max)) AND"+
             "(:description IS NULL OR e.description LIKE %:description%) AND" +
-            "(:supplierId IS NULL OR e.supplierId = :supplierId) AND" +
-            "(:employeeId IS NULL OR e.employeeId = :employeeId) AND" +
-            "(:start IS NULL OR :end IS NULL OR e.date BETWEEN :start AND :end)")
+            "(:paidStatus IS NULL OR e.paidStatus = :paidStatus) AND" +
+            "(:supplierId IS NULL OR e.supplierId.id = :supplierId) AND" +
+            "(:employeeId IS NULL OR e.employeeId.id = :employeeId) AND" +
+            "(:start IS NULL OR :end IS NULL OR e.specifDate BETWEEN :start AND :end) AND"+
+            "((:start IS NULL OR e.specifDate >= :start) AND (:end IS NULL OR e.specifDate <= :end))" )
 
     Page<Expense>getAll(PageRequest request,
                         @Param("id") Long id,
@@ -31,7 +35,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
                         @Param("description") String description,
                         @Param("start")LocalDate start, @Param("end")LocalDate end,
                         @Param("paidStatus") Status paidStatus,
-                        @Param("supplierId") Supplier supplierId,
-                        @Param("employeeId") Employee employeeId);
+                        @Param("supplierId") Long supplierId,
+                        @Param("employeeId") Long employeeId);
 
 }

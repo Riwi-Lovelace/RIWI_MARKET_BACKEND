@@ -26,3 +26,13 @@ public interface RefundRepository extends JpaRepository<Refund, Long>{
      Page<Refund>getall(PageRequest request, @Param("method") Method method,@Param("reason") Reason reason,@Param("start") LocalDate start,@Param("end") LocalDate end);
     
 }
+
+/*
+@Query("SELECT e FROM Expense e WHERE" +
+        " (:id IS NULL OR e.id = :id) AND" +
+        " (:min IS NULL OR :max IS NULL OR e.amount BETWEEN :min AND :max) AND" +
+        " (:description IS NULL OR e.description LIKE %:description%) AND" +
+        " (:paidStatus IS NULL OR e.paidStatus = :paidStatus) AND" +
+        " (:supplierId IS NULL OR e.supplierId = :supplierId) AND" +
+        " (:employeeId IS NULL OR e.employeeId = :employeeId) AND" +
+        " (:start IS NULL OR :end IS NULL OR e.date BETWEEN :start AND :end)")*/

@@ -1,6 +1,7 @@
 package com.riwi.RiwiMarket.api.dtos.requests;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 public class ExpensePatchRequest extends ExpenseBasicRequest{
 
     private List<PaymentExpenseRequest> paymentExpenseId;
