@@ -6,6 +6,7 @@ import com.riwi.RiwiMarket.api.dtos.responses.StockResponse;
 import com.riwi.RiwiMarket.domain.entities.Stock;
 import com.riwi.RiwiMarket.domain.repositories.StockRepository;
 import com.riwi.RiwiMarket.infrastructure.abstract_services.IStockService;
+import com.riwi.RiwiMarket.infrastructure.helpers.EmailHelper;
 import com.riwi.RiwiMarket.infrastructure.helpers.SupportService;
 import com.riwi.RiwiMarket.infrastructure.helpers.mappers.StockMapper;
 import com.riwi.RiwiMarket.util.exceptions.BadRequestException;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,6 +30,9 @@ public class StockService implements IStockService {
 
     @Autowired
     private final StockMapper stockMapper;
+
+    @Autowired
+    private final EmailHelper emailHelper;
 
     @Override
     public StockResponse create(StockRequest request) {
@@ -53,10 +58,10 @@ public class StockService implements IStockService {
     public List<StockResponse> getAll(String productName, String categoryName) {
         return null;
     }
-
     @Override
     public StockResponse updateStock(StockUpdateRequest request, Long id) {
         Stock stock = this.supportService.findById(this.stockRepository, id, "Stock");
+        Long idProduct = stock.getBatch().getProduct().getId();
         if (request.getQuantity() < 0 || request.getWeight().compareTo(BigDecimal.ZERO) < 0){
             throw new BadRequestException("Negative values are not valid");
         } else if (request.getQuantity() != 0) {
@@ -66,6 +71,7 @@ public class StockService implements IStockService {
                 stock.setQuantity(request.getQuantity());
                 stock.setWeight(null);
                 this.stockRepository.save(stock);
+                observerQuantity(stock.getQuantity(), idProduct);
             }
         } else if (request.getWeight() != null) {
             if (request.getQuantity() != 0) {
@@ -74,8 +80,22 @@ public class StockService implements IStockService {
                 stock.setWeight(request.getWeight());
                 stock.setQuantity(null);
                 this.stockRepository.save(stock);
+                observerWeight(stock.getWeight(), idProduct);
+
             }
         }
         return stockMapper.toResponse(stock);
+    }
+
+    public void observerQuantity(int quantity, Long idProduct ){
+        if(quantity == 0){
+            this.emailHelper.sendMail("simonfranco2005@gmail.com", "Admin", String.valueOf(idProduct), LocalDateTime.now());
+        }
+    }
+
+    public void observerWeight(BigDecimal weight, Long idProduct){
+        if(weight.compareTo(BigDecimal.ZERO) == 0){
+            this.emailHelper.sendMail("Correo Admin", "Admin Name", String.valueOf(idProduct), LocalDateTime.now());
+        }
     }
 }
