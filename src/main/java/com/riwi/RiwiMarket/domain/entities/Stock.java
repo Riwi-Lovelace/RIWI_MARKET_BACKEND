@@ -27,16 +27,8 @@ public class Stock {
     @Column(columnDefinition = "DECIMAL(5,2)")
     private BigDecimal weight;
 
-    @Column(columnDefinition = "DECIMAL(10,2)", nullable = false)
-    private BigDecimal purchasePrice;
-
-    @OneToMany(fetch = FetchType.EAGER,
-    mappedBy = "stock",
-    cascade = CascadeType.ALL)
-    private List<Batch> batches;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "supplier_id", referencedColumnName = "id")
-    private Supplier supplier;
+    @OneToOne
+    @JoinColumn(name = "batch_id", referencedColumnName = "id")
+    private Batch batch;
 
 }
