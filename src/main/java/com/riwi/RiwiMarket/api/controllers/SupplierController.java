@@ -69,7 +69,7 @@ public class SupplierController implements GenericController<SupplierRequest, Su
         }
     }
 
-    // Method pach for active o disable this service
+    // Method patch for active o disable this service
     @PatchMapping("/{id}/status")
     @Operation(summary = "Find suppliers by name", description = "Returns a paginated list of suppliers whose name matchs the provided value.")
 
@@ -93,7 +93,7 @@ public class SupplierController implements GenericController<SupplierRequest, Su
     })
     @Override
     public ResponseEntity<SupplierResponse> update(@Validated @RequestBody SupplierRequest request,
-            @PathVariable Long id) {
+                                                   @PathVariable Long id) {
         return ResponseEntity.ok(this.supplierService.update(id, request));
     }
 
@@ -104,7 +104,7 @@ public class SupplierController implements GenericController<SupplierRequest, Su
             @ApiResponse(responseCode = "200", description = "Successful operation. Returns the paginated list of suppliers."),
             @ApiResponse(responseCode = "400", description = "Bad request. This may occur if the parameters are incorrect.")
     })
-    public ResponseEntity<Page<SupplierResponse>> findAll(            
+    public ResponseEntity<Page<SupplierResponse>> findAll(
         @RequestParam(defaultValue = "1") int page,
         @RequestParam(defaultValue = "10") int size,
         @RequestParam(defaultValue = "") String name,

@@ -46,6 +46,6 @@ public class Supplier {
     @OneToMany(fetch = FetchType.EAGER,
     mappedBy = "supplier",
     cascade = CascadeType.ALL)
-    private List<Stock> stocks;
+    private List<Batch> batches;
 
 }

@@ -96,16 +96,7 @@ public class PocketService implements IPocketService {
                 System.out.println("Can not update with this description cause already exist in other pocket");
                 return null;
             }
-
-
         }
-
-
-
-
-
-
-
     }
 
     @Override
