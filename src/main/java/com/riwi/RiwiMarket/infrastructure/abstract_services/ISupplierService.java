@@ -5,7 +5,7 @@ import com.riwi.RiwiMarket.api.dtos.requests.SupplierRequest;
 import com.riwi.RiwiMarket.api.dtos.responses.SupplierResponse;
 
 
-public interface ISupplierService extends GenericService<SupplierRequest, SupplierResponse ,Long>{
+public interface ISupplierService extends GenericService<SupplierRequest, SupplierResponse,Long>{
 
     public final String FIELD_BY_SORT = "name";
 
