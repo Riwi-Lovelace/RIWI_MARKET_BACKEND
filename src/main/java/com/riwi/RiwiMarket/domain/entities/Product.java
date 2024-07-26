@@ -42,6 +42,12 @@ public class Product {
     @Column(nullable = false)
     private String urlImg;
 
+    @Column(nullable = true)
+    private Integer quantityThreshold;
+
+    @Column(nullable = true,columnDefinition = "DECIMAL(5,2)")
+    private BigDecimal weightThreshold;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subcategory_id", referencedColumnName = "id")
     private Subcategory subcategory;

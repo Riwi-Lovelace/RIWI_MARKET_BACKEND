@@ -74,6 +74,12 @@ public class ProductService implements IProductService {
         Subcategory subcategory= this.supportSubcategory.findById(this.subcategoryRepository ,request.getSubcategoryID(),"SubCategory");
         product.setPrice(new BigDecimal(0));
         product.setSubcategory(subcategory);
+        if (request.getQuantityThreshold()!=0){
+            product.setWeightThreshold(null);
+        }else {
+            product.setQuantityThreshold(null);
+        }
+
         return this.productMapper.toResponse(this.productRepository.save(product));
     }
 
@@ -108,8 +114,8 @@ public class ProductService implements IProductService {
     public ICsvBeanWriter getCsv(HttpServletResponse response) throws IOException {
         List<Product> products = this.productRepository.findAll();
         ICsvBeanWriter writer = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
-        String[] header={"Id","Name","Price","Iva","Description","Status","UrlImg","Subcategory","Brand"};
-        String[] properties = {"id","name","price","iva","description","status","urlImg","subcategoryName","IdBrand"};
+        String[] header={"Id","Name","Price","Iva","Description","Status","UrlImg","Subcategory","Brand","quantityThreshold","weightThreshold"};
+        String[] properties = {"id","name","price","iva","description","status","urlImg","subcategoryName","IdBrand","quantityThreshold","weightThreshold"};
         writer.writeHeader(header);
         for (Product product: products) {
                 product.setSubcategoryName(product.getSubcategory().getName());
@@ -120,6 +126,12 @@ public class ProductService implements IProductService {
                 }
                 if (product.getDescription() == null){
                     product.setDescription("N/A");
+                }
+                if (product.getWeightThreshold()==null){
+                    product.setWeightThreshold(new BigDecimal(0));
+                }
+                if (product.getQuantityThreshold()==null){
+                    product.setQuantityThreshold(0);
                 }
 
 
@@ -160,6 +172,20 @@ public class ProductService implements IProductService {
                         product.setBrand(supportBrand.findById(this.brandRepository, Long.getLong(info[8]), "Brand"));
                     }
                 }
+                if (!info[9].equals("quantityThreshold")){
+                    if (info[9].equals("0")){
+                        product.setQuantityThreshold(null);
+                    }else {
+                        product.setQuantityThreshold(Integer.parseInt(info[9]));
+                    }
+                }
+                if (!info[10].equals("weightThreshold") ){
+                    if (info[10].equals("0")){
+                        product.setWeightThreshold(null);
+                    }else{
+                        product.setWeightThreshold(new BigDecimal(info[10]));
+                    }
+                }
                 listProducts.add(product);
                 System.out.println(line);
                 System.out.println("-------------------");
@@ -193,6 +219,8 @@ public class ProductService implements IProductService {
             header.createCell(6).setCellValue("UrlImg");
             header.createCell(7).setCellValue("Subcategory");
             header.createCell(8).setCellValue("Brand");
+            header.createCell(9).setCellValue("weightThreshold");
+            header.createCell(10).setCellValue("quantityThreshold");
 
             int rowIdx = 1;
             for (Product product : products){
@@ -212,6 +240,16 @@ public class ProductService implements IProductService {
 
                 }else {
                     row.createCell(8).setCellValue("0");
+                }
+                if (product.getWeightThreshold()!=null){
+                  row.createCell(9).setCellValue(product.getWeightThreshold().toString());
+                }else {
+                    row.createCell(9).setCellValue("0");
+                }
+                if (product.getQuantityThreshold()!=null){
+                    row.createCell(10).setCellValue(product.getQuantityThreshold().toString());
+                }else{
+                    row.createCell(10).setCellValue("0");
                 }
 
             }
@@ -254,6 +292,17 @@ public class ProductService implements IProductService {
                             product.setSubcategory(subcategory);
                         }
                     });
+                    if (info[8].getStringCellValue().equals("0")){
+                        product.setQuantityThreshold(null);
+                    }else {
+                        product.setQuantityThreshold(Integer.parseInt(info[8].getStringCellValue()));
+                    }
+                    if (info[9].getStringCellValue().equals("0")){
+                        product.setWeightThreshold(null);
+                    }else {
+                        product.setWeightThreshold(new BigDecimal(info[9].getStringCellValue()));
+                    }
+
                     listProduct.add(product);
                 }
                 conta++;
